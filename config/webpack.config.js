@@ -487,8 +487,6 @@ module.exports = function (webpackEnv) {
               exclude: lessModuleRegex,
               use: getStyleLoaders({ importLoaders: 2 }, 'less-loader'),
             },
-            // Adds support for CSS Modules, but using SASS
-            // using the extension .module.scss or .module.sass
             {
               test: lessModuleRegex,
               use: getStyleLoaders(
