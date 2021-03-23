@@ -2,6 +2,7 @@ import type { ResponseError } from 'umi-request';
 import { extend } from 'umi-request';
 import config from '../config';
 import { getToken, setToken, removeToken } from './utils';
+import { history } from 'react-router-dom';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -38,7 +39,7 @@ export const errorHandler = async (error: ResponseError) => {
     });
     if (status === 401 || status === 403) {
       removeToken();
-      // history.push('/user/login');
+      history.push('/login');
     }
   }
 
