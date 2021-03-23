@@ -1,6 +1,6 @@
 export default {
   api: {
-    prefix: '',
+    prefix: process.env.REACT_APP_API_PREFIX,
   },
-  cdn: '',
+  cdn: process.env.REACT_APP_CDN,
 };
