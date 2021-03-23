@@ -121,7 +121,7 @@ module.exports = function (webpackEnv) {
               },
               stage: 3,
             }),
-            postcssAspectRatioMini({}),
+            postcssAspectRatioMini(),
             postcssPxToViewport({
               viewportWidth: 750, // (Number) The width of the viewport.
               unitPrecision: 5, // (Number) The decimal numbers to allow the REM units to grow to.
