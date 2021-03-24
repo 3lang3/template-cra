@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { renderRoutes } from 'react-router-config';
 import { BrowserRouter } from 'react-router-dom';
-import routes from '@/utils/routesUtil';
+import routes from '@/utils/routesConfig';
 import ErrorBoundary from '@/pages/Exception/ErrorBoundary';
 
 export default () => {

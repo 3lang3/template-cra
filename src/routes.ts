@@ -1,4 +1,4 @@
-import type { RouteItem } from './utils/routesUtil';
+import type { RouteItem } from './utils/routesConfig';
 
 export default [
   {
