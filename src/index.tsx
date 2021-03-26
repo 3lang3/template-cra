@@ -7,6 +7,9 @@ import reportWebVitals from './utils/reportWebVitals';
 import './style/global.less';
 import pages from './pages';
 import { GlobalProvider } from './state/global';
+import { setToken } from './utils/utils';
+
+setToken(process.env.REACT_APP_TOKEN as string);
 
 ReactDOM.render(
   <React.StrictMode>

@@ -6,7 +6,7 @@ const DEFAULT_COLUMNS = 2;
 
 type BreakpointColsProps = number | { default: number; [key: number]: number };
 
-type MasonryCssProps = {
+export type MasonryCssProps = {
   breakpointCols?: BreakpointColsProps;
   className?: string;
   columnClassName?: string;
@@ -92,7 +92,7 @@ const Masonry = (props: MasonryCssProps): any => {
     });
   }, [reCalculateColumnCount]);
 
-  const itemsInColumns = useCallback(() => {
+  const itemsInColumns = () => {
     const currentColumnCount = columnCount;
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const itemsInColumns = new Array(currentColumnCount);
@@ -113,9 +113,9 @@ const Masonry = (props: MasonryCssProps): any => {
 
     return itemsInColumns;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columnCount]);
+  };
 
-  const renderColumns = useCallback(() => {
+  const renderColumns = () => {
     const { column, columnAttrs = {}, columnClassName } = props;
     const childrenInColumns = itemsInColumns();
     const columnWidth = `${100 / childrenInColumns.length}%`;
@@ -151,7 +151,7 @@ const Masonry = (props: MasonryCssProps): any => {
       );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itemsInColumns, props]);
+  };
 
   useEffect(() => {
     reCalculateColumnCount();

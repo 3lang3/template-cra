@@ -1,27 +1,31 @@
-import Masonry from '@/components/Masonry';
+/* eslint-disable no-underscore-dangle */
+import InfiniteMasonryScroll, { useInfiniteMasonry } from '@/components/InfiniteMasonryScroll';
 import { useGlobalContext } from '@/state/global';
 import { Link } from 'react-router-dom';
+import { getList } from './services';
 
 export default () => {
   // eslint-disable-next-line no-console
   console.log('render home page...');
   const { global } = useGlobalContext();
+  const { items, scrollProps } = useInfiniteMasonry(getList);
   return (
     <div>
       this is home page <Link to="/user/ethan">{global.user.nickname}</Link>
-      <Masonry
-        breakpointCols={2}
-        className="my-masonry-grid"
-        columnClassName="my-masonry-grid_column"
+      <InfiniteMasonryScroll
+        masonryProps={{
+          breakpointCols: 2,
+          className: 'my-masonry-grid',
+          columnClassName: 'my-masonry-grid_column',
+        }}
+        {...scrollProps}
+        scrollThreshold={1}
       >
-        <div style={{ height: 200 }} />
-        <div style={{ height: 100 }} />
-        <div style={{ height: 50 }} />
-        <div style={{ height: 350 }} />
-        <div style={{ height: 120 }} />
-        <div style={{ height: 200 }} />
-        <div style={{ height: 400 }} />
-      </Masonry>
+        {items.map((el, i) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <div key={i} style={{ height: 200 + i * 10, background: 'grey' }} />
+        ))}
+      </InfiniteMasonryScroll>
     </div>
   );
 };
