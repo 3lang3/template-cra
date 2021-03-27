@@ -15,7 +15,6 @@ export default () => {
       this is home page <Link to="/user/ethan">{global.user.nickname}</Link>
       <button onClick={() => setP((v) => ({ a: v.a + 1 }))}>update params</button>
       <ProInfiniteScroll<{ title: string }>
-        breakpointCols={1}
         loader={<div>loading...</div>}
         request={getList}
         pagination={{
