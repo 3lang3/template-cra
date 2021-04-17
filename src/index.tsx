@@ -12,7 +12,9 @@ import pages from './pages';
 import { GlobalProvider } from './state/global';
 import { setToken } from './utils/utils';
 
-setToken(process.env.REACT_APP_TOKEN as string);
+if (process.env.NODE_ENV === 'development') {
+  setToken(process.env.REACT_APP_TOKEN as string);
+}
 
 ReactDOM.render(
   <React.StrictMode>
