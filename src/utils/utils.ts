@@ -29,17 +29,6 @@ export function arrayMove(arr, from, to) {
   return array;
 }
 
-// 获取时间控件字符串值
-export const getTimeString = (times, formatStr = 'YYYY-MM-DD HH:mm:ss') => {
-  const isArray = times instanceof Array;
-  if (isArray) {
-    return times && times.length > 0
-      ? `${times[0].format(formatStr)}|${times[1].format(formatStr)}`
-      : undefined;
-  }
-  return times ? `${times.format(formatStr)}` : undefined;
-};
-
 /**
  * 获取指定启始位置的区间数组
  * @param start

@@ -13246,6 +13246,11 @@ utila@~0.4:
   resolved "https://registry.npm.taobao.org/utila/download/utila-0.4.0.tgz#8a16a05d445657a3aea5eecc5b12a4fa5379772c"
   integrity sha1-ihagXURWV6Oupe7MWxKk+lN5dyw=
 
+utilbag@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.npm.taobao.org/utilbag/download/utilbag-0.0.7.tgz#2f5692d0fcba318dd29121faec9fda9fbb59c758"
+  integrity sha1-L1aS0Py6MY3SkSH67J/an7tZx1g=
+
 utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/utils-merge/download/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"

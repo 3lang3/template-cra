@@ -1,3 +1,6 @@
+/**
+ * 引入polyfill兼容es特性
+ */
 // import 'react-app-polyfill/ie9';
 // import 'react-app-polyfill/stable';
 
