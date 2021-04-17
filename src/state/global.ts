@@ -1,3 +1,8 @@
+/**
+ * constate
+ * @see https://github.com/diegohaz/constate
+ */
+
 import { useSetState } from 'ahooks';
 import constate from 'constate';
 import { useCallback } from 'react';
