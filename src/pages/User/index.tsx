@@ -9,7 +9,7 @@ export default ({ match }) => {
   return (
     <>
       <Board />
-      this is user page
+      this is user page 123
       <button onClick={() => upgrade({ user: { ...user, nickname: '3lang123' } })}>upgrade</button>
     </>
   );

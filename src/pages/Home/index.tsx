@@ -8,7 +8,7 @@ export default () => {
   const user = useGlobalUser();
   return (
     <div>
-      this is home page <Link to="/user/ethan">{user.nickname}</Link> <br />
+      this is home page 5555 123123 <Link to="/user/ethan">{user.nickname}</Link> <br />
       <div onClick={() => history.push('/login')}>go login</div>
     </div>
   );
