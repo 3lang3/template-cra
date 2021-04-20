@@ -1,16 +1,17 @@
 import { Suspense } from 'react';
 import { renderRoutes } from 'react-router-config';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import routes from '@/utils/routesConfig';
 import ErrorBoundary from '@/pages/Exception/ErrorBoundary';
+import history from '@/utils/history';
 
 export default () => {
   return (
     <ErrorBoundary>
       <Suspense fallback={<div>loading...</div>}>
-        <BrowserRouter>
+        <Router history={history}>
           {renderRoutes(routes, { someProp: 'these extra props are optional' })}
-        </BrowserRouter>
+        </Router>
       </Suspense>
     </ErrorBoundary>
   );

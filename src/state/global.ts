@@ -7,17 +7,24 @@ import { useSetState } from 'ahooks';
 import constate from 'constate';
 import { useCallback } from 'react';
 
-type UserType = {
+type CurrentUser = {
   nickname: string;
+  is_need_bind: 0 | 1;
+  member: Record<string, any>;
+  shop_config: Record<string, any>;
+  shop_title?: string;
 };
 
 type GlobalConfigProps = {
-  user: UserType;
+  user: CurrentUser;
 };
 
 const initialState: GlobalConfigProps = {
   user: {
-    nickname: 'ethan',
+    nickname: '3lang',
+    is_need_bind: 0,
+    member: {},
+    shop_config: {},
   },
 };
 

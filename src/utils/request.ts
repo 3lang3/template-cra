@@ -1,6 +1,7 @@
 import type { ResponseError } from 'umi-request';
 import { extend } from 'umi-request';
 import config from '../config';
+import history from './history';
 import { getToken, setToken, removeToken } from './utils';
 
 const codeMessage = {
@@ -38,7 +39,7 @@ export const errorHandler = async (error: ResponseError) => {
     });
     if (status === 401 || status === 403) {
       removeToken();
-      // history.push('/login');
+      history.push('/login');
     }
   }
 

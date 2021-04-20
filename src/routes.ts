@@ -19,11 +19,6 @@ export default [
         exact: true,
       },
       {
-        path: '/login',
-        component: 'Login',
-        exact: true,
-      },
-      {
         component: 'Exception/404',
       },
     ],

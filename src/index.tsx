@@ -12,6 +12,7 @@ import pages from './pages';
 import { GlobalProvider } from './state/global';
 import { setToken } from './utils/utils';
 
+// 开发环境直接写入token
 if (process.env.NODE_ENV === 'development') {
   setToken(process.env.REACT_APP_TOKEN as string);
 }
