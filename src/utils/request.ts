@@ -39,7 +39,7 @@ export const errorHandler = async (error: ResponseError) => {
     });
     if (status === 401 || status === 403) {
       removeToken();
-      history.push('/login');
+      history.push(`/login?redirect=${history.location.pathname}`);
     }
   }
 

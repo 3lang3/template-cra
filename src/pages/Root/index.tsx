@@ -3,14 +3,17 @@ import { getCurrentUser } from '@/services/global';
 import { renderRoutes } from 'react-router-config';
 import history from '@/utils/history';
 import { getToken } from '@/utils/utils';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { userUpgrade } from '@/state/global';
 
 const loginPath = '/login';
 
+/**
+ * app获取初始化数据
+ */
 async function getInitialState(): Promise<{
   fetchUserInfo: () => Promise<any>;
-  currentUser?: Record<string, any>;
+  currentUser: Record<string, any>;
 }> {
   const fetchUserInfo = async () => {
     try {
@@ -23,39 +26,41 @@ async function getInitialState(): Promise<{
     }
     return undefined;
   };
-  // 如果是登录页面，不执行
-  if (history.location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
-    return { fetchUserInfo, currentUser };
-  }
-  return { fetchUserInfo };
+  const currentUser = await fetchUserInfo();
+  return { fetchUserInfo, currentUser };
 }
 
-const GetUserInfo = () => {
-  const upgrade = userUpgrade();
-  const tk = getToken();
-  useEffect(() => {
-    if (tk) {
-      getInfo();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+const InitialState = memo(
+  () => {
+    const upgrade = userUpgrade();
+    const tk = getToken();
+    const notLoginPath = history.location.pathname !== loginPath;
+    useEffect(() => {
+      if (tk) {
+        getInfo();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-  async function getInfo() {
-    try {
-      const { currentUser } = await getInitialState();
-      if (!currentUser) throw Error('getInitialState faild...');
-      upgrade(currentUser as any);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('get user info error: ', error);
+    async function getInfo() {
+      try {
+        const { currentUser } = await getInitialState();
+        if (!currentUser) throw Error('getInitialState faild...');
+        upgrade(currentUser as any);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('get user info error: ', error);
+      }
     }
-  }
 
-  if (!tk && history.location.pathname !== loginPath)
-    return <Redirect to={{ pathname: loginPath }} />;
-  return null;
-};
+    if (!tk && notLoginPath)
+      return (
+        <Redirect to={{ pathname: loginPath, search: `?redirect=${history.location.pathname}` }} />
+      );
+    return null;
+  },
+  () => true,
+);
 
 /**
  * 每次路由变动都会rerender
@@ -65,7 +70,7 @@ export default ({ route }) => {
   console.log('render root');
   return (
     <>
-      <GetUserInfo />
+      <InitialState />
       {renderRoutes(route.routes)}
     </>
   );

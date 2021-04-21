@@ -15,6 +15,17 @@ export const removeToken = () => {
   return window.localStorage.removeItem('authorization_token');
 };
 
+export const getCookie = (name) => {
+  let arr;
+  const regp = new RegExp(`(^| )${name}=([^;]*)(;|$)`);
+  // eslint-disable-next-line no-multi-assign
+  const rs = (arr = document.cookie.match(regp));
+  if (rs) {
+    return unescape(arr[2]);
+  }
+  return null;
+};
+
 export const isNil = (value: any) => value === null || value === undefined;
 
 /**
