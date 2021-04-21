@@ -39,7 +39,11 @@ export const errorHandler = async (error: ResponseError) => {
     });
     if (status === 401 || status === 403) {
       removeToken();
-      history.push(`/login?redirect=${history.location.pathname}`);
+      const redirect =
+        history.location.href.indexOf('/login') > -1
+          ? ''
+          : `?redirect=${encodeURIComponent(history.location.href)}`;
+      history.push(`/login${redirect}`);
     }
   }
 

@@ -9,14 +9,30 @@ import { parse } from 'querystring';
 import { useEffect } from 'react';
 
 /**
+ * 获取url中的redirect参数
+ * @returns {string}
+ */
+export const getRedirectUrl = () => {
+  const { redirect } = parse(history.location.search.substr(1)) as { redirect: string };
+  return decodeURIComponent(redirect || history.location.host);
+};
+
+/**
+ * 此方法会跳转到 redirect 参数所在的位置
+ */
+export const goto = () => {
+  const redirect = getRedirectUrl();
+  window.location.href = redirect || '/';
+};
+
+/**
  * 登录逻辑分发
  */
 export default () => {
   const tk = getToken();
   useEffect(() => {
     if (tk) {
-      const { redirect } = parse(history.location.search.substr(1));
-      history.replace(redirect || '/');
+      goto();
     }
   }, [tk]);
 
