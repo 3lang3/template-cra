@@ -29,6 +29,7 @@ const postcssNormalize = require('postcss-normalize');
 const postcssAspectRatioMini = require('postcss-aspect-ratio-mini');
 const postcssPxToViewport = require('postcss-px-to-viewport');
 const postcssWriteSvg = require('postcss-write-svg');
+const tailwindcss = require('tailwindcss');
 
 const appPackageJson = require(paths.appPackageJson);
 
@@ -121,6 +122,7 @@ module.exports = function (webpackEnv) {
               },
               stage: 3,
             }),
+            tailwindcss(),
             postcssAspectRatioMini(),
             postcssPxToViewport({
               viewportWidth: 750, // (Number) The width of the viewport.

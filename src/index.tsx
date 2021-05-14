@@ -7,10 +7,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './utils/reportWebVitals';
-import './style/global.less';
 import pages from './pages';
 import { GlobalProvider } from './state/global';
 import { getCookie, setToken } from './utils/utils';
+import './style/global.less';
 
 // 开发环境直接写入token
 if (process.env.NODE_ENV === 'development') {

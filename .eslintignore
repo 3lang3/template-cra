@@ -6,4 +6,4 @@ public
 dist
 mock
 .*.js
-commitlint.config.js
+*.config.js
