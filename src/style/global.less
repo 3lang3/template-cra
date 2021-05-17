@@ -18,3 +18,21 @@
   margin-bottom: 20px;
   background: grey;
 }
+
+.pos-center {
+  @apply top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+}
+
+.fixed-center {
+  .pos-center;
+  @apply fixed;
+}
+
+.absolute-center {
+  .pos-center;
+  @apply absolute;
+}
+
+.z-99999 {
+  z-index: 99999;
+}
