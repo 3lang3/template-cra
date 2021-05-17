@@ -1,9 +1,12 @@
 import Toast from '@/components/Toast';
+import Popup from '@/components/Popup';
 import { useGlobalUser } from '@/state/global';
 import history from '@/utils/history';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 export default () => {
+  const [visible, setVisible] = useState(false);
   const user = useGlobalUser();
   return (
     <div>
@@ -20,6 +23,10 @@ export default () => {
       <div onClick={() => Toast.success()}>toast success</div>
       <div onClick={() => Toast.error('操作失败')}>toast error</div>
       <div onClick={() => Toast.destroy()}>toast clean</div>
+      <div onClick={() => setVisible(true)}>show base popup</div>
+      <Popup position="bottom" visible={visible} onClose={() => setVisible(false)}>
+        hello
+      </Popup>
     </div>
   );
 };

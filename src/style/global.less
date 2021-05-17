@@ -36,3 +36,30 @@
 .z-99999 {
   z-index: 99999;
 }
+
+.local-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-70;
+
+  z-index: 9998;
+  &-ani {
+    &-enter {
+      opacity: 0;
+    }
+    &-enter-active {
+      opacity: 1;
+      transition: opacity 300ms;
+    }
+    &-exit {
+      opacity: 1;
+    }
+    &-exit-active {
+      opacity: 0;
+      transition: opacity 300ms;
+    }
+  }
+}
+
+.hack-touchmove {
+  height: 100vh !important;
+  overflow: hidden !important;
+}
