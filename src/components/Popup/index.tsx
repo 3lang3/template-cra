@@ -57,7 +57,7 @@ export function OverlayNode({
         in={visible}
         timeout={300}
         nodeRef={overlayRef}
-        classNames={typeof transition === 'string' ? transition : 'local-overlay-ani'}
+        classNames="local-overlay-ani"
         unmountOnExit
       >
         {ct}
@@ -68,8 +68,12 @@ export function OverlayNode({
 
 type CloseableType = boolean | React.ReactNode;
 
-export interface ModalLikeBaseProps {
+export interface ModalLikeBaseProps extends OverlayProps {
   visible: boolean;
+  /**
+   * 动画类名
+   */
+  transition?: boolean | string;
   /**
    * 是否显示遮罩层
    */
@@ -85,7 +89,7 @@ export interface ModalLikeBaseProps {
   children: React.ReactNode;
 }
 
-interface PopupProps extends ModalLikeBaseProps, OverlayProps {
+interface PopupProps extends ModalLikeBaseProps {
   /**
    * 弹出位置，可选值为 bottom center
    * @default center
@@ -126,6 +130,7 @@ export default (props: PopupProps) => {
   const contentRef = useRef(null);
   const {
     position = 'center',
+    transition = true,
     closeable,
     round,
     children,
@@ -139,36 +144,36 @@ export default (props: PopupProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const disableTransition = typeof transition === 'boolean' && !transition;
+  const defaultTransitionCls = disableTransition ? undefined : `local-popup--${position}-ani`;
   return (
-    <>
-      <Portal>
-        {overlay && (
-          <OverlayNode
-            visible={visible}
-            transition={true}
-            handleClose={overlayClosable ? handleClose : undefined}
-            overlayClassName={props.overlayClassName}
-            overlayStyle={props.overlayStyle}
-          />
-        )}
-        <CSSTransition
-          in={visible}
-          nodeRef={contentRef}
-          timeout={300}
-          classNames={`local-popup--${position}-ani`}
-          unmountOnExit
+    <Portal>
+      {overlay && (
+        <OverlayNode
+          visible={visible}
+          transition={transition}
+          handleClose={overlayClosable ? handleClose : undefined}
+          overlayClassName={props.overlayClassName}
+          overlayStyle={props.overlayStyle}
+        />
+      )}
+      <CSSTransition
+        unmountOnExit
+        in={visible}
+        nodeRef={contentRef}
+        timeout={disableTransition ? 0 : 300}
+        classNames={typeof transition === 'string' ? transition : defaultTransitionCls}
+      >
+        <div
+          ref={contentRef}
+          className={`local-popup local-popup--${position} ${round ? 'local-popup--round' : ''}`}
         >
-          <div
-            ref={contentRef}
-            className={`local-popup local-popup--${position} ${round ? 'local-popup--round' : ''}`}
-          >
-            {closeable && position !== 'center' ? (
-              <CloseNode closeable={closeable} handleClose={handleClose} />
-            ) : null}
-            {children}
-          </div>
-        </CSSTransition>
-      </Portal>
-    </>
+          {closeable && position !== 'center' ? (
+            <CloseNode closeable={closeable} handleClose={handleClose} />
+          ) : null}
+          {children}
+        </div>
+      </CSSTransition>
+    </Portal>
   );
 };

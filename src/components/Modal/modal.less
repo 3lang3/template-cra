@@ -1,0 +1,60 @@
+.local-modal {
+  @apply fixed left-1/2 bg-white overflow-hidden rounded-2xl text-sm w-5/6;
+
+  top: 45%;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+
+  &__header {
+    @apply pt-6 text-center text-base;
+  }
+  &__content {
+    @apply pt-3 pb-6 px-6 overflow-y-auto break-words whitespace-pre-wrap text-center;
+
+    color: #646566;
+
+    &-notitle {
+      @apply p-6;
+    }
+  }
+  &__footer {
+    @apply flex overflow-hidden select-none;
+
+    .local-modal__confirm,
+    .local-modal__cancel {
+      @apply text-base flex-1;
+
+      height: 96px;
+      border: none !important;
+    }
+
+    .local-modal__confirm {
+      color: #ee0a24;
+    }
+
+    .local-button__loader {
+      height: 38% !important;
+    }
+  }
+
+  &__ani {
+    &-enter {
+      transform: translate(-50%, -50%) scale(0.9) !important;
+      opacity: 0;
+    }
+    &-enter-active {
+      transform: translate(-50%, -50%) scale(1) !important;
+      opacity: 1;
+      transition: opacity 300ms, transform 300ms;
+    }
+    &-exit {
+      transform: translate(-50%, -50%) scale(1) !important;
+      opacity: 1;
+    }
+    &-exit-active {
+      transform: translate(-50%, -50%) scale(0.9) !important;
+      opacity: 0;
+      transition: opacity 300ms, transform 300ms;
+    }
+  }
+}

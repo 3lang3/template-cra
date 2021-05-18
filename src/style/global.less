@@ -1,24 +1,10 @@
+@import './masonry.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.my-masonry-grid {
-  display: flex;
-  width: auto;
-  margin-left: -30px; /* gutter size offset */
-}
-.my-masonry-grid_column {
-  padding-left: 30px; /* gutter size */
-  background-clip: padding-box;
-}
-
-/* Style your items */
-.my-masonry-grid_column > div {
-  /* change div to reference your elements you put in <Masonry> */
-  margin-bottom: 20px;
-  background: grey;
-}
-
+/* position utils */
 .pos-center {
   @apply top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
 }
@@ -37,6 +23,7 @@
   z-index: 99999;
 }
 
+/* overlay style */
 .local-overlay {
   @apply fixed inset-0 bg-black bg-opacity-70;
 
@@ -59,6 +46,67 @@
   }
 }
 
+/* animation css */
+.ani-fade {
+  &-enter {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  &-enter-active {
+    transform: scale(1);
+    opacity: 1;
+    transition: opacity 300ms, transform 300ms;
+  }
+  &-exit {
+    transform: scale(1);
+    opacity: 1;
+  }
+  &-exit-active {
+    transform: scale(0.9);
+    opacity: 0;
+    transition: opacity 300ms, transform 300ms;
+  }
+}
+
+/* 1px border */
+[class*='hairline']::after {
+  @apply absolute  box-border pointer-events-none;
+
+  top: -50%;
+  right: -50%;
+  bottom: -50%;
+  left: -50%;
+  border: 0 solid #ebedf0;
+  transform: scale(0.5);
+  content: ' ';
+}
+
+.hairline {
+  &--top,
+  &--right,
+  &--bottom,
+  &-left {
+    @apply relative;
+  }
+
+  &--top::after {
+    border-top-width: 1px;
+  }
+
+  &--left::after {
+    border-left-width: 1px;
+  }
+
+  &--right::after {
+    border-right-width: 1px;
+  }
+
+  &--bottom::after {
+    border-bottom-width: 1px;
+  }
+}
+
+/* hack css  */
 .hack-touchmove {
   height: 100vh !important;
   overflow: hidden !important;

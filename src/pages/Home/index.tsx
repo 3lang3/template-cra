@@ -1,5 +1,7 @@
 import Toast from '@/components/Toast';
 import Popup from '@/components/Popup';
+import Modal from '@/components/Modal';
+import Button from '@/components/Button';
 import { useGlobalUser } from '@/state/global';
 import history from '@/utils/history';
 import { Link } from 'react-router-dom';
@@ -7,6 +9,7 @@ import { useState } from 'react';
 
 export default () => {
   const [visible, setVisible] = useState(false);
+  const [modal, setModal] = useState(false);
   const user = useGlobalUser();
   return (
     <div>
@@ -24,9 +27,28 @@ export default () => {
       <div onClick={() => Toast.error('操作失败')}>toast error</div>
       <div onClick={() => Toast.destroy()}>toast clean</div>
       <div onClick={() => setVisible(true)}>show base popup</div>
+      <div onClick={() => setModal(true)}>show base modal</div>
+      <Button block loading type="primary">
+        默认按钮
+      </Button>
       <Popup position="bottom" visible={visible} onClose={() => setVisible(false)}>
         hello
       </Popup>
+      <Modal
+        title="标题"
+        visible={modal}
+        onClose={() => setModal(false)}
+        onConfirm={async () =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              setModal(false);
+              resolve();
+            }, 2000);
+          })
+        }
+      >
+        代码是写出来给人看的，附带能在机器上运行代码是写出来给人看的，附带能在机器上运行代码是写出来给人看的，附带能在机器上运行代码是写出来给人看的，附带能在机器上运行
+      </Modal>
     </div>
   );
 };
