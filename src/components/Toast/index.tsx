@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { Check, Attention } from '@icon-park/react';
-import loadingSrc from './loading.svg';
+import { ReactComponent as Loader } from './loading.svg';
 import './toast.css';
 
 interface ToastType {
@@ -55,7 +55,7 @@ const ToastItem = ({ content, type }: ToastItemProps) => {
       {type !== 'info' && (
         <div className="flex align-middle justify-center mb-2">
           {(() => {
-            if (type === 'loading') return <img src={loadingSrc} alt="loader" />;
+            if (type === 'loading') return <Loader />;
             if (type === 'success') return <Check theme="outline" size="34" fill="#fff" />;
             if (type === 'error') return <Attention theme="outline" size="34" fill="#fff" />;
             return null;
@@ -147,7 +147,7 @@ let notificationInstance: NotificationInstance | undefined;
 const toast = (
   type: NoticeType,
   content: ToastContent,
-  duration = 20000,
+  duration = 2000,
   onClose?: ToastOnClose,
 ) => {
   if (!notificationInstance) notificationInstance = createNotification();
