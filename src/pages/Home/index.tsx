@@ -28,7 +28,22 @@ export default () => {
       <div onClick={() => Toast.destroy()}>toast clean</div>
       <div onClick={() => setVisible(true)}>show base popup</div>
       <div onClick={() => setModal(true)}>show base modal</div>
-      <Button block loading type="primary">
+      <div
+        onClick={() =>
+          Modal.alert({
+            title: 'hello',
+            message: 'world',
+            transition: false,
+            overlay: false,
+            beforeClose: (ac, done) => {
+              if (ac === 'confirm') setTimeout(() => done(), 2000);
+            },
+          })
+        }
+      >
+        show modal confirm
+      </div>
+      <Button block disabled type="primary">
         默认按钮
       </Button>
       <Popup position="bottom" visible={visible} onClose={() => setVisible(false)}>

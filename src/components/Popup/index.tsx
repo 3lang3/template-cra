@@ -2,6 +2,7 @@ import { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { CloseOne } from '@icon-park/react';
 import { CSSTransition } from 'react-transition-group';
+import cn from 'classnames';
 import './popup.less';
 import ScrollPenetration from '../ScrollPenetration';
 
@@ -19,14 +20,18 @@ export function Portal(props: { children: React.ReactNode }) {
 }
 
 type OverlayProps = {
+  /**
+   * 自定义遮罩层类名
+   */
   overlayClassName?: string;
+  /**
+   * 自定义遮罩层样式
+   */
   overlayStyle?: React.CSSProperties;
 };
 
 /**
  * 基础overlay组件
- * @param param0
- * @returns
  */
 export function OverlayNode({
   transition,
@@ -71,7 +76,8 @@ type CloseableType = boolean | React.ReactNode;
 export interface ModalLikeBaseProps extends OverlayProps {
   visible: boolean;
   /**
-   * 动画类名
+   * 动画类名 为false时关闭动画
+   * @default true
    */
   transition?: boolean | string;
   /**
@@ -166,7 +172,9 @@ export default (props: PopupProps) => {
       >
         <div
           ref={contentRef}
-          className={`local-popup local-popup--${position} ${round ? 'local-popup--round' : ''}`}
+          className={cn('local-popup', `local-popup--${position}`, {
+            'local-popup--round': round,
+          })}
         >
           {closeable && position !== 'center' ? (
             <CloseNode closeable={closeable} handleClose={handleClose} />
