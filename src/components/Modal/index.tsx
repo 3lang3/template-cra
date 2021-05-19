@@ -7,36 +7,55 @@ import { CSSTransition } from 'react-transition-group';
 import cn from 'classnames';
 import './modal.less';
 
-type ModalFuncProps = Omit<ModalProps, 'visible' | 'children' | 'onConfirm'> & {
-  /**
-   * 和children一样 内容字段
-   */
-  message: string | React.ReactNode;
-  /**
-   * 关闭前的回调函数， 调用 done() 后关闭弹窗，
-   */
-  beforeClose?: (action: 'cancel' | 'confirm', done: () => void) => void;
-};
-
-type ModalFuncParentProps = {
+type ModalFuncProps = Omit<ModalProps, 'visible' | 'children' | 'onConfirm' | 'onClose'> & {
   /**
    * 弹窗类型
    * - alert 展示消息提示弹窗
    * - confirm 展示消息确认弹窗
    */
   type: 'confirm' | 'alert';
+  /**
+   * 和children一样 内容字段
+   */
+  message: string | React.ReactNode;
+};
+
+type AsyncModalFuncProps = {
+  /**
+   * 点击确认按钮开启loading
+   */
+  showConfirmLoading?: boolean;
+};
+
+type ModalFuncInstanceProps = Omit<ModalFuncProps, 'type'>;
+
+type ModalFuncNodeProps = {
+  onDestroy: () => void;
+  resolveFunc: any;
+  rejectFunc: any;
 } & ModalFuncProps;
 
 type ModalType = {
   (p: ModalProps): any;
+
   /**
    * alert弹窗类型 展示消息提示弹窗
    */
-  alert: (props: ModalFuncProps) => void;
+  alert: (
+    props: ModalFuncInstanceProps & AsyncModalFuncProps,
+  ) => Promise<{ action: string; done: () => void }>;
+
   /**
    * confirm弹窗类型 展示消息确认弹窗
    */
-  confirm: (props: ModalFuncProps) => void;
+  confirm: (
+    props: ModalFuncInstanceProps & AsyncModalFuncProps,
+  ) => Promise<{ action: string; done: () => void }>;
+
+  /**
+   * modal 销毁
+   */
+  destroy: () => void;
 };
 
 interface ModalProps extends ModalLikeBaseProps {
@@ -68,6 +87,9 @@ interface ModalProps extends ModalLikeBaseProps {
    * 自定义类名
    */
   className?: string;
+  /**
+   * 确认按钮事件
+   */
   onConfirm?: () => Promise<void>;
 }
 
@@ -164,7 +186,7 @@ const Modal = (props: ModalProps) => {
   );
 };
 
-const ModalFuncNode = (props: ModalFuncParentProps) => {
+const ModalFuncNode = (props: ModalFuncNodeProps & AsyncModalFuncProps) => {
   const contentRef = React.useRef(null);
   const [visible, setVisible] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -174,23 +196,28 @@ const ModalFuncNode = (props: ModalFuncParentProps) => {
   }, []);
 
   const handleConfirm = React.useCallback(() => {
-    if (props.beforeClose) {
+    if (props.showConfirmLoading) {
       setLoading(true);
-      props.beforeClose('confirm', () => {
-        setLoading(false);
-        setVisible(false);
+      props.resolveFunc({
+        action: 'confirm',
+        done: () => {
+          setLoading(false);
+          setVisible(false);
+        },
       });
       return;
     }
     setVisible(false);
+    props.resolveFunc({
+      action: 'confirm',
+      done: () => null,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClose = React.useCallback(() => {
-    if (props.beforeClose) {
-      props.beforeClose('cancel', () => null);
-    }
     setVisible(false);
+    props.rejectFunc();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -226,7 +253,7 @@ const ModalFuncNode = (props: ModalFuncParentProps) => {
         nodeRef={contentRef}
         timeout={disableTransition ? 0 : 300}
         classNames={typeof transition === 'string' ? transition : defaultTransitionCls}
-        onExited={props.onClose}
+        onExited={props.onDestroy}
       >
         <div
           ref={contentRef}
@@ -256,7 +283,9 @@ const ModalFuncNode = (props: ModalFuncParentProps) => {
   );
 };
 
-function createModal(props: Omit<ModalFuncParentProps, 'onClose'>) {
+let destroyFns: any = [];
+
+function createModal(props: Omit<ModalFuncProps, 'onClose'>) {
   const container = document.createElement('div');
   container.id = `local-modal-${new Date().getTime()}`;
   container.className = 'fixed-center z-99999 w-full h-full';
@@ -265,12 +294,28 @@ function createModal(props: Omit<ModalFuncParentProps, 'onClose'>) {
   const destroy = () => {
     unmountComponentAtNode(container);
     document.body.removeChild(container);
+    destroyFns = destroyFns.filter((el) => el.key !== container.id);
   };
 
-  render(<ModalFuncNode {...props} onClose={destroy} />, container);
+  destroyFns.push({ key: container.id, destroy });
+
+  return new Promise((resolve, reject) =>
+    render(
+      <ModalFuncNode {...props} resolveFunc={resolve} rejectFunc={reject} onDestroy={destroy} />,
+      container,
+    ),
+  );
 }
 
-Modal.alert = (props: ModalFuncProps) => createModal({ type: 'alert', ...props });
-Modal.confirm = (props: ModalFuncProps) => createModal({ type: 'confirm', ...props });
+Modal.alert = (props: ModalFuncInstanceProps) => createModal({ type: 'alert', ...props });
+Modal.confirm = (props: ModalFuncInstanceProps) => createModal({ type: 'confirm', ...props });
+Modal.destroy = () => {
+  while (destroyFns.length) {
+    const close = destroyFns.pop();
+    if (close) {
+      close.destroy();
+    }
+  }
+};
 
 export default Modal as ModalType;

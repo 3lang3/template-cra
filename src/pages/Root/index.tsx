@@ -5,6 +5,7 @@ import history from '@/utils/history';
 import { getToken } from '@/utils/utils';
 import { memo, useEffect } from 'react';
 import { userUpgrade } from '@/state/global';
+import { Toast, Modal } from '@/components';
 
 const loginPath = '/login';
 
@@ -63,11 +64,14 @@ const InitialState = memo(
 );
 
 /**
- * 每次路由变动都会rerender
+ * 每次路由变动触发root render
  */
 export default ({ route }) => {
-  // eslint-disable-next-line no-console
-  console.log('render root');
+  useEffect(() => {
+    // 页面切换 销毁非root包裹组件
+    Modal.destroy();
+    Toast.destroy();
+  });
   return (
     <>
       <InitialState />

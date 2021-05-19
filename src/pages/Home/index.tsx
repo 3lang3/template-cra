@@ -1,7 +1,4 @@
-import Toast from '@/components/Toast';
-import Popup from '@/components/Popup';
-import Modal from '@/components/Modal';
-import Button from '@/components/Button';
+import { Button, Modal, Popup, Toast } from '@/components';
 import { useGlobalUser } from '@/state/global';
 import history from '@/utils/history';
 import { Link } from 'react-router-dom';
@@ -29,17 +26,21 @@ export default () => {
       <div onClick={() => setVisible(true)}>show base popup</div>
       <div onClick={() => setModal(true)}>show base modal</div>
       <div
-        onClick={() =>
-          Modal.alert({
-            title: 'hello',
-            message: 'world',
-            transition: false,
-            overlay: false,
-            beforeClose: (ac, done) => {
-              if (ac === 'confirm') setTimeout(() => done(), 2000);
-            },
-          })
-        }
+        onClick={async () => {
+          try {
+            const { done } = await Modal.confirm({
+              title: 'hello',
+              message: 'world',
+              transition: false,
+              overlay: false,
+              showConfirmLoading: true,
+            });
+            setTimeout(() => done(), 2000);
+          } catch (e) {
+            // eslint-disable-next-line no-console
+            console.log('close', e);
+          }
+        }}
       >
         show modal confirm
       </div>
