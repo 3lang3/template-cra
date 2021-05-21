@@ -1,0 +1,41 @@
+$w: 160px;
+
+.local-uploader {
+  &__wrapper {
+    @apply flex flex-wrap;
+  }
+
+  &__preview {
+    @apply relative mr-1 mb-1  cursor-pointer;
+
+    &-delete {
+      @apply absolute top-0 right-0;
+
+      width: 28px;
+      height: 28px;
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 0 0 0 24px;
+    }
+
+    &-image {
+      @apply overflow-hidden block;
+
+      width: $w;
+      height: $w;
+      img {
+        @apply w-full h-full block object-cover;
+      }
+    }
+  }
+
+  &__upload {
+    @apply relative flex flex-col items-center justify-center bg-gray-100 mr-1 mb-1;
+
+    width: $w;
+    height: $w;
+
+    input[type='file'] {
+      @apply absolute inset-0	opacity-0 w-full  h-full cursor-pointer overflow-hidden;
+    }
+  }
+}
