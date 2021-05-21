@@ -62,9 +62,6 @@ const normalRequest = extend({
   prefix: config.api.prefix,
   timeout: 30000,
   credentials: 'include',
-  headers: {
-    'Content-Type': 'application/json; charset=utf-8',
-  },
   errorHandler,
 });
 // 将token插入header头信息

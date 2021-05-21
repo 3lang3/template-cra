@@ -1,4 +1,4 @@
-$w: 160px;
+@w: 160px;
 
 .local-uploader {
   &__wrapper {
@@ -9,7 +9,7 @@ $w: 160px;
     @apply relative mr-1 mb-1  cursor-pointer;
 
     &-delete {
-      @apply absolute top-0 right-0;
+      @apply absolute flex items-center justify-center top-0 right-0 text-sm;
 
       width: 28px;
       height: 28px;
@@ -18,10 +18,10 @@ $w: 160px;
     }
 
     &-image {
-      @apply overflow-hidden block;
+      @apply overflow-hidden bg-gray-100 block;
 
-      width: $w;
-      height: $w;
+      width: @w;
+      height: @w;
       img {
         @apply w-full h-full block object-cover;
       }
@@ -31,8 +31,8 @@ $w: 160px;
   &__upload {
     @apply relative flex flex-col items-center justify-center bg-gray-100 mr-1 mb-1;
 
-    width: $w;
-    height: $w;
+    width: @w;
+    height: @w;
 
     input[type='file'] {
       @apply absolute inset-0	opacity-0 w-full  h-full cursor-pointer overflow-hidden;
