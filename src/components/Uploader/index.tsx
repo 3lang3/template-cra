@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-console */
 import { useRef, useState, useEffect } from 'react';
 import { Camera, CloseSmall, Rotation, CloseOne } from '@icon-park/react';
@@ -41,21 +42,29 @@ interface UploaderProps {
 }
 
 type FileListItemProps = {
-  url: string;
+  /** 唯一标识符 */
+  key: number;
+  /** 递交给外部form的值 */
+  url?: string;
+  /** 图片本地url */
+  localUrl?: string;
+  /** 上传状态 */
   status: 'done' | 'uploading' | 'failed';
 };
+
+let key = 0;
 
 export default (props: UploaderProps) => {
   const innerRef = useRef(false);
   const { accept = 'image/*', name = 'img[]', data, value, multiple = true, maxCount = 1 } = props;
   const uploadReq = useRequest(uploadImage, { manual: true });
   const isSingle = !multiple || maxCount === 1;
-  const [list, setList] = useState(() => {
+  const [list, setList] = useState<FileListItemProps[]>(() => {
     if (typeof value === 'string') {
-      return [{ status: 'done', url: value }];
+      return [{ status: 'done', url: value, key: key++ }];
     }
     if (Array.isArray(value)) {
-      return value.map((url) => ({ status: 'done', url }));
+      return value.map((url) => ({ status: 'done', url, key: key++ }));
     }
     return [];
   });
@@ -72,11 +81,11 @@ export default (props: UploaderProps) => {
       return;
     }
     if (typeof value === 'string') {
-      setList([{ status: 'done', url: value }]);
+      setList([{ status: 'done', url: value, key: key++ }]);
       return;
     }
     if (Array.isArray(value)) {
-      setList(value.map((url) => ({ status: 'done', url })));
+      setList(value.map((url) => ({ status: 'done', url, key: key++ })));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(value)]);
@@ -92,31 +101,54 @@ export default (props: UploaderProps) => {
   // 本地上传
   const onFileInputChange = async ({ target }) => {
     const { files } = target;
-    setList(
-      Array.prototype.slice
-        .call(files)
-        .map((file) => ({ url: URL.createObjectURL(file), status: 'uploading' })),
-    );
-    const form = new FormData();
+    const localFiles = Array.prototype.slice.call(files);
+
+    if (list.length + localFiles.length > acceptCount) return;
+    const startIdx = list.length;
+    const localFilesList = localFiles.map((file) => ({
+      localUrl: URL.createObjectURL(file),
+      status: 'uploading',
+      key: key++,
+    })) as FileListItemProps[];
+    setList((v) => [...v, ...localFilesList]);
+
+    const formdata = new FormData();
     if (isSingle || files.length === 1) {
-      form.append(name, files[0]);
+      formdata.append(name, files[0]);
     }
     if (files.length > 1) {
       // eslint-disable-next-line no-plusplus
       for (let i = 1; i < files.length; i++) {
-        form.append(name, files[i]);
+        formdata.append(name, files[i]);
       }
     }
     if (data && typeof data === 'object') {
-      Object.entries(data).forEach(([k, v]) => form.append(k, v));
+      Object.entries(data).forEach(([k, v]) => formdata.append(k, v));
     }
+
     try {
-      const { data: res, type, msg } = await uploadReq.run(form);
+      const { data: res, type, msg } = await uploadReq.run(formdata);
       if (type === 1) throw Error(msg);
-      triggerChange(res.url.map((url) => ({ url, status: 'done' })));
+      setList((v) => {
+        const newList = v.map((el, i) => {
+          if (i >= startIdx) return { ...el, status: 'done', url: res.url[res.url.length - i - 1] };
+          return el;
+        }) as FileListItemProps[];
+        if (props.onChange) {
+          props.onChange(isSingle ? newList[0].url : newList.map((el) => el.url));
+        }
+        return newList;
+      });
     } catch (error) {
       // 上传失败status调整
-      setList((v) => v.map((el) => ({ url: el.url, status: 'failed' })));
+      setList((v) =>
+        v.map((el, i) => {
+          if (i >= startIdx) {
+            return { ...el, status: 'failed' };
+          }
+          return el;
+        }),
+      );
       console.log(error);
     }
   };
@@ -124,29 +156,30 @@ export default (props: UploaderProps) => {
   const onWxUpload = async () => {
     try {
       const values = await wxUploadImage();
-      triggerChange(values.map((url) => ({ status: 'done', url })));
+      triggerChange(values.map((url) => ({ status: 'done', url, key: key++ })));
     } catch (error) {
       console.log(error);
     }
   };
 
   // 删除事件
-  const deleteItem = (url) => {
-    const newValue = list.filter((el) => el.url !== url) as FileListItemProps[];
+  const deleteItem = (k) => {
+    const newValue = list.filter((el) => el.key !== k) as FileListItemProps[];
     triggerChange(newValue);
   };
 
   const isWechat = false;
-
   return (
     <div className="local-uploader">
       <div className="local-uploader__wrapper">
         {list.length
-          ? list.map(({ url, status }) => (
-              <div key={url} onClick={() => deleteItem(url)} className="local-uploader__preview">
-                <div className="local-uploader__preview-delete">
-                  <CloseSmall theme="outline" fill="#fff" />
-                </div>
+          ? list.map(({ key: _id, url, status, localUrl }) => (
+              <div key={_id} onClick={() => deleteItem(_id)} className="local-uploader__preview">
+                {status !== 'uploading' && (
+                  <div className="local-uploader__preview-delete">
+                    <CloseSmall theme="outline" fill="#fff" />
+                  </div>
+                )}
                 {status === 'uploading' || status === 'failed' ? (
                   <div className="local-uploader__mask">
                     {status === 'uploading' ? (
@@ -168,8 +201,7 @@ export default (props: UploaderProps) => {
                   </div>
                 ) : null}
                 <div className="local-uploader__preview-image">
-                  {/* <img alt="img" src={`https://img.yigeyougou.com/${el}`} /> */}
-                  <img alt="img" src={url} />
+                  <img alt="img" src={localUrl || `https://img.yigeyougou.com/${url}`} />
                 </div>
               </div>
             ))
@@ -185,7 +217,6 @@ export default (props: UploaderProps) => {
                 type="file"
                 multiple={multiple}
                 accept={accept}
-                value={value}
                 onChange={onFileInputChange}
               />
             )}
@@ -204,12 +235,14 @@ type PromisifyWxChooseImageProps = {
   count?: number;
   sizeType?: string[];
   sourceType?: string[];
+  chooseSuccess?: (localIds) => void;
 };
 
 function promisifyWxChooseImage({
   count,
   sizeType = ['original', 'compressed'],
   sourceType = ['album', 'camera'],
+  chooseSuccess,
 }: PromisifyWxChooseImageProps): Promise<{ localIds: any[] }> {
   return new Promise((resolve, reject) => {
     try {
@@ -217,7 +250,10 @@ function promisifyWxChooseImage({
         count, // 默认9
         sizeType, // 可以指定是原图还是压缩图，默认二者都有
         sourceType, // 可以指定来源是相册还是相机，默认二者都有
-        success: (res) => resolve(res),
+        success: (res) => {
+          if (chooseSuccess) chooseSuccess(res.localIds);
+          resolve(res);
+        },
         error: (err) => {
           console.log('wx.chooseImage error callback:', err);
           reject(err);
@@ -284,8 +320,7 @@ async function wxUploadImage(
     // eslint-disable-next-line no-restricted-syntax
     for (const localId of localIds) {
       // eslint-disable-next-line no-await-in-loop
-      const { serverId, url } = await promisifyWxUploadImage({ localId, isShowProgressTips });
-      console.log(serverId, url);
+      const { url } = await promisifyWxUploadImage({ localId, isShowProgressTips });
       rs.push(url);
     }
   } catch (error) {
