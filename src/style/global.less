@@ -68,6 +68,19 @@
   }
 }
 
+.local-loader {
+  animation: local-rotate 2s linear infinite;
+}
+
+@keyframes local-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* 1px border */
 [class*='hairline']::after {
   @apply absolute  box-border pointer-events-none;

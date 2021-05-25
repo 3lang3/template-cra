@@ -28,13 +28,27 @@
     }
   }
 
+  &__mask {
+    @apply absolute inset-0 flex flex-col items-center justify-center text-white;
+
+    background-color: rgba(50, 50, 51, 0.88);
+
+    &-icon {
+      @apply text-2xl;
+    }
+
+    &-msg {
+      @apply mt-1 py-1 text-xs;
+    }
+  }
+
   &__upload {
     @apply relative flex flex-col items-center justify-center bg-gray-100 mr-1 mb-1;
 
     width: @w;
     height: @w;
 
-    input[type='file'] {
+    &-input {
       @apply absolute inset-0	opacity-0 w-full  h-full cursor-pointer overflow-hidden;
     }
   }
