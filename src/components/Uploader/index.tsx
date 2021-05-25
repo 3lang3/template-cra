@@ -155,7 +155,18 @@ export default (props: UploaderProps) => {
   // 微信上传
   const onWxUpload = async () => {
     try {
-      const values = await wxUploadImage();
+      const values = await wxUploadImage({
+        chooseSuccess: (localIds) => {
+          setList((v) => {
+            const newList = localIds.map((localId) => ({
+              localUrl: localId,
+              status: 'uploading',
+              key: key++,
+            })) as FileListItemProps[];
+            return [...v, ...newList];
+          });
+        },
+      });
       triggerChange(values.map((url) => ({ status: 'done', url, key: key++ })));
     } catch (error) {
       console.log(error);
@@ -235,7 +246,8 @@ type PromisifyWxChooseImageProps = {
   count?: number;
   sizeType?: string[];
   sourceType?: string[];
-  chooseSuccess?: (localIds) => void;
+  /** 图片选择成功后回调 */
+  chooseSuccess?: (localIds: string[]) => void;
 };
 
 function promisifyWxChooseImage({
