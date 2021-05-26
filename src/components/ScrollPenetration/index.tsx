@@ -6,13 +6,9 @@ import { useEffect } from 'react';
  */
 export default () => {
   useEffect(() => {
-    const cls = document.body.classList;
-    cls.add('hack-touchmove');
-    document.body.className = cls.value;
+    document.body.classList.add('hack-touchmove');
     return () => {
-      const rcls = document.body.classList;
-      rcls.remove('hack-touchmove');
-      document.body.className = rcls.value;
+      document.body.classList.remove('hack-touchmove');
     };
   }, []);
   return null;
