@@ -1,4 +1,4 @@
-import { Button, Modal, Popup, Toast, Uploader, Swiper } from '@/components';
+import { Button, Modal, Popup, Toast, Uploader, Swipe } from '@/components';
 import { useGlobalUser } from '@/state/global';
 import history from '@/utils/history';
 import { Link } from 'react-router-dom';
@@ -64,7 +64,11 @@ export default () => {
         代码是写出来给人看的，附带能在机器上运行代码是写出来给人看的，附带能在机器上运行代码是写出来给人看的，附带能在机器上运行代码是写出来给人看的，附带能在机器上运行
       </Modal>
       <Uploader maxCount={9} />
-      <Swiper />
+      <Swipe>
+        {Array.from({ length: 5 }, (_, i) => (
+          <Swipe.SwiperSlide key={i}>Slide{i + 1}</Swipe.SwiperSlide>
+        ))}
+      </Swipe>
     </div>
   );
 };

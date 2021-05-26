@@ -5,4 +5,4 @@ export { default as Modal } from './Modal';
 export { default as Popup } from './Popup';
 export { default as Toast } from './Toast';
 export { default as Uploader } from './Uploader';
-export { default as Swiper } from './Swiper';
+export { default as Swipe } from './Swipe';

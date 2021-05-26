@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import { Camera, CloseSmall, Rotation, CloseOne } from '@icon-park/react';
 import { uploadImage, postMediaWechat } from '@/services/global';
 import { useRequest } from 'ahooks';
-import cls from 'classnames';
+import cn from 'classnames';
 import './uploader.less';
 
 interface UploaderProps {
@@ -214,7 +214,7 @@ export default (props: UploaderProps) => {
 
   const isWechat = true;
   return (
-    <div className={cls('local-uploader', className)}>
+    <div className={cn('local-uploader', className)}>
       <div className="local-uploader__wrapper">
         {list.length
           ? list.map(({ key: _id, url, status, localUrl }) => (

@@ -1,0 +1,20 @@
+.local-swiper {
+  @apply overflow-hidden;
+
+  .swiper-slide {
+    @apply flex justify-center items-center text-2xl bg-gray-300;
+
+    min-height: 380px;
+  }
+
+  .swiper-pagination {
+    &-bullet {
+      width: 14px;
+      height: 14px;
+      opacity: 0.1;
+    }
+    &-bullet-active {
+      opacity: 1;
+    }
+  }
+}
