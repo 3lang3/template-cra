@@ -43,13 +43,13 @@ export function OverlayNode({
   const overlayRef = useRef(null);
   const ct = useMemo(
     () => (
-      <div ref={overlayRef}>
+      <div
+        ref={overlayRef}
+        onClick={handleClose}
+        className={cn('local-overlay', overlayClassName)}
+        style={overlayStyle}
+      >
         <ScrollPenetration />
-        <div
-          onClick={handleClose}
-          className={`local-overlay ${overlayClassName || ''}`}
-          style={overlayStyle}
-        />
       </div>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
