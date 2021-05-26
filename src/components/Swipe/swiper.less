@@ -4,17 +4,19 @@
   .swiper-slide {
     @apply flex justify-center items-center text-2xl bg-gray-300;
 
-    min-height: 380px;
+    height: 380px;
   }
 
   .swiper-pagination {
     &-bullet {
-      width: 14px;
-      height: 14px;
-      opacity: 0.1;
+      width: 14px; /* px-to-viewport-ignore */
+      height: 14px; /* px-to-viewport-ignore */
+      background: none;
+      border: 2px solid #fff;
+      opacity: 1;
     }
     &-bullet-active {
-      opacity: 1;
+      background: #fff;
     }
   }
 }

@@ -21,7 +21,7 @@ export default () => {
         toast info
       </div>
       <div onClick={() => Toast.success()}>toast success</div>
-      <div onClick={() => Toast.error('操作失败')}>toast error</div>
+      <div onClick={() => Toast.error('操作失败', 0, null, false)}>toast error</div>
       <div onClick={() => Toast.destroy()}>toast clean</div>
       <div onClick={() => setVisible(true)}>show base popup</div>
       <div onClick={() => setModal(true)}>show base modal</div>

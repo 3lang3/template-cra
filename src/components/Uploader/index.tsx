@@ -6,6 +6,7 @@ import { uploadImage, postMediaWechat } from '@/services/global';
 import { useRequest } from 'ahooks';
 import cn from 'classnames';
 import './uploader.less';
+import { browser } from 'utilbag';
 
 interface UploaderProps {
   value?: string | string[];
@@ -212,7 +213,6 @@ export default (props: UploaderProps) => {
     triggerChange(newValue);
   };
 
-  const isWechat = true;
   return (
     <div className={cn('local-uploader', className)}>
       <div className="local-uploader__wrapper">
@@ -257,7 +257,7 @@ export default (props: UploaderProps) => {
         {showUploader && (
           <div className="local-uploader__upload">
             <Camera theme="filled" size="24" fill="#dcdee0" />
-            {isWechat ? (
+            {browser.isWechatBrowser() ? (
               <div className="local-uploader__upload-input" onClick={onWxUpload} />
             ) : (
               <input

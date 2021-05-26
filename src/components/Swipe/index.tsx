@@ -19,7 +19,9 @@ type SwiperProps = {
 
 const Swipe = ({
   slidesPerView = 1,
-  pagination = true,
+  pagination = {
+    clickable: true,
+  },
   className,
   children,
   ...props
