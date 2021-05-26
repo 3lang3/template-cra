@@ -212,7 +212,7 @@ export default (props: UploaderProps) => {
     triggerChange(newValue);
   };
 
-  const isWechat = false;
+  const isWechat = true;
   return (
     <div className={cls('local-uploader', className)}>
       <div className="local-uploader__wrapper">
@@ -363,17 +363,13 @@ async function wxUploadImage(
   opts?: PromisifyWxChooseImageProps & Pick<PromisifyWxUploadImageProps, 'isShowProgressTips'>,
 ): Promise<string[]> {
   const rs: string[] = [];
-  try {
-    const { isShowProgressTips = 1, ...rest } = opts || {};
-    const { localIds } = await promisifyWxChooseImage(rest);
-    // eslint-disable-next-line no-restricted-syntax
-    for (const localId of localIds) {
-      // eslint-disable-next-line no-await-in-loop
-      const { url } = await promisifyWxUploadImage({ localId, isShowProgressTips });
-      rs.push(url);
-    }
-  } catch (error) {
-    console.log('wxUploadImage run error:', error);
+  const { isShowProgressTips = 1, ...rest } = opts || {};
+  const { localIds } = await promisifyWxChooseImage(rest);
+  // eslint-disable-next-line no-restricted-syntax
+  for (const localId of localIds) {
+    // eslint-disable-next-line no-await-in-loop
+    const { url } = await promisifyWxUploadImage({ localId, isShowProgressTips });
+    rs.push(url);
   }
   return rs;
 }

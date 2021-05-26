@@ -1,4 +1,4 @@
-import { Button, Modal, Popup, Toast, Uploader } from '@/components';
+import { Button, Modal, Popup, Toast, Uploader, Swiper } from '@/components';
 import { useGlobalUser } from '@/state/global';
 import history from '@/utils/history';
 import { Link } from 'react-router-dom';
@@ -9,7 +9,7 @@ export default () => {
   const [modal, setModal] = useState(false);
   const user = useGlobalUser();
   return (
-    <div>
+    <div style={{ minHeight: '200vh' }}>
       this is home page 5555 123123 <Link to="/user/ethan">{user.nickname}</Link> <br />
       <div onClick={() => history.push('/login')}>go login</div>
       <div onClick={() => Toast.loading()}>toast loading</div>
@@ -64,6 +64,7 @@ export default () => {
         代码是写出来给人看的，附带能在机器上运行代码是写出来给人看的，附带能在机器上运行代码是写出来给人看的，附带能在机器上运行代码是写出来给人看的，附带能在机器上运行
       </Modal>
       <Uploader maxCount={9} />
+      <Swiper />
     </div>
   );
 };
