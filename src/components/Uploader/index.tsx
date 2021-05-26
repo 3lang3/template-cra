@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import { Camera, CloseSmall, Rotation, CloseOne } from '@icon-park/react';
 import { uploadImage, postMediaWechat } from '@/services/global';
 import { useRequest } from 'ahooks';
+import cls from 'classnames';
 import './uploader.less';
 
 interface UploaderProps {
@@ -39,9 +40,10 @@ interface UploaderProps {
    * 是否禁用文件上传
    */
   disabled?: boolean;
+  className?: string;
 }
 
-type FileListItemProps = {
+type FileItemProps = {
   /** 唯一标识符 */
   key: number;
   /** 递交给外部form的值 */
@@ -56,10 +58,18 @@ let key = 0;
 
 export default (props: UploaderProps) => {
   const innerRef = useRef(false);
-  const { accept = 'image/*', name = 'img[]', data, value, multiple = true, maxCount = 1 } = props;
+  const {
+    accept = 'image/*',
+    name = 'img[]',
+    data,
+    value,
+    multiple = true,
+    maxCount = 1,
+    className,
+  } = props;
   const uploadReq = useRequest(uploadImage, { manual: true });
   const isSingle = !multiple || maxCount === 1;
-  const [list, setList] = useState<FileListItemProps[]>(() => {
+  const [list, setList] = useState<FileItemProps[]>(() => {
     if (typeof value === 'string') {
       return [{ status: 'done', url: value, key: key++ }];
     }
@@ -91,9 +101,9 @@ export default (props: UploaderProps) => {
   }, [JSON.stringify(value)]);
 
   // 同步表单值
-  const triggerChange = (v: FileListItemProps[]) => {
+  const triggerChange = (v: FileItemProps[]) => {
     if (props.onChange) {
-      props.onChange(isSingle ? v[0].url : v.map((el) => el.url));
+      props.onChange(isSingle ? v[0].url : v.map((el) => el.url).filter(Boolean));
     }
     setList(v);
     innerRef.current = true;
@@ -102,16 +112,19 @@ export default (props: UploaderProps) => {
   const onFileInputChange = async ({ target }) => {
     const { files } = target;
     const localFiles = Array.prototype.slice.call(files);
-
+    // 超过最大上传数量
     if (list.length + localFiles.length > acceptCount) return;
+    // 上传位置标记
     const startIdx = list.length;
+    // 本地文件列表 立即展示图片
     const localFilesList = localFiles.map((file) => ({
       localUrl: URL.createObjectURL(file),
       status: 'uploading',
       key: key++,
-    })) as FileListItemProps[];
+    })) as FileItemProps[];
     setList((v) => [...v, ...localFilesList]);
 
+    // 组装表单数据
     const formdata = new FormData();
     if (isSingle || files.length === 1) {
       formdata.append(name, files[0]);
@@ -126,6 +139,7 @@ export default (props: UploaderProps) => {
       Object.entries(data).forEach(([k, v]) => formdata.append(k, v));
     }
 
+    // 上传action
     try {
       const { data: res, type, msg } = await uploadReq.run(formdata);
       if (type === 1) throw Error(msg);
@@ -133,7 +147,7 @@ export default (props: UploaderProps) => {
         const newList = v.map((el, i) => {
           if (i >= startIdx) return { ...el, status: 'done', url: res.url[res.url.length - i - 1] };
           return el;
-        }) as FileListItemProps[];
+        }) as FileItemProps[];
         if (props.onChange) {
           props.onChange(isSingle ? newList[0].url : newList.map((el) => el.url));
         }
@@ -154,6 +168,7 @@ export default (props: UploaderProps) => {
   };
   // 微信上传
   const onWxUpload = async () => {
+    const startIdx = list.length;
     try {
       const values = await wxUploadImage({
         chooseSuccess: (localIds) => {
@@ -162,35 +177,55 @@ export default (props: UploaderProps) => {
               localUrl: localId,
               status: 'uploading',
               key: key++,
-            })) as FileListItemProps[];
+            })) as FileItemProps[];
             return [...v, ...newList];
           });
         },
       });
-      triggerChange(values.map((url) => ({ status: 'done', url, key: key++ })));
+      setList((v) => {
+        const newList = v.map((el, i) => {
+          if (i >= startIdx) return { ...el, status: 'done', url: values[values.length - i - 1] };
+          return el;
+        }) as FileItemProps[];
+        if (props.onChange) {
+          props.onChange(isSingle ? newList[0].url : newList.map((el) => el.url));
+        }
+        return newList;
+      });
     } catch (error) {
-      console.log(error);
+      // 上传失败status调整
+      setList((v) =>
+        v.map((el, i) => {
+          if (i >= startIdx) {
+            return { ...el, status: 'failed' };
+          }
+          return el;
+        }),
+      );
+      console.log('wx upload error:', error);
     }
   };
 
   // 删除事件
   const deleteItem = (k) => {
-    const newValue = list.filter((el) => el.key !== k) as FileListItemProps[];
+    const newValue = list.filter((el) => el.key !== k) as FileItemProps[];
     triggerChange(newValue);
   };
 
   const isWechat = false;
   return (
-    <div className="local-uploader">
+    <div className={cls('local-uploader', className)}>
       <div className="local-uploader__wrapper">
         {list.length
           ? list.map(({ key: _id, url, status, localUrl }) => (
-              <div key={_id} onClick={() => deleteItem(_id)} className="local-uploader__preview">
+              <div key={_id} className="local-uploader__preview">
+                {/* 删除按钮 */}
                 {status !== 'uploading' && (
-                  <div className="local-uploader__preview-delete">
+                  <div onClick={() => deleteItem(_id)} className="local-uploader__preview-delete">
                     <CloseSmall theme="outline" fill="#fff" />
                   </div>
                 )}
+                {/* 上传状态ui */}
                 {status === 'uploading' || status === 'failed' ? (
                   <div className="local-uploader__mask">
                     {status === 'uploading' ? (
@@ -211,12 +246,14 @@ export default (props: UploaderProps) => {
                     </div>
                   </div>
                 ) : null}
+                {/* 图片预览 */}
                 <div className="local-uploader__preview-image">
-                  <img alt="img" src={localUrl || `https://img.yigeyougou.com/${url}`} />
+                  <img alt="img" src={url ? `https://img.yigeyougou.com/${url}` : localUrl} />
                 </div>
               </div>
             ))
           : null}
+        {/* 上传按钮 */}
         {showUploader && (
           <div className="local-uploader__upload">
             <Camera theme="filled" size="24" fill="#dcdee0" />

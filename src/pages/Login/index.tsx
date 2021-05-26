@@ -14,7 +14,7 @@ import { useEffect } from 'react';
  */
 export const getRedirectUrl = () => {
   const { redirect } = parse(history.location.search.substr(1)) as { redirect: string };
-  return decodeURIComponent(redirect || history.location.host);
+  return decodeURIComponent(redirect || '/');
 };
 
 /**
@@ -22,7 +22,7 @@ export const getRedirectUrl = () => {
  */
 export const goto = () => {
   const redirect = getRedirectUrl();
-  window.location.href = redirect || '/';
+  window.location.href = redirect;
 };
 
 /**

@@ -31,8 +31,6 @@ export default () => {
             const { done } = await Modal.confirm({
               title: 'hello',
               message: 'world',
-              transition: false,
-              overlay: false,
               showConfirmLoading: true,
             });
             setTimeout(() => done(), 2000);
