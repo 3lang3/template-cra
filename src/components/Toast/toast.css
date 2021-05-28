@@ -7,5 +7,5 @@
 }
 
 .local-toast-item {
-  @apply bg-black bg-opacity-70 rounded-md text-white break-all;
+  @apply bg-black bg-opacity-70 rounded-md text-white break-all text-center;
 }

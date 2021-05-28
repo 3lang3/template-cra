@@ -1,5 +1,9 @@
 @import './masonry.css';
 
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -88,15 +92,11 @@
 
 /* 1px border */
 [class*='hairline']::after {
-  @apply absolute  box-border pointer-events-none;
+  @apply absolute -inset-1/2 box-border pointer-events-none;
 
-  top: -50%;
-  right: -50%;
-  bottom: -50%;
-  left: -50%;
   border: 0 solid #ebedf0;
   transform: scale(0.5);
-  content: '';
+  content: ' ';
 }
 
 .hairline {

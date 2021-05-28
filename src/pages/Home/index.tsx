@@ -1,15 +1,28 @@
-import { Button, Modal, Popup, Toast, Uploader, Swipe } from '@/components';
+import { Button, Modal, Popup, Toast, Uploader, Swipe, PullRefresh } from '@/components';
 import { useGlobalUser } from '@/state/global';
 import history from '@/utils/history';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import styles from './index.module.less';
 
 export default () => {
   const [visible, setVisible] = useState(false);
   const [modal, setModal] = useState(false);
   const user = useGlobalUser();
   return (
-    <div style={{ minHeight: '200vh' }}>
+    <div className={styles.home} style={{ minHeight: '200vh' }}>
+      <div style={{ height: 200 }} />
+      <PullRefresh
+        successText="刷新成功"
+        pullingText="下拉即可刷新"
+        loosingText="释放即可刷新"
+        loadingText="加载中..."
+        refresh={(done) => {
+          setTimeout(() => done(), 2000);
+        }}
+      >
+        hahahasda
+      </PullRefresh>
       this is home page 5555 123123 <Link to="/user/ethan">{user.nickname}</Link> <br />
       <div onClick={() => history.push('/login')}>go login</div>
       <div onClick={() => Toast.loading()}>toast loading</div>
@@ -64,7 +77,12 @@ export default () => {
         代码是写出来给人看的，附带能在机器上运行代码是写出来给人看的，附带能在机器上运行代码是写出来给人看的，附带能在机器上运行代码是写出来给人看的，附带能在机器上运行
       </Modal>
       <Uploader maxCount={9} />
-      <Swipe>
+      <Swipe slidesPerView="auto" spaceBetween={24} className={styles.swipe}>
+        {Array.from({ length: 5 }, (_, i) => (
+          <Swipe.SwiperSlide key={i}>Slide{i + 1}</Swipe.SwiperSlide>
+        ))}
+      </Swipe>
+      <Swipe className="mt-5">
         {Array.from({ length: 5 }, (_, i) => (
           <Swipe.SwiperSlide key={i}>Slide{i + 1}</Swipe.SwiperSlide>
         ))}

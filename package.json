@@ -129,7 +129,7 @@
     "less-loader": "7.3.0",
     "lint-staged": "^10.5.4",
     "postcss-aspect-ratio-mini": "^1.1.0",
-    "postcss-px-to-viewport": "^1.1.1",
+    "postcss-px-to-viewport": "https://github.com/evrone/postcss-px-to-viewport",
     "postcss-write-svg": "^3.0.1",
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0",

@@ -10372,13 +10372,11 @@ postcss-pseudo-class-any-link@^6.0.0:
     postcss "^7.0.2"
     postcss-selector-parser "^5.0.0-rc.3"
 
-postcss-px-to-viewport@^1.1.1:
+"postcss-px-to-viewport@https://github.com/evrone/postcss-px-to-viewport":
   version "1.1.1"
-  resolved "https://registry.npm.taobao.org/postcss-px-to-viewport/download/postcss-px-to-viewport-1.1.1.tgz#a25ca410b553c9892cc8b525cc710da47bf1aa55"
-  integrity sha1-olykELVTyYksyLUlzHENpHvxqlU=
+  resolved "https://github.com/evrone/postcss-px-to-viewport#9d6c5cee5eea367fb4c7cf0c3bb1117979b5fbf4"
   dependencies:
     object-assign ">=4.0.1"
-    postcss ">=5.0.2"
 
 postcss-reduce-initial@^4.0.3:
   version "4.0.3"
@@ -10579,15 +10577,6 @@ postcss@7.0.21:
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postcss@>=5.0.2, postcss@^8.1.0, postcss@^8.1.4, postcss@^8.2.4:
-  version "8.2.8"
-  resolved "https://registry.npm.taobao.org/postcss/download/postcss-8.2.8.tgz#0b90f9382efda424c4f0f69a2ead6f6830d08ece"
-  integrity sha1-C5D5OC79pCTE8PaaLq1vaDDQjs4=
-  dependencies:
-    colorette "^1.2.2"
-    nanoid "^3.1.20"
-    source-map "^0.6.1"
-
 postcss@^5.2.6:
   version "5.2.18"
   resolved "https://registry.npm.taobao.org/postcss/download/postcss-5.2.18.tgz#badfa1497d46244f6390f58b319830d9107853c5"
@@ -10615,6 +10604,15 @@ postcss@^7, postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.13, postcss@^7.0.14, po
     chalk "^2.4.2"
     source-map "^0.6.1"
     supports-color "^6.1.0"
+
+postcss@^8.1.0, postcss@^8.1.4, postcss@^8.2.4:
+  version "8.2.8"
+  resolved "https://registry.npm.taobao.org/postcss/download/postcss-8.2.8.tgz#0b90f9382efda424c4f0f69a2ead6f6830d08ece"
+  integrity sha1-C5D5OC79pCTE8PaaLq1vaDDQjs4=
+  dependencies:
+    colorette "^1.2.2"
+    nanoid "^3.1.20"
+    source-map "^0.6.1"
 
 postcss@^8.1.6, postcss@^8.2.1, postcss@^8.2.15:
   version "8.2.15"

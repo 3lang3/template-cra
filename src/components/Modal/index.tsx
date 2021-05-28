@@ -96,8 +96,12 @@ interface ModalProps extends ModalLikeBaseProps {
 const Modal = (props: ModalProps) => {
   const contentRef = React.useRef(null);
   const [loading, setLoading] = React.useState(false);
+  const loadingRef = React.useRef<boolean>(false);
+
+  loadingRef.current = loading;
 
   const handleClose = React.useCallback(() => {
+    if (loadingRef.current) return;
     if (props.onClose) props.onClose();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -190,6 +194,9 @@ const ModalFuncNode = (props: ModalFuncNodeProps & AsyncModalFuncProps) => {
   const contentRef = React.useRef(null);
   const [visible, setVisible] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const loadingRef = React.useRef<boolean>(false);
+
+  loadingRef.current = loading;
 
   React.useEffect(() => {
     setVisible(true);
@@ -216,6 +223,7 @@ const ModalFuncNode = (props: ModalFuncNodeProps & AsyncModalFuncProps) => {
   }, []);
 
   const handleClose = React.useCallback(() => {
+    if (loadingRef.current) return;
     setVisible(false);
     props.rejectFunc();
     // eslint-disable-next-line react-hooks/exhaustive-deps

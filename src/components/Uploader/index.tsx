@@ -7,6 +7,7 @@ import { useRequest } from 'ahooks';
 import cn from 'classnames';
 import './uploader.less';
 import { browser } from 'utilbag';
+import { isNilObject } from '@/utils/utils';
 
 interface UploaderProps {
   value?: string | string[];
@@ -136,7 +137,7 @@ export default (props: UploaderProps) => {
         formdata.append(name, files[i]);
       }
     }
-    if (data && typeof data === 'object') {
+    if (data && !isNilObject(data)) {
       Object.entries(data).forEach(([k, v]) => formdata.append(k, v));
     }
 

@@ -26,7 +26,21 @@ export const getCookie = (name) => {
   return null;
 };
 
+/**
+ * 空值判断
+ * @return {boolean}
+ */
 export const isNil = (value: any) => value === null || value === undefined;
+
+/**
+ * 空对象判断
+ * @return {boolean}
+ */
+export const isNilObject = (obj) =>
+  !(
+    Object.prototype.toString.call(obj) === '[Object Object]' &&
+    Object.getOwnPropertyNames(obj).length
+  );
 
 /**
  * @name 数组项移动
