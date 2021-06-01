@@ -1,8 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { useSetState } from 'ahooks';
-import type { TouchEvent } from 'react';
-import { useRef } from 'react';
-import { preventDefault, getScrollTop } from '../utils';
+import { useRef, useCallback, useEffect } from 'react';
+import { getScrollTop, preventDefault } from '../utils';
 import { useScrollParent } from './useScrollParent';
 import { useTouch } from './useTouch';
 import './pullrefresh.less';
@@ -15,15 +14,53 @@ const bem = (str?: string) => (str ? `local-pull-refresh__${str}` : 'local-pull-
 type PullRefreshStatus = 'normal' | 'loading' | 'loosing' | 'pulling' | 'success';
 
 type PullRefreshProps = {
+  /**
+   * 是否禁用
+   */
   disabled?: boolean;
+  /**
+   * 刷新成功文案
+   * @default '刷新成功'
+   */
   successText?: string;
+  /**
+   * 下拉文案
+   * @default '下拉即可刷新'
+   */
   pullingText?: string;
+  /**
+   * 释放文案
+   * @default '释放即可刷新'
+   */
   loosingText?: string;
+  /**
+   * 加载中文案
+   * @default '加载中...'
+   */
   loadingText?: string;
+  /**
+   * 最短下拉距离
+   * @default 50
+   */
   pullDistance?: number | string;
+  /**
+   * 下拉成功动画时长
+   * @default 500
+   */
   successDuration?: number | string;
+  /**
+   * 下拉动画时长
+   * @default 300
+   */
   animationDuration?: number | string;
+  /**
+   * 下拉ui区域高度
+   */
   headHeight?: number | string;
+  /**
+   * 下拉刷新回调
+   * @param {function} done 执行done后下拉成功
+   */
   refresh?: (done: () => void) => void;
   children: React.ReactNode;
 };
@@ -34,12 +71,16 @@ export default ({
   successDuration = 500,
   animationDuration = 300,
   headHeight = DEFAULT_HEAD_HEIGHT,
+  successText = '刷新成功',
+  pullingText = '下拉即可刷新',
+  loosingText = '释放即可刷新',
+  loadingText = '加载中...',
   children,
   ...props
 }: PullRefreshProps) => {
+  const domRef = useRef<HTMLDivElement>();
   const reachTop = useRef(false);
-  const modelValue = useRef(false);
-
+  const statusRef = useRef<PullRefreshStatus>('normal');
   const root = useRef<any>();
   const scrollParent = useScrollParent(root);
 
@@ -51,6 +92,8 @@ export default ({
 
   const touch = useTouch();
 
+  statusRef.current = state.status;
+
   const getHeadStyle = () => {
     if (headHeight !== DEFAULT_HEAD_HEIGHT) {
       return {
@@ -60,7 +103,8 @@ export default ({
     return { height: 'auto' };
   };
 
-  const isTouchable = () => state.status !== 'loading' && state.status !== 'success' && !disabled;
+  const isTouchable = () =>
+    statusRef.current !== 'loading' && statusRef.current !== 'success' && !disabled;
 
   const ease = (distance: number) => {
     const pd = +(pullDistance || headHeight);
@@ -78,7 +122,6 @@ export default ({
 
   const setStatus = (distance: number, isLoading?: boolean) => {
     const pd = +(pullDistance || headHeight);
-    set({ distance });
     let status: PullRefreshStatus;
     if (isLoading) {
       status = 'loading';
@@ -89,15 +132,16 @@ export default ({
     } else {
       status = 'loosing';
     }
-    set({ status });
+    set({ distance, status });
   };
 
   const getStatusText = () => {
     const { status } = state;
-    if (status === 'normal') {
-      return '';
-    }
-    return props[`${status}Text` as const];
+    if (status === 'success') return successText;
+    if (status === 'pulling') return pullingText;
+    if (status === 'loosing') return loosingText;
+    if (status === 'loading') return loadingText;
+    return '';
   };
 
   const renderStatus = () => {
@@ -135,7 +179,7 @@ export default ({
 
     if (reachTop.current) {
       set({ duration: 0 });
-      touch.start(event as any);
+      touch.start(event);
     }
   };
 
@@ -152,10 +196,10 @@ export default ({
       }
 
       const { deltaY } = touch;
-      touch.move(event as any);
+      touch.move(event);
 
       if (reachTop.current && deltaY.current >= 0 && touch.isVertical()) {
-        preventDefault(event as any);
+        preventDefault(event);
         setStatus(ease(deltaY.current));
       }
     }
@@ -168,9 +212,8 @@ export default ({
   const onTouchEnd = () => {
     if (reachTop.current && touch.deltaY.current && isTouchable()) {
       set({ duration: +animationDuration });
-      if (state.status === 'loosing') {
+      if (statusRef.current === 'loosing') {
         setStatus(+headHeight, true);
-        modelValue.current = true;
         // ensure value change can be watched
         setImmediate(() => (props.refresh ? props.refresh(done) : null));
       } else {
@@ -179,6 +222,26 @@ export default ({
     }
   };
 
+  const measuredRef = useCallback((node) => {
+    if (!node) return;
+    domRef.current = node;
+    node.addEventListener('touchstart', onTouchStart);
+    node.addEventListener('touchmove', onTouchMove);
+    node.addEventListener('touchend', onTouchEnd);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (domRef.current) {
+        domRef.current.removeEventListener('touchstart', onTouchStart as any);
+        domRef.current.removeEventListener('touchmove', onTouchMove as any);
+        domRef.current.removeEventListener('touchend', onTouchEnd);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const trackStyle = {
     transitionDuration: `${state.duration}ms`,
     transform: state.distance ? `translate3d(0,${state.distance}px, 0)` : '',
@@ -186,14 +249,7 @@ export default ({
 
   return (
     <div ref={root} className={bem()}>
-      <div
-        className={bem('track')}
-        style={trackStyle}
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-        onTouchCancel={onTouchEnd}
-      >
+      <div className={bem('track')} style={trackStyle} ref={measuredRef}>
         <div className={bem('head')} style={getHeadStyle()}>
           {renderStatus()}
         </div>

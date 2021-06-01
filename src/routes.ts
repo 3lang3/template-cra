@@ -19,6 +19,11 @@ export default [
         exact: true,
       },
       {
+        path: '/test',
+        component: 'Test',
+        exact: true,
+      },
+      {
         component: 'Exception/404',
       },
     ],

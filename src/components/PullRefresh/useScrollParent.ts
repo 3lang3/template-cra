@@ -35,7 +35,7 @@ export function useScrollParent(
       scrollParent.current = getScrollParent(el.current, root);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   return scrollParent;
 }
