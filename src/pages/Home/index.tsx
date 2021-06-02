@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { ProList } from '@/components';
+import { ProListView, List } from '@/components';
 import { getProductList } from '@/services/global';
 import styles from './index.module.less';
 
@@ -17,7 +17,18 @@ export default () => {
       <div className="h-40 bg-blue-500 flex justify-center items-center text-white text-lg">
         Tabs placeholder
       </div>
-      <ProList
+      <List title="Demo标题">
+        <List.Item
+          title="单元格"
+          description="描述信息描述信息描述信息描述信息描述信息描述信息描述信息描述信息"
+        >
+          内容
+        </List.Item>
+        <List.Item title="单元格" arrowDirection>
+          内容
+        </List.Item>
+      </List>
+      <ProListView
         pulldown
         masonryProps={{ breakpointCols: 2, className: styles.masonry }}
         request={async ({ current, pageSize }) => {

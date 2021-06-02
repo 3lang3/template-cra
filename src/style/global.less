@@ -101,7 +101,9 @@ body {
   &--top,
   &--right,
   &--bottom,
-  &-left {
+  &--left,
+  &--top-bottom,
+  &--left-right {
     @apply relative;
   }
 
@@ -119,6 +121,14 @@ body {
 
   &--bottom::after {
     border-bottom-width: 1px;
+  }
+
+  &--top-bottom::after {
+    border-width: 1px 0;
+  }
+
+  &--left-right::after {
+    border-width: 0 1px;
   }
 }
 

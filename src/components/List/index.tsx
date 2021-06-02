@@ -1,144 +1,90 @@
-/**
- * @see https://github.com/ankeetmaini/react-infinite-scroll-component#props
- */
-import { useRequest, useSetState } from 'ahooks';
-import * as React from 'react';
-import type { Props as InfiniteScrollProps } from 'react-infinite-scroll-component';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import type { MasonryCssProps } from '@/components/Masonry';
-import Masorny from '@/components/Masonry';
-import type { PullRefreshProps } from '@/components/PullRefresh';
-import PullRefresh from '@/components/PullRefresh';
+import { Down, Up, Left, Right } from '@icon-park/react';
+import cn from 'classnames';
+import './list.less';
 
-const DefaultLoader = React.memo(
-  () => <div className="text-center py-4 text-gray-400 text-sm">加载中...</div>,
-  () => true,
-);
-
-const DefaultEndMessage = React.memo(
-  () => (
-    <div className="text-center py-4 text-gray-400 text-sm">
-      <b>我是有底线的</b>
-    </div>
-  ),
-  () => true,
-);
+const iconDefaultProps = {
+  strokeWidth: 3,
+  theme: 'outline',
+} as any;
 
 type ListProps = {
-  masonryProps?: Omit<MasonryCssProps, 'children'>;
-  children: React.ReactNode[];
-  onLoad: () => void;
-} & Partial<Omit<InfiniteScrollProps, 'next' | 'dataLength' | 'hasMore'>>;
+  /**
+   * 列表分组标题
+   */
+  title?: string | React.ReactNode;
+  /**
+   * 是否显示外边框
+   * @default true
+   */
+  border?: boolean;
+  children: React.ReactNode;
+};
 
-export const List = ({
-  children,
-  onLoad,
-  loader = <DefaultLoader />,
-  endMessage = <DefaultEndMessage />,
-  masonryProps,
-  ...props
-}: ListProps) => {
+export const List = ({ children, title, border = true }: ListProps) => {
   return (
-    <InfiniteScroll
-      hasMore={true}
-      dataLength={React.Children.count(children)}
-      loader={loader}
-      endMessage={endMessage}
-      scrollThreshold={1}
-      next={onLoad}
-      {...props}
-    >
-      {masonryProps ? <Masorny {...masonryProps}>{children}</Masorny> : children}
-    </InfiniteScroll>
+    <div className={cn('local-list', { 'hairline--top-bottom': border })}>
+      {title ? <div className="local-list__title">{title}</div> : null}
+      {children}
+    </div>
   );
 };
 
-type ProListProps<T> = {
-  row: (item: T, index: number, itemArr: T[]) => React.ReactNode;
-  request: (params: { pageSize: number; current: number }) => void;
-  params?: Record<string, any>;
-  pulldown?: boolean | PullRefreshProps;
-} & Omit<ListProps, 'onLoad' | 'children'>;
+type ListItemProps = {
+  title?: string | React.ReactNode;
+  description?: string | React.ReactNode;
+  icon?: React.ReactNode;
+  border?: boolean;
+  required?: boolean;
+  center?: boolean;
+  arrowDirection?: boolean | 'left' | 'right' | 'up' | 'down';
+  children: React.ReactNode;
+  className?: string;
+};
 
-export function ProList<T = Record<string, any>>({
-  request,
-  row,
-  loader = <DefaultLoader />,
-  endMessage = <DefaultEndMessage />,
-  params = {},
-  masonryProps,
-  pulldown,
-}: ProListProps<T>) {
-  const { loading, run } = useRequest<{ total: number; success: boolean; data: any[] }>(request, {
-    manual: true,
-  });
-  const [state, set] = useSetState<{ items: any[]; hasMore: boolean }>({
-    items: [],
-    hasMore: true,
-  });
-  const initRef = React.useRef(false);
-  const paginationRef = React.useRef({ current: 1, pageSize: 10, total: 0 });
+export const ListItem = (props: ListItemProps) => {
+  const {
+    title,
+    description,
+    arrowDirection,
+    icon,
+    required,
+    center,
+    border = true,
+    children,
+    className,
+  } = props;
 
-  const onLoad = async (reset?) => {
-    if (loading || !state.hasMore) return;
-    try {
-      const pagi = paginationRef.current;
-      const payload = { ...params, ...pagi, current: reset ? 1 : pagi.current };
-      const { total, data, success } = await run(payload);
-      if (!success) throw new Error('request response error');
-      const items = reset ? data : [...state.items, ...data];
-      const hasMore = items.length < total;
-      set({ items, hasMore });
-      paginationRef.current = { current: payload.current + 1, pageSize: pagi.pageSize, total };
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
+  const renderArrow = () => {
+    if (!arrowDirection) return null;
+    let ct: any = <Right {...iconDefaultProps} />;
+    if (arrowDirection === 'down') ct = <Down theme="outline" {...iconDefaultProps} />;
+    if (arrowDirection === 'up') ct = <Up theme="outline" {...iconDefaultProps} />;
+    if (arrowDirection === 'left') ct = <Left theme="outline" {...iconDefaultProps} />;
+    return <div className="local-list-item__right-icon">{ct}</div>;
   };
-
-  React.useEffect(() => {
-    initRef.current = true;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  React.useEffect(() => {
-    onLoad(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(params)]);
-
-  if (pulldown)
+  const renderTitle = () => {
+    if (!title && !description) return null;
     return (
-      <PullRefresh refresh={() => onLoad(true)}>
-        <InfiniteScroll
-          hasMore={state.hasMore}
-          dataLength={state.items.length}
-          loader={loader}
-          endMessage={endMessage}
-          scrollThreshold={1}
-          next={onLoad}
-        >
-          {masonryProps ? (
-            <Masorny {...masonryProps}>{state.items.map(row)}</Masorny>
-          ) : (
-            state.items.map(row)
-          )}
-        </InfiniteScroll>
-      </PullRefresh>
+      <div className="local-list-item__title">
+        {title ? <span>{title}</span> : null}
+        {description ? <div className="local-list-item__desc">{description}</div> : null}
+      </div>
     );
+  };
   return (
-    <InfiniteScroll
-      hasMore={state.hasMore}
-      dataLength={state.items.length}
-      loader={loader}
-      endMessage={endMessage}
-      scrollThreshold={1}
-      next={onLoad}
+    <div
+      className={cn('local-list-item', className, {
+        'local-list-item--noborder': !border,
+        'local-list-item--required': required,
+        'local-list-item--center': center,
+      })}
     >
-      {masonryProps ? (
-        <Masorny {...masonryProps}>{state.items.map(row)}</Masorny>
-      ) : (
-        state.items.map(row)
-      )}
-    </InfiniteScroll>
+      {icon ? <div className="local-list-item__left-icon">{icon}</div> : null}
+      {renderTitle()}
+      <div className="local-list-item__content">{children}</div>
+      {renderArrow()}
+    </div>
   );
-}
+};
+
+List.Item = ListItem;
