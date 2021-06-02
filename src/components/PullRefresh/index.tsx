@@ -136,7 +136,7 @@ export default ({
   };
 
   const getStatusText = () => {
-    const { status } = state;
+    const status = statusRef.current;
     if (status === 'success') return successText;
     if (status === 'pulling') return pullingText;
     if (status === 'loosing') return loosingText;
@@ -145,7 +145,7 @@ export default ({
   };
 
   const renderStatus = () => {
-    const { status } = state;
+    const status = statusRef.current;
 
     const nodes: any[] = [];
 
@@ -214,7 +214,9 @@ export default ({
       set({ duration: +animationDuration });
       if (statusRef.current === 'loosing') {
         setStatus(+headHeight, true);
-        // ensure value change can be watched
+        /**
+         * @todo refresh应该是个promise，无需回调done
+         */
         setImmediate(() => (props.refresh ? props.refresh(done) : null));
       } else {
         setStatus(0);

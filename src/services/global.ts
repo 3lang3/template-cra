@@ -22,3 +22,7 @@ export function postMediaWechat(params) {
     data: params,
   });
 }
+
+export function getProductList(params?) {
+  return request(`/home/getRecommendGoods?${stringify(params)}`);
+}
