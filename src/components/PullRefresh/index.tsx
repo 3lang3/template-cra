@@ -13,7 +13,7 @@ const bem = (str?: string) => (str ? `local-pull-refresh__${str}` : 'local-pull-
 
 type PullRefreshStatus = 'normal' | 'loading' | 'loosing' | 'pulling' | 'success';
 
-type PullRefreshProps = {
+export type PullRefreshProps = {
   /**
    * 是否禁用
    */
@@ -59,9 +59,8 @@ type PullRefreshProps = {
   headHeight?: number | string;
   /**
    * 下拉刷新回调
-   * @param {function} done 执行done后下拉成功
    */
-  refresh?: (done: () => void) => void;
+  refresh: () => Promise<any>;
   children: React.ReactNode;
 };
 
@@ -217,7 +216,14 @@ export default ({
         /**
          * @todo refresh应该是个promise，无需回调done
          */
-        setImmediate(() => (props.refresh ? props.refresh(done) : null));
+        setImmediate(async () => {
+          try {
+            await props.refresh();
+            done();
+          } catch (error) {
+            throw Error(error);
+          }
+        });
       } else {
         setStatus(0);
       }

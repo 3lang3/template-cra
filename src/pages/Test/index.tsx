@@ -5,6 +5,12 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './index.module.less';
 
+async function sleep(count) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(true), count * 1000);
+  });
+}
+
 export default () => {
   const [visible, setVisible] = useState(false);
   const [modal, setModal] = useState(false);
@@ -12,8 +18,8 @@ export default () => {
   return (
     <div className={styles.home} style={{ minHeight: '200vh' }}>
       <PullRefresh
-        refresh={(done) => {
-          setTimeout(() => done(), 2000);
+        refresh={async () => {
+          await sleep(5);
         }}
       >
         hahahasda

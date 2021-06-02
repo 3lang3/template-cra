@@ -10987,10 +10987,10 @@ react-error-overlay@^6.0.9:
   resolved "https://registry.npm.taobao.org/react-error-overlay/download/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha1-PHQwEMk1lgjDdezWvHbzXZOZWwo=
 
-react-infinite-scroll-component@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.npm.taobao.org/react-infinite-scroll-component/download/react-infinite-scroll-component-6.0.0.tgz#b5834b81dad51c764e5d217e1007b14bed0ed5e7"
-  integrity sha1-tYNLgdrVHHZOXSF+EAexS+0O1ec=
+react-infinite-scroll-component@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.nlark.com/react-infinite-scroll-component/download/react-infinite-scroll-component-6.1.0.tgz#7e511e7aa0f728ac3e51f64a38a6079ac522407f"
+  integrity sha1-flEeeqD3KKw+UfZKOKYHmsUiQH8=
   dependencies:
     throttle-debounce "^2.1.0"
 

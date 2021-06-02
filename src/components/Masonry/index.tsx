@@ -1,8 +1,12 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import cn from 'classnames';
+import './masonry.less';
 
 const DEFAULT_COLUMNS = 2;
+
+const CLS_PREFIX = 'local-masonry-grid';
 
 type BreakpointColsProps = number | { default: number; [key: number]: number };
 
@@ -39,11 +43,6 @@ const Masonry = (props: MasonryCssProps): any => {
   const [columnCount, setColumnCount] = useState<number>(() => getInitColumnCount(props));
 
   const lastRecalculateAnimationFrameRef = useRef<any>(null);
-
-  const logDeprecated = useCallback((message) => {
-    // eslint-disable-next-line no-console
-    console.error('[Masonry]', message);
-  }, []);
 
   const reCalculateColumnCount = useCallback(() => {
     const windowWidth = (window && window.innerWidth) || Infinity;
@@ -119,16 +118,7 @@ const Masonry = (props: MasonryCssProps): any => {
     const { column, columnAttrs = {}, columnClassName } = props;
     const childrenInColumns = itemsInColumns();
     const columnWidth = `${100 / childrenInColumns.length}%`;
-    let className = columnClassName;
-
-    if (typeof className !== 'string') {
-      logDeprecated('The property "columnClassName" requires a string');
-
-      // This is a deprecated default and will be removed soon.
-      if (typeof className === 'undefined') {
-        className = 'my-masonry-grid_column';
-      }
-    }
+    const className = cn(`${CLS_PREFIX}__column`, columnClassName);
 
     const columnAttributes = {
       // NOTE: the column property is undocumented and considered deprecated.
@@ -182,16 +172,7 @@ const Masonry = (props: MasonryCssProps): any => {
     ...rest
   } = props;
 
-  let classNameOutput = className;
-
-  if (typeof className !== 'string') {
-    logDeprecated('The property "className" requires a string');
-
-    // This is a deprecated default and will be removed soon.
-    if (typeof className === 'undefined') {
-      classNameOutput = 'my-masonry-grid';
-    }
-  }
+  const classNameOutput = cn(CLS_PREFIX, className);
 
   return (
     <div {...rest} className={classNameOutput}>

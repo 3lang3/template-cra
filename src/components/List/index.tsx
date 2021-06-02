@@ -1,8 +1,14 @@
-/* eslint-disable no-underscore-dangle */
+/**
+ * @see https://github.com/ankeetmaini/react-infinite-scroll-component#props
+ */
 import { useRequest, useSetState } from 'ahooks';
 import * as React from 'react';
 import type { Props as InfiniteScrollProps } from 'react-infinite-scroll-component';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import type { MasonryCssProps } from '@/components/Masonry';
+import Masorny from '@/components/Masonry';
+import type { PullRefreshProps } from '@/components/PullRefresh';
+import PullRefresh from '@/components/PullRefresh';
 
 const DefaultLoader = React.memo(
   () => <div className="text-center py-4 text-gray-400 text-sm">加载中...</div>,
@@ -19,6 +25,7 @@ const DefaultEndMessage = React.memo(
 );
 
 type ListProps = {
+  masonryProps?: Omit<MasonryCssProps, 'children'>;
   children: React.ReactNode[];
   onLoad: () => void;
 } & Partial<Omit<InfiniteScrollProps, 'next' | 'dataLength' | 'hasMore'>>;
@@ -28,6 +35,7 @@ export const List = ({
   onLoad,
   loader = <DefaultLoader />,
   endMessage = <DefaultEndMessage />,
+  masonryProps,
   ...props
 }: ListProps) => {
   return (
@@ -36,10 +44,11 @@ export const List = ({
       dataLength={React.Children.count(children)}
       loader={loader}
       endMessage={endMessage}
+      scrollThreshold={1}
       next={onLoad}
       {...props}
     >
-      {children}
+      {masonryProps ? <Masorny {...masonryProps}>{children}</Masorny> : children}
     </InfiniteScroll>
   );
 };
@@ -48,6 +57,7 @@ type ProListProps<T> = {
   row: (item: T, index: number, itemArr: T[]) => React.ReactNode;
   request: (params: { pageSize: number; current: number }) => void;
   params?: Record<string, any>;
+  pulldown?: boolean | PullRefreshProps;
 } & Omit<ListProps, 'onLoad' | 'children'>;
 
 export function ProList<T = Record<string, any>>({
@@ -56,6 +66,8 @@ export function ProList<T = Record<string, any>>({
   loader = <DefaultLoader />,
   endMessage = <DefaultEndMessage />,
   params = {},
+  masonryProps,
+  pulldown,
 }: ProListProps<T>) {
   const { loading, run } = useRequest<{ total: number; success: boolean; data: any[] }>(request, {
     manual: true,
@@ -74,7 +86,7 @@ export function ProList<T = Record<string, any>>({
       const payload = { ...params, ...pagi, current: reset ? 1 : pagi.current };
       const { total, data, success } = await run(payload);
       if (!success) throw new Error('request response error');
-      const items = [...state.items, ...data];
+      const items = reset ? data : [...state.items, ...data];
       const hasMore = items.length < total;
       set({ items, hasMore });
       paginationRef.current = { current: payload.current + 1, pageSize: pagi.pageSize, total };
@@ -94,6 +106,25 @@ export function ProList<T = Record<string, any>>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(params)]);
 
+  if (pulldown)
+    return (
+      <PullRefresh refresh={() => onLoad(true)}>
+        <InfiniteScroll
+          hasMore={state.hasMore}
+          dataLength={state.items.length}
+          loader={loader}
+          endMessage={endMessage}
+          scrollThreshold={1}
+          next={onLoad}
+        >
+          {masonryProps ? (
+            <Masorny {...masonryProps}>{state.items.map(row)}</Masorny>
+          ) : (
+            state.items.map(row)
+          )}
+        </InfiniteScroll>
+      </PullRefresh>
+    );
   return (
     <InfiniteScroll
       hasMore={state.hasMore}
@@ -103,7 +134,11 @@ export function ProList<T = Record<string, any>>({
       scrollThreshold={1}
       next={onLoad}
     >
-      {state.items.map(row)}
+      {masonryProps ? (
+        <Masorny {...masonryProps}>{state.items.map(row)}</Masorny>
+      ) : (
+        state.items.map(row)
+      )}
     </InfiniteScroll>
   );
 }
