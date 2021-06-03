@@ -1,14 +1,19 @@
 /* eslint-disable no-underscore-dangle */
-import { ProListView, List } from '@/components';
+import { ProListView, List, Image } from '@/components';
 import { getProductList } from '@/services/global';
 import styles from './index.module.less';
 
 export default () => {
   const rowRender = (record, i) => (
     <div
-      className="h-60 bg-gray-300 mb-4 flex justify-center items-center text-lg text-white rounded-md"
+      className="h-60 bg-white mb-4 text-center text-lg text-gray-600 rounded-md overflow-hidden"
       key={record.id}
     >
+      <Image
+        style={{ height: 200 }}
+        className="w-full block"
+        src={`https://imgs.yigeyougou.com/${record.img}`}
+      />
       {i}
     </div>
   );

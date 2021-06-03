@@ -75,6 +75,20 @@ body {
   }
 }
 
+.fade-in {
+  opacity: 0;
+  animation: fade-in 500ms ease-in forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .local-loader {
   animation: local-rotate 2s linear infinite;
 }

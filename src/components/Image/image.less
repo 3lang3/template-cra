@@ -1,0 +1,29 @@
+.local-image {
+  @apply relative inline-block;
+
+  &--round {
+    @apply overflow-hidden;
+
+    border-radius: 50%;
+
+    img {
+      border-radius: inherit;
+    }
+  }
+
+  &__img,
+  &__error,
+  &__loading {
+    @apply block w-full h-full;
+  }
+
+  &__error,
+  &__loading {
+    @apply absolute top-0 left-0 flex flex-col items-center justify-center text-gray-300 text-3xl bg-gray-100;
+  }
+
+  &__loading-icon,
+  &__error-icon {
+    @apply text-gray-400 text-lg;
+  }
+}

@@ -60,7 +60,7 @@ export type PullRefreshProps = {
   /**
    * 下拉刷新回调
    */
-  refresh: () => Promise<any>;
+  refresh?: () => Promise<any>;
   children: React.ReactNode;
 };
 
@@ -218,7 +218,7 @@ export default ({
          */
         setImmediate(async () => {
           try {
-            await props.refresh();
+            await props.refresh?.();
             done();
           } catch (error) {
             throw Error(error);
