@@ -106,39 +106,27 @@ export function ProListView<T = Record<string, any>>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(params)]);
 
-  if (pulldown)
+  const attrs = {
+    hasMore: state.hasMore,
+    dataLength: state.items.length,
+    loader,
+    endMessage,
+    scrollThreshold: 1,
+    next: onLoad,
+  };
+
+  const renderContent = () => {
     return (
-      <PullRefresh refresh={() => onLoad(true)}>
-        <InfiniteScroll
-          hasMore={state.hasMore}
-          dataLength={state.items.length}
-          loader={loader}
-          endMessage={endMessage}
-          scrollThreshold={1}
-          next={onLoad}
-        >
-          {masonryProps ? (
-            <Masorny {...masonryProps}>{state.items.map(row)}</Masorny>
-          ) : (
-            state.items.map(row)
-          )}
-        </InfiniteScroll>
-      </PullRefresh>
+      <InfiniteScroll {...attrs}>
+        {masonryProps ? (
+          <Masorny {...masonryProps}>{state.items.map(row)}</Masorny>
+        ) : (
+          state.items.map(row)
+        )}
+      </InfiniteScroll>
     );
-  return (
-    <InfiniteScroll
-      hasMore={state.hasMore}
-      dataLength={state.items.length}
-      loader={loader}
-      endMessage={endMessage}
-      scrollThreshold={1}
-      next={onLoad}
-    >
-      {masonryProps ? (
-        <Masorny {...masonryProps}>{state.items.map(row)}</Masorny>
-      ) : (
-        state.items.map(row)
-      )}
-    </InfiniteScroll>
-  );
+  };
+
+  if (pulldown) return <PullRefresh refresh={() => onLoad(true)}>{renderContent()}</PullRefresh>;
+  return renderContent();
 }
