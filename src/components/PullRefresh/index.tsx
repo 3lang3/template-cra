@@ -2,8 +2,8 @@
 import { useSetState } from 'ahooks';
 import { useRef, useCallback, useEffect } from 'react';
 import { getScrollTop, preventDefault } from '../utils';
-import { useScrollParent } from './useScrollParent';
-import { useTouch } from './useTouch';
+import { useScrollParent } from '../hooks/useScrollParent';
+import { useTouch } from '../hooks/useTouch';
 import './pullrefresh.less';
 
 const DEFAULT_HEAD_HEIGHT = 50;

@@ -1,3 +1,5 @@
+export * from './validate';
+
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
 
@@ -25,22 +27,6 @@ export const getCookie = (name) => {
   }
   return null;
 };
-
-/**
- * 空值判断
- * @return {boolean}
- */
-export const isNil = (value: any) => value === null || value === undefined;
-
-/**
- * 空对象判断
- * @return {boolean}
- */
-export const isNilObject = (obj) =>
-  !(
-    Object.prototype.toString.call(obj) === '[Object Object]' &&
-    Object.getOwnPropertyNames(obj).length
-  );
 
 /**
  * @name 数组项移动

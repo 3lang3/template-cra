@@ -1,3 +1,5 @@
+export * from './namespace';
+
 export type ScrollElement = Element | Window;
 
 export const defaultRoot = window;
@@ -21,4 +23,12 @@ export function preventDefault(event: TouchEvent, isStopPropagation?: boolean) {
   if (isStopPropagation) {
     stopPropagation(event);
   }
+}
+
+export function range(num: number, min: number, max: number): number {
+  return Math.min(Math.max(num, min), max);
+}
+
+export function isObject(val: unknown): val is Record<any, any> {
+  return val !== null && typeof val === 'object';
 }

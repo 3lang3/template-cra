@@ -15,6 +15,7 @@ function getDirection(x: number, y: number) {
 }
 
 export function useTouch() {
+  // 避免无用的rerender 该用useRef
   const startX = useRef(0);
   const startY = useRef(0);
   const deltaX = useRef(0);
