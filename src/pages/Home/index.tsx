@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { ProListView, List, Image } from '@/components';
 import { getProductList } from '@/services/global';
+import { ReactComponent as Placeholder } from './placeholder.svg';
 import styles from './index.module.less';
 
 export default () => {
@@ -10,10 +11,13 @@ export default () => {
       key={record.id}
     >
       <Image
+        fit="cover"
         style={{ height: 200 }}
         className="w-full block"
         src={`https://imgs.yigeyougou.com/${record.img}`}
-      />
+      >
+        <Placeholder />
+      </Image>
       {i}
     </div>
   );
