@@ -1,7 +1,6 @@
 import { defineConfig } from 'umi';
 import routes from './routes';
 import proxy from './proxy';
-// import theme from './theme';
 
 const { REACT_APP_ENV = 'dev' } = process.env;
 
@@ -11,6 +10,7 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  request: false,
   extraPostCSSPlugins: [
     require('postcss-aspect-ratio-mini'),
     require('postcss-px-to-viewport')({
@@ -23,9 +23,6 @@ export default defineConfig({
       mediaQuery: false, // (Boolean) Allow px to be converted in media queries.
     }),
   ],
-  request: {
-    dataField: '',
-  },
   // fastRefresh: {},
   dynamicImport: {},
   webpack5: {},

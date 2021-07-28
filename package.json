@@ -20,6 +20,7 @@
     ]
   },
   "dependencies": {
+    "ahooks": "^2.10.9",
     "react": "17.x",
     "react-dom": "17.x",
     "react-vant": "^0.0.17",

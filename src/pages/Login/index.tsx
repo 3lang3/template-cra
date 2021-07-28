@@ -18,7 +18,9 @@ export default () => {
   return (
     <div>
       <h1 className={styles.title}>Login page</h1>
-      <Button onClick={() => login()}>登录</Button>
+      <Button block onClick={() => login()}>
+        登录
+      </Button>
     </div>
   );
 };
