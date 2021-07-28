@@ -3,6 +3,7 @@ import { extend } from 'umi-request';
 import config from '../config';
 import { tokenHelper } from './utils';
 import { history } from 'umi';
+import { Toast } from 'react-vant';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -34,22 +35,20 @@ export const errorHandler = async (error: ResponseError) => {
       data.msg || codeMessage[response.status] || response.statusText;
     const { status } = response;
 
-    // notification.error({
-    //   message: `请求错误 ${status}`,
-    //   description: errorText,
-    // });
+    Toast.info({
+      message: `请求错误 ${status}:${errorText}`,
+    });
 
     if (status === 401 || status === 403) {
-      // history.push('/user/login');
+      history.push('/login');
       tokenHelper.rm();
     }
   }
 
   if (!response) {
-    // notification.error({
-    //   description: '您的网络发生异常，无法连接服务器',
-    //   message: '网络异常',
-    // });
+    Toast.fail({
+      message: '您的网络发生异常，无法连接服务器',
+    });
   }
   throw error;
 };
@@ -57,7 +56,7 @@ export const errorHandler = async (error: ResponseError) => {
 const generateRequest = (prefix: string) => {
   const _request = extend({
     prefix,
-    timeout: 30000,
+    timeout: 5000,
     credentials: 'include',
     errorHandler,
   });
