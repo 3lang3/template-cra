@@ -1,5 +1,3 @@
-import { PAGINATION } from '@/config/constant';
-import { useRequest } from 'ahooks';
 import {
   forwardRef,
   useEffect,
@@ -8,7 +6,9 @@ import {
   useImperativeHandle,
 } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Empty, Flex, Loading } from 'react-vant';
+import { useRequest } from 'ahooks';
+import { PAGINATION } from '@/config/constant';
+import { ListDone, ListEmpty, ListError, ListLoader } from '../Chore';
 
 export type ActionType<T = {}> = {
   /** 刷新列表 */
@@ -27,12 +27,12 @@ type ProListProps<T = {}> = {
 };
 
 export default forwardRef<ActionType, ProListProps>((props, ref) => {
-  const { params = {}, emptyRender = () => <Empty /> } = props;
+  const { params = {}, emptyRender = () => <ListEmpty /> } = props;
   const [list, setList] = useState<any[]>([]);
   const paginationRef = useRef(PAGINATION.DEFAULT);
   const nomoreRef = useRef(false);
 
-  const { loading, run } = useRequest(props.request, {
+  const { loading, error, run } = useRequest(props.request, {
     manual: true,
     onSuccess: ({ data: { _list, _page }, type, msg }) => {
       if (type === 1) throw Error(msg);
@@ -62,23 +62,18 @@ export default forwardRef<ActionType, ProListProps>((props, ref) => {
     reload,
   }));
 
+  if (error && !list.length) return <ListError />;
+
+  if (!list.length && nomoreRef.current) return <>{emptyRender()}</>;
+
   return (
     <InfiniteScroll
-      dataLength={list.length} //This is important field to render the next data
+      scrollThreshold={1}
+      dataLength={list.length}
       next={loadmore}
       hasMore={!nomoreRef.current}
-      loader={
-        loading ? (
-          <Flex justify="center">
-            <Loading />
-          </Flex>
-        ) : null
-      }
-      endMessage={
-        <Flex justify="center" align="center">
-          {emptyRender()}
-        </Flex>
-      }
+      loader={<ListLoader />}
+      endMessage={<ListDone />}
     >
       {list.map(props.row)}
     </InfiniteScroll>

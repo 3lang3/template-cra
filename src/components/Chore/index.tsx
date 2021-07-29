@@ -1,4 +1,5 @@
 // UI杂项
+import { MESSAGE_MAP } from '@/config/constant';
 import { Button, Empty, Flex, Loading } from 'react-vant';
 
 import styles from './index.less';
@@ -11,6 +12,7 @@ type FullPageLoaderProps = {
   /** 自定义loader颜色 */
   color?: string;
 } & FullPageBaseProps;
+/** 页面加载loader */
 export const FullPageLoader = ({
   color = '#f44336',
   description,
@@ -33,8 +35,9 @@ type FullPageErrorProps = {
   /** 刷新按钮调用方法 */
   refresh?: () => void;
 } & FullPageBaseProps;
+/** 页面加载错误UI */
 export const FullPageError = ({
-  description = '服务器出了点问题',
+  description = MESSAGE_MAP.ERROR,
   refresh,
 }: FullPageErrorProps) => {
   return (
@@ -57,3 +60,28 @@ export const FullPageError = ({
     </Flex>
   );
 };
+
+/** 列表加载loader */
+export const ListLoader = () => (
+  <Flex className="p-default" justify="center">
+    <Loading />
+  </Flex>
+);
+/** 列表空状态UI */
+export const ListEmpty = ({ description = MESSAGE_MAP.EMPTY }) => (
+  <Flex className="p-default" justify="center">
+    <Empty description={description} />
+  </Flex>
+);
+/** 列表加载完文案UI */
+export const ListDone = ({ message = MESSAGE_MAP.LIST_DONE }) => (
+  <Flex className="p-default secondary" justify="center" align="center">
+    {message}
+  </Flex>
+);
+/** 列表加载错误UI */
+export const ListError = ({ description = MESSAGE_MAP.ERROR }) => (
+  <Flex className="p-default" justify="center">
+    <Empty image="error" description={description} />
+  </Flex>
+);
