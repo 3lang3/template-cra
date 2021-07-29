@@ -8,6 +8,7 @@ import dotSrc from './static/share_dot.png';
 import andriodIconSrc from './static/share_browser_andriod.png';
 import iosIconSrc from './static/share_browser_ios.png';
 import { BROWSER_ENV } from '@/config/ua';
+import Typography from '@/components/Typography';
 
 const ProductSwipe = ({ detail }) => {
   const imgs =
@@ -54,6 +55,9 @@ export default ({ location }) => {
         </Flex>
       </Flex>
       <ProductSwipe detail={detail} />
+      <Typography.Title level={3} ellipsis={2} className={styles.title}>
+        {detail.title}
+      </Typography.Title>
     </div>
   );
 };
