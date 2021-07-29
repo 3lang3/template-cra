@@ -12,6 +12,8 @@ export default () => {
       <h1 className={styles.title}>Profile Page</h1>
       {JSON.stringify(user)}
       <Button
+        square
+        block
         onClick={() =>
           Dialog.alert({
             title: '标题',

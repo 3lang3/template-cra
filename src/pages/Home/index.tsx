@@ -1,14 +1,18 @@
 import { history } from 'umi';
-import { Button } from 'react-vant';
+import { Cell } from 'react-vant';
 import styles from './index.less';
 
 export default function IndexPage() {
   return (
-    <div>
+    <div className={styles.container}>
       <h1 className={styles.title}>Page index</h1>
-      <Button onClick={() => history.push('/profile')}>
-        go to profile page
-      </Button>
+      <Cell title="个人主页" isLink onClick={() => history.push('/profile')} />
+      <Cell
+        title="登录"
+        icon="contact"
+        isLink
+        onClick={() => history.push('/login')}
+      />
     </div>
   );
 }
