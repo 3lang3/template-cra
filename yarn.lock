@@ -2084,6 +2084,11 @@ call-bind@^1.0.0, call-bind@^1.0.2:
     function-bind "^1.1.1"
     get-intrinsic "^1.0.2"
 
+callapp-lib@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/callapp-lib/-/callapp-lib-3.5.1.tgz#be8a4345c05978fd4688e468a417c01551fd3b5b"
+  integrity sha512-w0gkWE58+o6wyd7k7Cg7iq341ycs0Euuotf8moIHymXK/q74FAL315DI5rF6IshvF7X2vklQeLAIKz+FtIhAhQ==
+
 caller-callsite@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/caller-callsite/download/caller-callsite-2.0.0.tgz#847e0fce0a223750a9a027c54b33731ad3154134"
@@ -2776,6 +2781,16 @@ domexception@^2.0.1:
   integrity sha1-+0Su+6eT4VdLCvau0oAdBXUp8wQ=
   dependencies:
     webidl-conversions "^5.0.0"
+
+dotenv-expand@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-5.1.0.tgz#3fbaf020bfd794884072ea26b1e9791d45a629f0"
+  integrity sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==
+
+dotenv@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
+  integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
 dva-core@2.0.4:
   version "2.0.4"
@@ -6723,10 +6738,10 @@ react-tween-state@^0.1.5:
     raf "^3.1.0"
     tween-functions "^1.0.1"
 
-react-vant@^0.0.25:
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/react-vant/-/react-vant-0.0.25.tgz#f140967200f9459065a07b506a8f45b2f87ae127"
-  integrity sha512-VVo7FPhYbKk2rKp5xsHRhwBcxINrabaG0GKG/JqOgah1+/7MQDOSVyUtj5TYMJsWZBMhA5X5iCUaCoIkLtevRg==
+react-vant@^0.0.26:
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/react-vant/-/react-vant-0.0.26.tgz#7ba2f310d7ab96e6142d70a868960a1f1d6efa0d"
+  integrity sha512-3jUNrwPMaJPUVbrJTGDq9Jq/x29+YqHl9XXsL10UIdq40B5BsBM+B2ndFLIFZoF36H6HStiALAUTAIcOPSvkiQ==
   dependencies:
     "@vant/icons" "^1.6.0"
     classnames "^2.2.6"

@@ -1,6 +1,11 @@
+import dotenv from 'dotenv';
+import dotenvExpand from 'dotenv-expand';
 import { defineConfig } from 'umi';
 import routes from './routes';
 import proxy from './proxy';
+
+const myEnv = dotenv.config();
+dotenvExpand(myEnv);
 
 const { REACT_APP_ENV = 'dev' } = process.env;
 

@@ -4,6 +4,7 @@
 import { Dialog } from 'react-vant';
 import { eventMap } from './events';
 export { APP_INJECT_EVENT_MAP } from './events';
+import call from './call';
 
 /** 注入到全局的方法，app调用 */
 const injectMethodToApp = (injectMethodName: string, func: Function) => {
@@ -40,13 +41,17 @@ type AppHelper = {
   inject: (injectMethodName: string, func: any) => void;
   /** 调用app的方法 */
   run: (methodName: string, options: any) => void;
+  /** 调用app事件 */
   event: typeof eventMap;
+  /** 唤起app */
+  call: typeof call;
 };
 
 const app: AppHelper = {
   inject: injectMethodToApp,
   run: runAppMethod,
   event: eventMap,
+  call,
 };
 
 export default app;

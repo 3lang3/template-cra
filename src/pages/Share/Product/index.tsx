@@ -25,6 +25,25 @@ const ProductSwipe = ({ detail }) => {
   );
 };
 
+const CouponView = (props) => {
+  return (
+    <Flex direction="column" justify="between" className={styles.coupon}>
+      <Flex align="end">
+        <Typography.Text size="lg" type="primary">
+          ¥{props.coupon_amount}
+        </Typography.Text>
+        <Typography.Text type="primary">{props.coupon_name}</Typography.Text>
+      </Flex>
+      <Typography.Text size="sm" type="secondary">
+        有效期{props.coupon_time}
+      </Typography.Text>
+      <Flex justify="center" align="center" className={styles.coupon__btn}>
+        立即领取
+      </Flex>
+    </Flex>
+  );
+};
+
 export default ({ location }) => {
   const { query } = location;
   const {
@@ -54,9 +73,26 @@ export default ({ location }) => {
         </Flex>
       </Flex>
       <ProductSwipe detail={detail} />
-      <Typography.Title ellipsis={2} className={styles.title}>
-        {detail.title}
-      </Typography.Title>
+      <div className={styles.body}>
+        <Flex align="center" justify="between">
+          <Flex>
+            <Typography.Text type="primary">
+              到手价 ¥{detail.final_price}
+            </Typography.Text>
+            <Typography.Text delete type="secondary">
+              ¥{detail.reserve_price}
+            </Typography.Text>
+          </Flex>
+          <Typography.Text type="secondary">
+            已有 {detail.csale}人购买
+          </Typography.Text>
+        </Flex>
+        <Typography.Title ellipsis={2} className={styles.title}>
+          {detail.title}
+        </Typography.Title>
+
+        <CouponView {...detail} />
+      </div>
     </div>
   );
 };
