@@ -1,8 +1,9 @@
 import type { ResponseError } from 'umi-request';
 import { extend } from 'umi-request';
 import config from '../config';
-import history from './history';
-import { getToken, setToken, removeToken } from './utils';
+import { tokenHelper } from './utils';
+import { history } from 'umi';
+import { Toast } from 'react-vant';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -21,61 +22,66 @@ const codeMessage = {
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
-};
+} as any;
 
 /**
  * 异常处理程序
  */
 export const errorHandler = async (error: ResponseError) => {
-  const { response, data }: { response: Response; data: { msg: string } } = error;
+  const { response, data }: { response: Response; data: { msg: string } } =
+    error;
   if (response && response.status) {
-    const errorText = data.msg || codeMessage[response.status] || response.statusText;
+    const errorText =
+      data.msg || codeMessage[response.status] || response.statusText;
     const { status } = response;
 
-    // eslint-disable-next-line no-console
-    console.error({
-      message: `请求错误 ${status}`,
-      description: errorText,
+    Toast.info({
+      message: `请求错误 ${status}:${errorText}`,
     });
+
     if (status === 401 || status === 403) {
-      removeToken();
-      const redirect =
-        history.location.href.indexOf('/login') > -1
-          ? ''
-          : `?redirect=${encodeURIComponent(history.location.href)}`;
-      history.push(`/login${redirect}`);
+      history.push('/login');
+      tokenHelper.rm();
     }
   }
 
   if (!response) {
-    // eslint-disable-next-line no-console
-    console.error({
-      description: '您的网络发生异常，无法连接服务器',
-      message: '网络异常',
+    Toast.fail({
+      message: '您的网络发生异常，无法连接服务器',
     });
   }
-
   throw error;
 };
 
-const normalRequest = extend({
-  prefix: config.api.prefix,
-  timeout: 30000,
-  credentials: 'include',
-  errorHandler,
-});
-// 将token插入header头信息
-normalRequest.interceptors.request.use((url, options) => {
-  return {
-    url,
-    options: { ...options, headers: { ...options.headers, Authorization: getToken() } },
-  };
-});
-// 更新token
-normalRequest.interceptors.response.use((response) => {
-  const token = response.headers.get('Authorization');
-  if (token) setToken(token);
-  return response;
-});
+const generateRequest = (prefix: string) => {
+  const _request = extend({
+    prefix,
+    timeout: 5000,
+    credentials: 'include',
+    errorHandler,
+  });
+  // 将token插入header头信息
+  _request.interceptors.request.use((url, options) => {
+    return {
+      url,
+      options: {
+        ...options,
+        headers: { ...options.headers, Authorization: tokenHelper.get() },
+      },
+    };
+  });
+  // 更新token
+  _request.interceptors.response.use((response) => {
+    const token = response.headers.get('Authorization');
+    if (token) tokenHelper.set(token);
+    return response;
+  });
+  return _request;
+};
 
-export { normalRequest as request };
+/** 主request */
+const mainRequest = generateRequest(config.api.main);
+/** msg request */
+const msgRequest = generateRequest(config.api.msg);
+
+export { mainRequest as request, msgRequest };
