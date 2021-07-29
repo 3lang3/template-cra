@@ -15,4 +15,5 @@ declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false;
 interface Window {
   android: any;
   webkit: any;
+  wx: any;
 }

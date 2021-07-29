@@ -24,14 +24,12 @@ type ProListProps<T = {}> = {
   params?: Record<string, any>;
   /** 空状态ui */
   emptyRender?: () => React.ReactNode;
-  /** 初始化的参数，可以操作 list */
-  actionRef?: React.MutableRefObject<ActionType | undefined>;
 };
 
-export default forwardRef((props: ProListProps, ref) => {
-  const { params = {}, emptyRender = () => <Empty />, actionRef } = props;
+export default forwardRef<ActionType, ProListProps>((props, ref) => {
+  const { params = {}, emptyRender = () => <Empty /> } = props;
   const [list, setList] = useState<any[]>([]);
-  const paginationRef = useRef(PAGINATION);
+  const paginationRef = useRef(PAGINATION.DEFAULT);
   const nomoreRef = useRef(false);
 
   const { loading, run } = useRequest(props.request, {
@@ -46,7 +44,7 @@ export default forwardRef((props: ProListProps, ref) => {
 
   const reload = () => {
     setList([]);
-    paginationRef.current = PAGINATION;
+    paginationRef.current = PAGINATION.DEFAULT;
     run(params);
   };
 

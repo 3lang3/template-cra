@@ -1,27 +1,22 @@
+/**
+ * app webview交互
+ */
 import { Dialog } from 'react-vant';
+import { eventMap } from './events';
+export { APP_INJECT_EVENT_MAP } from './events';
 
-export const APP_METHOD_MAP = {
-  /**
-   * 获取app webview下的token
-   * @summary 只有安卓生效, ios会主动调用setToken方法注入token
-   * */
-  GET_TOKEN: 'getToken',
-};
-
+/** 注入到全局的方法，app调用 */
 const injectMethodToApp = (injectMethodName: string, func: Function) => {
   (window as any)[injectMethodName] = func;
 };
 
-const runAppMethod = (methodName: string, ...options: any[]) => {
-  let args = options;
-
+/** 调用app的方法 */
+export const runAppMethod = (methodName: string, options?: any) => {
   let method;
   if (window.android && window.android[methodName]) {
     // 传递给安卓方法的参数须stringify
-    if (options.length) {
-      args = options.map((el) =>
-        typeof el === 'object' ? JSON.stringify(el) : el,
-      );
+    if (options) {
+      options = typeof options === 'object' ? JSON.stringify(options) : options;
     }
     method = window.android[methodName];
   }
@@ -30,7 +25,7 @@ const runAppMethod = (methodName: string, ...options: any[]) => {
   }
 
   try {
-    return method(...args);
+    return method(options);
   } catch (error) {
     console.log(error);
     Dialog.alert({
@@ -44,12 +39,14 @@ type AppHelper = {
   /** 注入到全局的方法，方便app调用 */
   inject: (injectMethodName: string, func: any) => void;
   /** 调用app的方法 */
-  run: (methodName: string) => void;
+  run: (methodName: string, options: any) => void;
+  event: typeof eventMap;
 };
 
-const appHelper: AppHelper = {
+const app: AppHelper = {
   inject: injectMethodToApp,
   run: runAppMethod,
+  event: eventMap,
 };
 
-export default appHelper;
+export default app;

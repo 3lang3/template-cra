@@ -1,4 +1,6 @@
 import { STORAGE } from '@/config/constant';
+import { BROWSER_ENV } from '@/config/ua';
+import app from './app';
 
 /** cookie获取 */
 export const getCookie = (name: string) => {
@@ -15,8 +17,14 @@ export const getCookie = (name: string) => {
 /** token 操作集 */
 export const tokenHelper = {
   /** 获取token */
-  get: () =>
-    getCookie('token') || window.localStorage.getItem(STORAGE.TOKEN) || '',
+  get: () => {
+    if (BROWSER_ENV.WEBVIEW) {
+      app.event.getToken();
+    }
+    return (
+      getCookie('token') || window.localStorage.getItem(STORAGE.TOKEN) || ''
+    );
+  },
   /** 设置token */
   set: (value: string) => window.localStorage.setItem(STORAGE.TOKEN, value),
   /** 删除token */

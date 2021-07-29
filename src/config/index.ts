@@ -1,4 +1,4 @@
-import url from './env';
+import { ENVVAR as url } from './constant';
 
 const config = {
   api: {

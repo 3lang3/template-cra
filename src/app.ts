@@ -1,10 +1,20 @@
+import { BROWSER_ENV } from './config/ua';
 import { getCurrentUser } from './services/global';
+import app, { APP_INJECT_EVENT_MAP } from './utils/app';
 import { tokenHelper } from './utils/utils';
 
 // 开发环境注入token
 if (process.env.NODE_ENV === 'development' && process.env.TOKEN) {
-  console.log('inject dev token: ', process.env.TOKEN);
+  console.log('.env.local file TOKEN has been injectd!');
   tokenHelper.set(process.env.TOKEN as string);
+}
+
+// app调用事件注入
+if (BROWSER_ENV.WEBVIEW) {
+  app.inject(APP_INJECT_EVENT_MAP.APP_VERSION, (ver) =>
+    window.localStorage.setItem('app_version', ver),
+  );
+  app.inject(APP_INJECT_EVENT_MAP.SET_TOKEN, tokenHelper.set);
 }
 
 /**
@@ -13,7 +23,7 @@ if (process.env.NODE_ENV === 'development' && process.env.TOKEN) {
  * */
 export async function getInitialState() {
   const localToken = tokenHelper.get();
-  if (!localToken) return {};
+  if (!localToken) return undefined;
   try {
     const { data, type, msg } = await getCurrentUser();
     if (type === 1) throw new Error(msg);
@@ -21,5 +31,5 @@ export async function getInitialState() {
   } catch (error) {
     console.log(error);
   }
-  return {};
+  return undefined;
 }
