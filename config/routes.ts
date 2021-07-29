@@ -8,4 +8,9 @@ export default [
     component: '@/pages/Profile',
   },
   { title: '登录', path: '/login', component: '@/pages/Login' },
+  {
+    title: '商品分享',
+    path: '/share/product',
+    component: '@/pages/Share/Product',
+  },
 ] as IRoute[];
