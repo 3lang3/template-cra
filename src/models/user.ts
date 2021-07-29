@@ -1,9 +1,10 @@
 import { useState, useCallback } from 'react';
 import { getCurrentUser } from '@/services/global';
 import { Toast } from 'react-vant';
+import { useModel } from 'umi';
 
-export default function useAuthModel() {
-  const [user, setUser] = useState(null);
+export default function () {
+  const { initialState, setInitialState } = useModel('@@initialState');
 
   /** @summary 可以根据不同宿主环境进行登录逻辑的分发 */
   const signin = useCallback(async () => {
@@ -11,16 +12,16 @@ export default function useAuthModel() {
     const { data, type, msg } = await getCurrentUser();
     if (type === 1) throw new Error(msg);
     Toast.success(msg);
-    setUser(data);
+    setInitialState(data);
   }, []);
 
   const signout = useCallback(() => {
     // signout implementation
-    setUser(null);
+    setInitialState(null);
   }, []);
 
   return {
-    user,
+    user: initialState,
     signin,
     signout,
   };

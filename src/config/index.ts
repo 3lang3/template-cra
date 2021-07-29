@@ -10,6 +10,7 @@ const config = {
   },
   cdn: url.STATIC_PATH,
   shop: url.SHOP_HOST,
+  wechatAuth: url.WECHAT_AUTH_PATH,
 };
 
 export default config;
