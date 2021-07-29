@@ -10,7 +10,7 @@ type OutlinkType = {
 
 export const eventMap = {
   /**
-   * 获取app webview下的token
+   * 获取app webview下的token，并写入localStorage
    * @summary ios的getToken方法, ios会主动调用setToken方法注入token
    * @summary andriod的getToken方法会直接返回token
    */
