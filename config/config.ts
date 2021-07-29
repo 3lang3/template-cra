@@ -37,5 +37,6 @@ export default defineConfig({
     'process.env.STATIC_PATH': process.env.STATIC_PATH,
     'process.env.WECHAT_AUTH_PATH': process.env.WECHAT_AUTH_PATH,
     'process.env.TOKEN': process.env.TOKEN,
+    'process.env.PROXY_ENV': process.env.PROXY_ENV || 'dev',
   },
 });

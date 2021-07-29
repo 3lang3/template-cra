@@ -1,7 +1,7 @@
 import { tokenHelper } from './utils/utils';
 
 // 开发环境注入token
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' && process.env.TOKEN) {
   console.log('inject dev token: ', process.env.TOKEN);
   tokenHelper.set(process.env.TOKEN as string);
 }

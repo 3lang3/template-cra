@@ -1,5 +1,6 @@
 // UI杂项
 import { Button, Empty, Flex, Loading } from 'react-vant';
+
 import styles from './index.less';
 
 type FullPageBaseProps = {
