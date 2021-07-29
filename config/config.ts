@@ -23,8 +23,11 @@ export default defineConfig({
       mediaQuery: false, // (Boolean) Allow px to be converted in media queries.
     }),
   ],
+  favicon: '/assets/logo_cicle.png',
   // fastRefresh: {},
-  dynamicImport: {},
+  dynamicImport: {
+    loading: '@/components/Chore/DynamicImportLoader',
+  },
   webpack5: {},
   mfsu: {},
   define: {
