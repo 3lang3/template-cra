@@ -1,5 +1,5 @@
 import { BROWSER_ENV } from './config/ua';
-import { getCurrentUser } from './services/global';
+import { getCurrentUser } from './services/common';
 import app, { APP_INJECT_EVENT_MAP } from './utils/app';
 import { tokenHelper } from './utils/utils';
 

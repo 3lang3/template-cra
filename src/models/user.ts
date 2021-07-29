@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { getCurrentUser } from '@/services/global';
+import { useCallback } from 'react';
+import { getCurrentUser } from '@/services/common';
 import { Toast } from 'react-vant';
 import { useModel } from 'umi';
 
