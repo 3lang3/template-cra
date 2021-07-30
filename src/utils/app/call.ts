@@ -4,6 +4,7 @@
  */
 
 import config from '@/config';
+import { BROWSER_ENV } from '@/config/ua';
 import CallApp from 'callapp-lib';
 import { CallappOptions } from 'callapp-lib/dist/type/types';
 
@@ -26,4 +27,39 @@ const options: CallappOptions = {
 
 const callApp = new CallApp(options);
 
-export default callApp;
+/**
+ * 唤端事件MAP
+ *
+ * 唤端事件请在此处进行抹平，解放业务层
+ */
+export const callAppMap = {
+  /** 唤起app商详页 */
+  goodsDetail: (param: {
+    /** 商品ids */
+    goods_ids: string | number;
+    /** 商品item_id */
+    item_id: string;
+    /** 商品详情返回的page_type值 */
+    page_type: string | number;
+  }) => {
+    if (BROWSER_ENV.IOS) {
+      callApp.open({
+        path: 'opencontroller ',
+        param: {
+          controller: 'XSGoodsDetailViewController',
+          ...param,
+        },
+      });
+    }
+    if (BROWSER_ENV.ANDROID) {
+      callApp.open({
+        path: 'app:8888/goodsdetail/GoodsDetailActivity',
+        param: {
+          mGoodsIds: param.goods_ids,
+          mItemId: param.page_type,
+          mPageType: param.item_id,
+        },
+      });
+    }
+  },
+};

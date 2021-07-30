@@ -22,31 +22,18 @@ export default ({ location }) => {
     data: { data: detail } = { data: {} },
   } = useRequest(getBrowserGoodsDetail, {
     defaultParams: [{ item_id: query.item_id }],
+    onSuccess: ({ data }) => {
+      document.title = data.title;
+    },
   });
 
   // 唤起app
   const open = () => {
-    if (BROWSER_ENV.IOS) {
-      app.call.open({
-        path: 'opencontroller ',
-        param: {
-          controller: 'XSGoodsDetailViewController',
-          goods_ids: detail.ids,
-          page_type: detail.page_type,
-          item_id: detail.item_id,
-        },
-      });
-    }
-    if (BROWSER_ENV.ANDROID) {
-      app.call.open({
-        path: 'app:8888/goodsdetail/GoodsDetailActivity',
-        param: {
-          mGoodsIds: detail.ids,
-          mItemId: detail.page_type,
-          mPageType: detail.item_id,
-        },
-      });
-    }
+    app.call.goodsDetail({
+      goods_ids: detail.ids,
+      item_id: detail.item_id,
+      page_type: detail.page_type,
+    });
   };
 
   const renderShare = useCallback(() => {
@@ -123,7 +110,9 @@ export default ({ location }) => {
             size="lg"
             type="primary"
           />
-          <Typography.Text type="primary">{detail.coupon_name}</Typography.Text>
+          <Typography.Text strong type="primary">
+            {detail.coupon_name}
+          </Typography.Text>
         </Flex>
         <Typography.Text size="sm">有效期{detail.coupon_time}</Typography.Text>
         <Flex
