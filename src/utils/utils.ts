@@ -14,9 +14,14 @@ export const getCookie = (name: string) => {
   }
 };
 
-/** token 操作集 */
+/** @name token操作集 */
 export const tokenHelper = {
-  /** 获取token */
+  /**
+   * @name 获取token
+   *
+   * 1. 获取本地缓存token
+   * 2. 在webview中调用`app.event.getToken()`, app写入token，再读取返回
+   */
   get: () => {
     const localToken =
       getCookie('token') || window.localStorage.getItem(STORAGE.TOKEN);
