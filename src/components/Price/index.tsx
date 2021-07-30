@@ -12,6 +12,9 @@ type PriceProps = {
   type?: 'primary' | 'secondary';
   /** 是否有贯穿线 */
   delete?: boolean;
+  style?: React.CSSProperties;
+  className?: string;
+  onClick?: () => void;
 };
 
 const Price: React.FC<PriceProps> = (props) => {
@@ -34,11 +37,13 @@ const Price: React.FC<PriceProps> = (props) => {
   };
   return (
     <div
-      className={cls(styles.price, {
+      style={props.style}
+      className={cls(styles.price, props.className, {
         [styles[`price__${size}`]]: size,
         [styles[`price__${type}`]]: type,
         [styles[`price__delete`]]: props.delete,
       })}
+      onClick={props.onClick}
     >
       {renderSymbol()}
       {renderInt()}

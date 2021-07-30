@@ -41,20 +41,31 @@
 }
 
 .body {
-  padding: 30px 24px;
+  padding: 40px 24px;
 }
 
 .title {
   margin: 30px 0;
 }
-
 .coupon {
   height: 174px;
   position: relative;
   width: 100%;
+  border-radius: 10px;
+  background-color: #ed513b;
   background: url('./static/coupon.png') center no-repeat;
   background-size: contain;
   padding: 40px 0 24px 54px;
+
+  &__tag {
+    background-color: #ed513b;
+    background: url('./static/coupon_small.png') center no-repeat;
+    background-size: 100% 100%;
+    min-width: 144px;
+    padding: 0 10px;
+    height: 40px;
+    color: #fff;
+  }
 
   &__btn {
     position: absolute;
@@ -66,5 +77,6 @@
     background: linear-gradient(0deg, #fdb649, #fff6d8);
     border-radius: 35px;
     color: #ed513b;
+    font-weight: bold;
   }
 }
