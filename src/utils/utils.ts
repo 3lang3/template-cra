@@ -4,14 +4,14 @@ import app from './app';
 
 /** cookie获取 */
 export const getCookie = (name: string) => {
-  var arr,
-    reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)');
-  var rs = (arr = document.cookie.match(reg));
+  let arr;
+  const reg = new RegExp(`(^| )${name}=([^;]*)(;|$)`);
+  // eslint-disable-next-line no-multi-assign
+  const rs = (arr = document.cookie.match(reg));
   if (rs) {
     return unescape(arr[2]);
-  } else {
-    return null;
   }
+  return null;
 };
 
 /** @name token操作集 */

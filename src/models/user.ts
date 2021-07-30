@@ -3,7 +3,7 @@ import { getCurrentUser } from '@/services/common';
 import { Toast } from 'react-vant';
 import { useModel } from 'umi';
 
-export default function () {
+export default () => {
   const { initialState, setInitialState } = useModel('@@initialState');
 
   /** @summary 可以根据不同宿主环境进行登录逻辑的分发 */
@@ -13,11 +13,12 @@ export default function () {
     if (type === 1) throw new Error(msg);
     Toast.success(msg);
     setInitialState(data);
-  }, []);
+  }, [setInitialState]);
 
   const signout = useCallback(() => {
     // signout implementation
     setInitialState(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
@@ -25,4 +26,4 @@ export default function () {
     signin,
     signout,
   };
-}
+};

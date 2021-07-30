@@ -55,6 +55,7 @@ export const errorHandler = async (error: ResponseError) => {
 };
 
 const generateRequest = (prefix: string) => {
+  // eslint-disable-next-line no-underscore-dangle
   const _request = extend({
     prefix,
     timeout: 5000,

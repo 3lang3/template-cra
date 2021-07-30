@@ -9,6 +9,21 @@ type OutlinkType = {
   link?: string;
 };
 
+/**
+ * 需要挂载到全局的事件名称
+ * app需要主动调用
+ */
+export const APP_INJECT_EVENT_MAP = {
+  /** ios写入版本号 */
+  APP_VERSION: 'setAppVersion',
+  /** app写入token */
+  SET_TOKEN: 'setToken',
+  /** app获取分享参数 */
+  SET_SHARE_PARAMS: 'app_invoke_getWxShareOption',
+  /** app获取回退按钮提醒参数 */
+  SET_GOBACK_PARAMS: 'app_invoke_getBackInfoOption',
+};
+
 export const eventMap = {
   /**
    * 获取app webview下的token，并写入localStorage
@@ -16,9 +31,9 @@ export const eventMap = {
    * @summary andriod的getToken方法会直接返回token
    */
   getToken: () => {
-    let token = runAppMethod('getToken');
+    const token = runAppMethod('getToken');
     if (BROWSER_ENV.ANDROID) {
-      tokenHelper.set(token);
+      tokenHelper.set(token as unknown as string);
     }
   },
   /**
@@ -108,25 +123,10 @@ export const eventMap = {
    */
   getAppVersion: (): string => {
     const ver = BROWSER_ENV.IOS
-      ? window.localStorage.getItem('app_version')
-      : runAppMethod('getAppVersion');
+      ? window.localStorage.getItem('app_version') || ''
+      : runAppMethod<string>('getAppVersion');
     return ver;
   },
-};
-
-/**
- * 需要挂载到全局的事件名称
- * app需要主动调用
- */
-export const APP_INJECT_EVENT_MAP = {
-  /** ios写入版本号 */
-  APP_VERSION: 'setAppVersion',
-  /** app写入token */
-  SET_TOKEN: 'setToken',
-  /** app获取分享参数 */
-  SET_SHARE_PARAMS: 'app_invoke_getWxShareOption',
-  /** app获取回退按钮提醒参数 */
-  SET_GOBACK_PARAMS: 'app_invoke_getBackInfoOption',
 };
 
 /**

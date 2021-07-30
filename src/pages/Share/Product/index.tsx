@@ -52,7 +52,7 @@ export default ({ location }) => {
         </Flex>
       </Flex>
     );
-  }, [detail.ids]);
+  }, []);
 
   const renderSwipe = useCallback(() => {
     const imgs =
@@ -62,13 +62,14 @@ export default ({ location }) => {
     return (
       <Swipe className={styles.swipe}>
         {imgs.map((el, i) => (
+          // eslint-disable-next-line react/no-array-index-key
           <Swipe.Item key={i}>
             <Image className={styles.swipe__img} src={el} />
           </Swipe.Item>
         ))}
       </Swipe>
     );
-  }, [detail.ids]);
+  }, [detail.img, detail.small_images]);
 
   const renderTitle = useCallback(() => {
     return (
@@ -79,7 +80,7 @@ export default ({ location }) => {
         {detail.title}
       </Typography.Title>
     );
-  }, [detail.ids]);
+  }, [detail.title, detail.user_type]);
 
   const renderPrice = useCallback(() => {
     return (
@@ -93,11 +94,11 @@ export default ({ location }) => {
         />
       </>
     );
-  }, [detail.ids]);
+  }, [detail.final_price]);
 
   const renderReservePrice = useCallback(() => {
     return <Price content={detail.reserve_price} type="secondary" delete />;
-  }, [detail.ids]);
+  }, [detail.reserve_price]);
 
   const renderCoupon = useCallback(() => {
     if (BROWSER_ENV.WECHAT) return null;
@@ -125,6 +126,7 @@ export default ({ location }) => {
         </Flex>
       </Flex>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [detail.ids]);
 
   if (loading) return <FullPageLoader />;

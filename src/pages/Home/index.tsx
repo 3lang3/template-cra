@@ -1,5 +1,5 @@
 import { history } from 'umi';
-import { Cell, Flex } from 'react-vant';
+import { Cell } from 'react-vant';
 import styles from './index.less';
 
 export default function IndexPage() {

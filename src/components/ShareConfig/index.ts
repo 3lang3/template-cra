@@ -26,7 +26,7 @@ export default ({ withIdentifier = true, ...props }: ShareConfigProps) => {
   const { user } = useModel('user', (model) => ({ user: model.user }));
 
   // 链接带上标识符
-  const defaultLink = location.href.replace(
+  const defaultLink = window.location.href.replace(
     /mids=\d*/gi,
     withIdentifier ? `mids=${user.member.ids}` : '',
   );
@@ -40,7 +40,7 @@ export default ({ withIdentifier = true, ...props }: ShareConfigProps) => {
     const shareOption = { ...props, link, imgUrl };
     // 微信分享
     if (BROWSER_ENV.WECHAT) {
-      window.wx.ready(function () {
+      window.wx.ready(() => {
         window.wx.updateAppMessageShareData(shareOption);
         window.wx.updateTimelineShareData(shareOption);
       });
@@ -54,9 +54,8 @@ export default ({ withIdentifier = true, ...props }: ShareConfigProps) => {
         imgUrl: user.shop_config.share_wechat_logo,
       }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;
 };
-
-function injectLinkIdentifier(link) {}
