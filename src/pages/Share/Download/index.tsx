@@ -4,6 +4,8 @@ import styles from './index.less';
 import { useEffect, useRef } from 'react';
 import { getAppDownloadUrl } from './services';
 import { BROWSER_ENV } from '@/config/ua';
+import { ReactComponent as AndroidIcon } from './static/andriod.svg';
+import { ReactComponent as IosIcon } from './static/ios.svg';
 
 export default () => {
   const downloadRef = useRef<any>();
@@ -41,6 +43,7 @@ export default () => {
           align="center"
           justify="center"
         >
+          {BROWSER_ENV.IOS ? <IosIcon /> : <AndroidIcon />}
           立即下载
         </Flex>
         <Typography.Text size="sm">
