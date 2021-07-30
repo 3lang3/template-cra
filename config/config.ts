@@ -14,25 +14,6 @@ export default defineConfig({
   hash: NODE_ENV === 'production',
   base: '/new/',
   publicPath: '/new/',
-  externals:
-    NODE_ENV === 'production'
-      ? {
-          react: 'window.React',
-          'react-dom': 'window.ReactDOM',
-        }
-      : false,
-  scripts:
-    NODE_ENV === 'production'
-      ? [
-          // @ts-ignore
-          {
-            src: 'https://unpkg.com/react@17/umd/react.production.min.js',
-          },
-          {
-            src: 'https://unpkg.com/react-dom@17/umd/react-dom.production.min.js',
-          },
-        ]
-      : false,
   routes,
   proxy: (proxy as any)[REACT_APP_ENV],
   nodeModulesTransform: {
