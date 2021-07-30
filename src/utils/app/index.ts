@@ -17,7 +17,7 @@ const injectMethodToApp = (injectMethodName: string, func: () => void) => {
 export const runAppMethod = <T = undefined>(
   methodName: string,
   options?: any,
-): T => {
+): T | void => {
   let opts = options as any;
   let method;
   if (window.android && window.android[methodName]) {
@@ -39,7 +39,7 @@ export const runAppMethod = <T = undefined>(
       message: '当前版本不支持该功能，请更新app后再来哦～',
     });
   }
-  return undefined as unknown as any;
+  return undefined;
 };
 
 type AppHelper = {
