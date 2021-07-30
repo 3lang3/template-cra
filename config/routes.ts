@@ -13,4 +13,9 @@ export default [
     path: '/share/product',
     component: '@/pages/Share/Product',
   },
+  {
+    title: 'APP下载',
+    path: '/share/download',
+    component: '@/pages/Share/Download',
+  },
 ] as IRoute[];

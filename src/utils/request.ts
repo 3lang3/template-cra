@@ -4,6 +4,7 @@ import config from '../config';
 import { tokenHelper } from './utils';
 import { history } from 'umi';
 import { Toast } from 'react-vant';
+import { STORAGE } from '@/config/constant';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -54,29 +55,29 @@ export const errorHandler = async (error: ResponseError) => {
 };
 
 const generateRequest = (prefix: string) => {
-  const _request = extend({
+  const baseRequest = extend({
     prefix,
     timeout: 5000,
     credentials: 'include',
     errorHandler,
   });
   // 将token插入header头信息
-  _request.interceptors.request.use((url, options) => {
+  baseRequest.interceptors.request.use((url, options) => {
     return {
       url,
       options: {
         ...options,
-        headers: { ...options.headers, Authorization: tokenHelper.get() },
+        headers: { ...options.headers, [STORAGE.TOKEN]: tokenHelper.get() },
       },
     };
   });
   // 更新token
-  _request.interceptors.response.use((response) => {
-    const token = response.headers.get('Authorization');
+  baseRequest.interceptors.response.use((response) => {
+    const token = response.headers.get(STORAGE.TOKEN);
     if (token) tokenHelper.set(token);
     return response;
   });
-  return _request;
+  return baseRequest;
 };
 
 /** 主request */

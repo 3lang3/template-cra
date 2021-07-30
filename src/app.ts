@@ -5,6 +5,7 @@ import { tokenHelper } from './utils/utils';
 
 // 开发环境注入token
 if (process.env.NODE_ENV === 'development' && process.env.TOKEN) {
+  // eslint-disable-next-line no-console
   console.log('.env.local file TOKEN has been injectd!');
   tokenHelper.set(process.env.TOKEN as string);
 }
@@ -29,6 +30,7 @@ export async function getInitialState() {
     if (type === 1) throw new Error(msg);
     return data;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
   }
   return undefined;
