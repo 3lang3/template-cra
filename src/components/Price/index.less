@@ -1,0 +1,49 @@
+@import '../../style/var.less';
+
+.price {
+  color: @gray8;
+  line-height: 30px;
+  display: inline-block;
+  vertical-align: baseline;
+  &__primary {
+    color: @primary;
+  }
+  &__secondary {
+    color: @gray5;
+  }
+  &__delete {
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 2px;
+      width: 100%;
+      display: block;
+      background-color: @gray5;
+    }
+  }
+
+  &__sm {
+    font-size: @font-size-sm;
+  }
+
+  &__md {
+    font-size: @font-size-md;
+  }
+  &__lg {
+    font-size: 48px;
+  }
+
+  &__symbol,
+  &__float {
+    font-size: 0.6em;
+    font-weight: 500;
+  }
+  &__int {
+    font-size: 1em;
+    vertical-align: baseline;
+    font-weight: 500;
+  }
+}

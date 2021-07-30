@@ -8,6 +8,7 @@ import dotSrc from './static/share_dot.png';
 import andriodIconSrc from './static/share_browser_andriod.png';
 import iosIconSrc from './static/share_browser_ios.png';
 import { BROWSER_ENV } from '@/config/ua';
+import Price from '@/components/Price';
 
 const ProductSwipe = ({ detail }) => {
   const imgs =
@@ -29,14 +30,10 @@ const CouponView = (props) => {
   return (
     <Flex direction="column" justify="between" className={styles.coupon}>
       <Flex align="end">
-        <Typography.Text size="lg" type="primary">
-          ¥{props.coupon_amount}
-        </Typography.Text>
+        <Price content={props.coupon_amount} size="lg" type="primary" />
         <Typography.Text type="primary">{props.coupon_name}</Typography.Text>
       </Flex>
-      <Typography.Text size="sm" type="secondary">
-        有效期{props.coupon_time}
-      </Typography.Text>
+      <Typography.Text size="sm">有效期{props.coupon_time}</Typography.Text>
       <Flex justify="center" align="center" className={styles.coupon__btn}>
         立即领取
       </Flex>
@@ -75,18 +72,16 @@ export default ({ location }) => {
       <ProductSwipe detail={detail} />
       <div className={styles.body}>
         <Flex align="center" justify="between">
-          <Flex>
-            <Typography.Text type="primary">
-              到手价 ¥{detail.final_price}
-            </Typography.Text>
-            <Typography.Text delete type="secondary">
-              ¥{detail.reserve_price}
-            </Typography.Text>
+          <Flex align="baseline">
+            <Typography.Text type="primary">到手价</Typography.Text>
+            <Price content={detail.final_price} type="primary" size="lg" />
+            <Price content={detail.reserve_price} type="secondary" delete />
           </Flex>
           <Typography.Text type="secondary">
-            已有 {detail.csale}人购买
+            已有{detail.csale}人购买
           </Typography.Text>
         </Flex>
+
         <Typography.Title ellipsis={2} className={styles.title}>
           {detail.title}
         </Typography.Title>
