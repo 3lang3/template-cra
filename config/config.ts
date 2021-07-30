@@ -12,7 +12,7 @@ const { REACT_APP_ENV = 'dev', NODE_ENV } = process.env;
 
 export default defineConfig({
   hash: NODE_ENV === 'production',
-  base: '/new/',
+  base: '/new',
   // externals:
   //   NODE_ENV === 'production'
   //     ? {
