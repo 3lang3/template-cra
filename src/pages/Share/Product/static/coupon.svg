@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="702px" height="174px" viewBox="0 0 702 174" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63 (92445) - https://sketch.com -->
+    <title>编组 13</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0.914378998%" y2="49.7840609%" id="linearGradient-1">
+            <stop stop-color="#F4503A" offset="0%"></stop>
+            <stop stop-color="#ED513B" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="52.649765%" x2="8.67977629%" y2="52.649765%" id="linearGradient-2">
+            <stop stop-color="#EA4932" offset="0%"></stop>
+            <stop stop-color="#FF733F" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="安卓浏览器打开" transform="translate(-24.000000, -1119.000000)">
+            <g id="编组-4" transform="translate(24.000000, 1119.000000)">
+                <g id="编组-13">
+                    <rect id="矩形" fill="url(#linearGradient-1)" x="0" y="0" width="702" height="174" rx="10"></rect>
+                    <path d="M515,10 L515,164 L14,164 L14,154 L14,154 C20.0751322,154 25,149.075132 25,143 C25,136.924868 20.0751322,132 14,132 L14,117 L14,117 C20.0751322,117 25,112.075132 25,106 C25,99.9248678 20.0751322,95 14,95 L14,79 L14,79 C20.0751322,79 25,74.0751322 25,68 C25,61.9248678 20.0751322,57 14,57 L14,42 L14,42 C20.0751322,42 25,37.0751322 25,31 C25,24.9248678 20.0751322,20 14,20 L14,10 L515,10 Z" id="形状结合" fill="#FFFFFF"></path>
+                    <path d="M429.503929,0 L692,0 C697.522847,-1.01453063e-15 702,4.4771525 702,10 L702,164 C702,169.522847 697.522847,174 692,174 L423.379551,174 C417.856703,174.000001 413.37955,169.522848 413.37955,164 C413.37955,162.437087 413.745887,160.895931 414.449169,159.50019 C424.81639,138.925265 430,115.758535 430,90 C430,62.7777116 426.622805,37.0027922 419.868416,12.675242 C418.390919,7.35369459 421.507141,1.84198174 426.828689,0.36448776 C427.699858,0.122613219 428.599805,1.66084748e-16 429.503929,0 Z" id="矩形" fill="url(#linearGradient-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

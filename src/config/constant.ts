@@ -33,3 +33,13 @@ export const MESSAGE_MAP = {
   /** 列表加载完成文案 */
   LIST_DONE: '都被你看光了啦~',
 };
+
+/** user_type */
+export const USER_TYPE_MAP = {
+  /** 淘宝 */
+  TB: 0,
+  /** 天猫 */
+  TMALL: 1,
+  /** 拼多多 */
+  PDD: 2,
+};
