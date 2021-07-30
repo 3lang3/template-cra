@@ -18,12 +18,11 @@ export const getCookie = (name: string) => {
 export const tokenHelper = {
   /** 获取token */
   get: () => {
-    if (BROWSER_ENV.WEBVIEW) {
-      app.event.getToken();
-    }
-    return (
-      getCookie('token') || window.localStorage.getItem(STORAGE.TOKEN) || ''
-    );
+    const localToken =
+      getCookie('token') || window.localStorage.getItem(STORAGE.TOKEN);
+    if (localToken) return localToken;
+    if (BROWSER_ENV.WEBVIEW) app.event.getToken();
+    return window.localStorage.getItem(STORAGE.TOKEN) || '';
   },
   /** 设置token */
   set: (value: string) => window.localStorage.setItem(STORAGE.TOKEN, value),

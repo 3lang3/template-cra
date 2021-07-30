@@ -4,6 +4,7 @@ import config from '../config';
 import { tokenHelper } from './utils';
 import { history } from 'umi';
 import { Toast } from 'react-vant';
+import { STORAGE } from '@/config/constant';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -66,13 +67,13 @@ const generateRequest = (prefix: string) => {
       url,
       options: {
         ...options,
-        headers: { ...options.headers, Authorization: tokenHelper.get() },
+        headers: { ...options.headers, [STORAGE.TOKEN]: tokenHelper.get() },
       },
     };
   });
   // 更新token
   _request.interceptors.response.use((response) => {
-    const token = response.headers.get('Authorization');
+    const token = response.headers.get(STORAGE.TOKEN);
     if (token) tokenHelper.set(token);
     return response;
   });

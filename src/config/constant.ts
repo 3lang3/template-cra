@@ -12,7 +12,7 @@ export const ENVVAR = {
   API_MSG: process.env.API_MSG,
   STATIC_PATH: process.env.STATIC_PATH,
   WECHAT_AUTH_PATH: process.env.WECHAT_AUTH_PATH,
-};
+} as Record<string, string>;
 
 export const STORAGE = {
   /** 存储token的key */
