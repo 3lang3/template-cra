@@ -43,3 +43,21 @@ export const USER_TYPE_MAP = {
   /** 拼多多 */
   PDD: 2,
 };
+
+/** 本地生活类型 */
+export const LOCAL_LIFE_MAP = {
+  /** 饿了么外卖 */
+  ELEME_WAIMAI: 101,
+  /** 口碑 */
+  KOUBEI: 102,
+  /** 饿了么果蔬商超 */
+  ELEME_MARKET: 103,
+  /** 美团外卖 */
+  MEITUAN_WAIMAI: 502,
+  /** 美团果蔬商超 */
+  MEITUAN_MARKET: 506,
+  /** 美团团购 */
+  MEITUAN_TUANGOU: 507,
+  /** 肯德基 */
+  KFC: 801,
+};

@@ -18,4 +18,9 @@ export default [
     path: '/share/download',
     component: '@/pages/Share/Download',
   },
+  {
+    title: '本地生活',
+    path: '/local-life',
+    component: '@/pages/LocalLife',
+  },
 ] as IRoute[];
