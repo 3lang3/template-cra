@@ -1,10 +1,14 @@
-import styles from './index.less';
-import { getLifeServiceDetail } from './services';
+import { useEffect } from 'react';
+import { getLifeServiceDetail, getCpsUrl } from './services';
 import { useRequest } from 'ahooks';
 import { FullPageError, FullPageLoader } from '@/components/Chore';
 import Image from '@/components/Image';
 import { Flex } from 'react-vant';
 import blockIconSrc from './block.png';
+import { transferString } from '@/utils/utils';
+import { runAppMethod } from '@/utils/app';
+import { Link } from 'umi';
+import styles from './index.less';
 
 const title = {
   '101': '饿了么',
@@ -18,15 +22,22 @@ const title = {
 
 export default ({ location }) => {
   const { query } = location;
-  document.title = title[query.type];
   const {
     loading,
     error,
     refresh,
     data: { data: detail } = { data: {} },
   } = useRequest(getLifeServiceDetail, {
-    defaultParams: [{ cps_id: query.type || '101' }],
+    defaultParams: [{ cps_id: query.id || '101' }],
   });
+  const { data: { data: urls } = { data: {} } } = useRequest(getCpsUrl, {
+    defaultParams: [{ cps_id: query.id || '101' }],
+  });
+
+  useEffect(() => {
+    document.title = title[query.id];
+    runAppMethod('modifyTitle', title[query.id]);
+  }, [query.id]);
 
   if (loading) return <FullPageLoader />;
   if (error) return <FullPageError refresh={refresh} />;
@@ -34,22 +45,26 @@ export default ({ location }) => {
   return (
     <Flex
       direction="column"
-      justify="between"
+      align="center"
       style={{ backgroundColor: detail.bottom_color }}
       className={styles.life}
     >
       <Image className={styles.life__bg} src={detail.background_image} />
       <div className={styles.life__button}>
         <Image className={styles.button__img} src={detail.button_image} />
-        <div className={styles.button}></div>
+        <Link to={urls ? urls.click_url : '#'} className={styles.button}></Link>
       </div>
       <div className={styles.life__rules}>
-        <Flex>
+        <Flex justify="center" align="center" className={styles.top}>
           <img src={blockIconSrc} className={styles.icon} />
           <span className={styles.title}>活动说明</span>
           <img src={blockIconSrc} className={styles.icon} />
         </Flex>
-        <div dangerouslySetInnerHTML={{ __html: detail.active_text }} />
+        <div
+          dangerouslySetInnerHTML={{
+            __html: transferString(detail.active_text),
+          }}
+        />
       </div>
     </Flex>
   );

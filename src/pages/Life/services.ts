@@ -5,3 +5,9 @@ export function getLifeServiceDetail(params) {
     params,
   });
 }
+
+export function getCpsUrl(params) {
+  return request.get('/lifeService/getPopularizeUrl', {
+    params,
+  });
+}
