@@ -33,7 +33,7 @@ export const eventMap = {
   getToken: () => {
     const token = runAppMethod('getToken');
     if (BROWSER_ENV.ANDROID) {
-      tokenHelper.set(token as unknown as string);
+      tokenHelper.set((token as unknown) as string);
     }
   },
   /**

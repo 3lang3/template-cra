@@ -14,6 +14,11 @@ export default [
     component: '@/pages/Share/Product',
   },
   {
+    title: '生活服务',
+    path: '/life',
+    component: '@/pages/Life',
+  },
+  {
     title: 'APP下载',
     path: '/share/download',
     component: '@/pages/Share/Download',
