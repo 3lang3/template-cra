@@ -1,3 +1,4 @@
+import { STORAGE } from '@/config/constant';
 import { BROWSER_ENV } from '@/config/ua';
 import app, { runAppMethod } from '.';
 import { tokenHelper } from '../utils';
@@ -24,7 +25,7 @@ type EnterPageType = 'check' | 'pointCenter' | 'locallife';
 export const APP_INJECT_EVENT_MAP = {
   /** ios写入版本号 */
   APP_VERSION: 'setAppVersion',
-  /** app写入token */
+  /** ios写入token */
   SET_TOKEN: 'setToken',
   /** app获取分享参数 */
   SET_SHARE_PARAMS: 'app_invoke_getWxShareOption',
@@ -32,6 +33,8 @@ export const APP_INJECT_EVENT_MAP = {
   SET_GOBACK_PARAMS: 'app_invoke_getBackInfoOption',
   /** app获取本地生活分享参数 */
   SET_LOCAL_LIFE_PARAMS: 'app_invoke_getLocalLifeShareInfo',
+  /** ios写入经纬度信息 */
+  SET_LOCATION: 'setLocation',
 };
 
 export const eventMap = {
@@ -129,9 +132,19 @@ export const eventMap = {
    */
   getAppVersion: (): string => {
     const ver = BROWSER_ENV.IOS
-      ? window.localStorage.getItem('app_version') || ''
+      ? window.localStorage.getItem(STORAGE.APP_VERSION) || ''
       : runAppMethod<string>('getAppVersion');
     return ver;
+  },
+  /**
+   * 获取app经纬度信息
+   * @summary 进入ios的webview后, ios会主动调用window.setLocation方法注入经纬度信息
+   */
+  getLocation: (): string => {
+    const loca = BROWSER_ENV.IOS
+      ? window.localStorage.getItem(STORAGE.APP_LOCATION) || ''
+      : runAppMethod<string>('getLocation');
+    return loca;
   },
 };
 
