@@ -13,4 +13,9 @@ export default [
     path: '/share/product',
     component: '@/pages/Share/Product',
   },
+  {
+    title: '生活服务',
+    path: '/life',
+    component: '@/pages/Life',
+  },
 ] as IRoute[];
