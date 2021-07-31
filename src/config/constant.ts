@@ -14,9 +14,14 @@ export const ENVVAR = {
   WECHAT_AUTH_PATH: process.env.WECHAT_AUTH_PATH,
 } as Record<string, string>;
 
+/** 写入localStorage的key map */
 export const STORAGE = {
   /** 存储token的key */
   TOKEN: 'authorization',
+  /** ios app 版本信息 */
+  APP_VERSION: 'app_version',
+  /** ios app 经纬度信息 */
+  APP_LOCATION: 'app_location',
 };
 
 /** 分页数据 */
