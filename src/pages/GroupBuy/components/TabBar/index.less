@@ -1,0 +1,23 @@
+.navbar {
+  color: #fff;
+  width: 680px;
+  margin: 0 auto;
+  &__p {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    margin-top: 30px;
+    &--active::after {
+      content: '';
+      position: absolute;
+      width: 41px;
+      height: 6px;
+      border-radius: 4px;
+      background: #ffff;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+    }
+  }
+}
