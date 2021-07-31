@@ -1,16 +1,14 @@
 import { Flex } from 'react-vant';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './index.less';
 
-const data = [
-  { label: '美食', value: 1 },
-  { label: '丽人/美发', value: 2 },
-  { label: '休闲娱乐', value: 3 },
-  { label: '亲子', value: 4 },
-];
-
-export default () => {
+export default ({ data }) => {
   const [active, setActive] = useState(1);
+  useEffect(() => {
+    if (data.length) {
+      setActive(data[0].value);
+    }
+  }, [data]);
   return (
     <Flex justify="between" className="navbar">
       {data.map((item) => (
@@ -18,7 +16,7 @@ export default () => {
           className={`navbar__p navbar__p${
             active === item.value && '--active'
           }`}
-          key={item.label}
+          key={item.value}
           onClick={() => setActive(item.value)}
         >
           {item.label}

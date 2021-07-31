@@ -1,26 +1,26 @@
 @import '../../../../style/var.less';
 .menu {
   background-color: #fff;
-  height: 80px;
+  height: 96px;
   padding: 0 24px;
   &__span {
     position: relative;
+    padding: 8px 12px;
+    font-size: 24px;
+    text-align: center;
+    display: inline-block;
+    background-color: @gray3;
+    margin-right: 20px;
     &::after {
       content: '';
       width: 0;
       height: 0;
-      border-left: 12px solid transparent;
-      border-right: 12px solid transparent;
-      border-top: 12px solid @gray7;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-top: 9px solid @gray7;
       position: relative;
-      top: 24px;
+      top: 20px;
       left: 4px;
-    }
-    &--active {
-      color: #ed513b;
-      &::after {
-        border-top-color: #ed513b;
-      }
     }
   }
 }

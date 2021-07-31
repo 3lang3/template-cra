@@ -18,17 +18,10 @@ const data = [
 ];
 
 export default () => {
-  const [active, setActive] = useState(1);
   return (
-    <Flex justify="between" align="center" className="menu">
+    <Flex align="center" className="menu">
       {data.map((item) => (
-        <span
-          className={`menu__span ${
-            active === item.value && 'menu__span--active'
-          }`}
-          key={item.value}
-          onClick={() => setActive(item.value)}
-        >
+        <span className={`menu__span`} key={item.value}>
           {item.label}
         </span>
       ))}
