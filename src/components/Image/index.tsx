@@ -1,6 +1,6 @@
 import config from '@/config';
 import { Image } from 'react-vant';
-import { ImageProps } from 'react-vant/es/image/PropsType';
+import type { ImageProps } from 'react-vant/es/image/PropsType';
 import defaultSrc from './placeholder.jpg';
 
 export default ({ src, ...props }: ImageProps) => {

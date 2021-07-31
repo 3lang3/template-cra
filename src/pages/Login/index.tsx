@@ -1,5 +1,5 @@
 import { useModel, history } from 'umi';
-import { Button, Dialog, Toast } from 'react-vant';
+import { Button, Dialog } from 'react-vant';
 import styles from './index.less';
 import { BROWSER_ENV } from '@/config/ua';
 import config from '@/config';
@@ -51,6 +51,7 @@ export default () => {
       };
       fallback();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (user) return null;

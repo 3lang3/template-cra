@@ -10,12 +10,12 @@ import { useRequest } from 'ahooks';
 import { PAGINATION } from '@/config/constant';
 import { ListDone, ListEmpty, ListError, ListLoader } from '../Chore';
 
-export type ActionType<T = {}> = {
+export type ActionType<T = unknown> = {
   /** 刷新列表 */
   reload: () => void;
 } & T;
 
-type ProListProps<T = {}> = {
+type ProListProps<T = unknown> = {
   /** 列表请求的service */
   request: (params?: any) => Promise<any>;
   /** 行渲染方法 */
@@ -32,7 +32,7 @@ export default forwardRef<ActionType, ProListProps>((props, ref) => {
   const paginationRef = useRef(PAGINATION.DEFAULT);
   const nomoreRef = useRef(false);
 
-  const { loading, error, run } = useRequest(props.request, {
+  const { error, run } = useRequest(props.request, {
     manual: true,
     onSuccess: ({ data: { _list, _page }, type, msg }) => {
       if (type === 1) throw Error(msg);

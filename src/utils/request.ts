@@ -29,8 +29,10 @@ const codeMessage = {
  * 异常处理程序
  */
 export const errorHandler = async (error: ResponseError) => {
-  const { response, data }: { response: Response; data: { msg: string } } =
-    error;
+  const {
+    response,
+    data,
+  }: { response: Response; data: { msg: string } } = error;
   if (response && response.status) {
     const errorText =
       data.msg || codeMessage[response.status] || response.statusText;
@@ -55,14 +57,14 @@ export const errorHandler = async (error: ResponseError) => {
 };
 
 const generateRequest = (prefix: string) => {
-  const _request = extend({
+  const baseRequest = extend({
     prefix,
     timeout: 5000,
     credentials: 'include',
     errorHandler,
   });
   // 将token插入header头信息
-  _request.interceptors.request.use((url, options) => {
+  baseRequest.interceptors.request.use((url, options) => {
     return {
       url,
       options: {
@@ -72,12 +74,12 @@ const generateRequest = (prefix: string) => {
     };
   });
   // 更新token
-  _request.interceptors.response.use((response) => {
+  baseRequest.interceptors.response.use((response) => {
     const token = response.headers.get(STORAGE.TOKEN);
     if (token) tokenHelper.set(token);
     return response;
   });
-  return _request;
+  return baseRequest;
 };
 
 /** 主request */

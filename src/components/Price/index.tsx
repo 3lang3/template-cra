@@ -41,7 +41,7 @@ const Price: React.FC<PriceProps> = (props) => {
       className={cls(styles.price, props.className, {
         [styles[`price__${size}`]]: size,
         [styles[`price__${type}`]]: type,
-        [styles[`price__delete`]]: props.delete,
+        [styles.price__delete]: props.delete,
       })}
       onClick={props.onClick}
     >

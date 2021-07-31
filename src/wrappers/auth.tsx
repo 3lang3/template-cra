@@ -5,7 +5,6 @@ export default ({ children }: { children: React.ReactChild }) => {
   const { isLogin } = useAuth();
   if (isLogin) {
     return children;
-  } else {
-    return <Redirect to="/login" />;
   }
+  return <Redirect to="/login" />;
 };

@@ -1,9 +1,9 @@
 @import '../../style/var.less';
 
 .price {
+  display: inline-block;
   color: @gray8;
   line-height: 30px;
-  display: inline-block;
   vertical-align: baseline;
   &__primary {
     color: @primary;
@@ -14,14 +14,14 @@
   &__delete {
     position: relative;
     &::after {
-      content: '';
       position: absolute;
       top: 50%;
-      transform: translateY(-50%);
-      height: 2px;
-      width: 100%;
       display: block;
+      width: 100%;
+      height: 2px;
       background-color: @gray5;
+      transform: translateY(-50%);
+      content: '';
     }
   }
 
@@ -38,12 +38,12 @@
 
   &__symbol,
   &__float {
-    font-size: 0.6em;
     font-weight: 500;
+    font-size: 0.6em;
   }
   &__int {
+    font-weight: 500;
     font-size: 1em;
     vertical-align: baseline;
-    font-weight: 500;
   }
 }
