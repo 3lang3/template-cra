@@ -6,38 +6,28 @@ import Image from '@/components/Image';
 import { Flex } from 'react-vant';
 import blockIconSrc from './block.png';
 import { transferString } from '@/utils/utils';
-import { runAppMethod } from '@/utils/app';
+import app from '@/utils/app';
 import { Link } from 'umi';
 import styles from './index.less';
 
-const title = {
-  '101': '饿了么',
-  '102': '口碑红包',
-  '103': '饿了么果蔬商超',
-  '502': '美团外卖',
-  '506': '美团果蔬商超',
-  '507': '美团团购',
-  '801': '肯德基',
-};
-
-export default ({ location }) => {
-  const { query } = location;
+export default ({ id }) => {
   const {
     loading,
     error,
     refresh,
     data: { data: detail } = { data: {} },
   } = useRequest(getLifeServiceDetail, {
-    defaultParams: [{ cps_id: query.id || '101' }],
+    defaultParams: [{ cps_id: id || '101' }],
   });
   const { data: { data: urls } = { data: {} } } = useRequest(getCpsUrl, {
-    defaultParams: [{ cps_id: query.id || '101' }],
+    defaultParams: [{ cps_id: id || '101' }],
   });
 
   useEffect(() => {
-    document.title = title[query.id];
-    runAppMethod('modifyTitle', title[query.id]);
-  }, [query.id]);
+    document.title = detail.title;
+    app.event.modifyTitle(detail.title);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   if (loading) return <FullPageLoader />;
   if (error) return <FullPageError refresh={refresh} />;
