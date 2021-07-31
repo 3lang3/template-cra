@@ -41,7 +41,9 @@ export const errorHandler = async (error: ResponseError) => {
     });
 
     if (status === 401 || status === 403) {
-      history.push('/login');
+      if (history.location.pathname !== '/login') {
+        history.push('/login');
+      }
       tokenHelper.rm();
     }
   }
