@@ -34,3 +34,10 @@ export const tokenHelper = {
   /** 删除token */
   rm: () => window.localStorage.removeItem(STORAGE.TOKEN),
 };
+
+export const transferString = (content: string) => {
+  let string = content;
+  string = string.replace(/\r\n/g, '<br>');
+  string = string.replace(/\n/g, '<br>');
+  return string;
+};

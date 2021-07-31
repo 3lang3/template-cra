@@ -1,3 +1,4 @@
+import { STORAGE } from '@/config/constant';
 import { BROWSER_ENV } from '@/config/ua';
 import app, { runAppMethod } from '.';
 import { tokenHelper } from '../utils';
@@ -10,18 +11,30 @@ type OutlinkType = {
 };
 
 /**
+ * 进入页面类型
+ * - check 签到页
+ * - pointerCenter 积分中心
+ * - locallife 本地生活
+ */
+type EnterPageType = 'check' | 'pointCenter' | 'locallife';
+
+/**
  * 需要挂载到全局的事件名称
  * app需要主动调用
  */
 export const APP_INJECT_EVENT_MAP = {
   /** ios写入版本号 */
   APP_VERSION: 'setAppVersion',
-  /** app写入token */
+  /** ios写入token */
   SET_TOKEN: 'setToken',
   /** app获取分享参数 */
   SET_SHARE_PARAMS: 'app_invoke_getWxShareOption',
   /** app获取回退按钮提醒参数 */
   SET_GOBACK_PARAMS: 'app_invoke_getBackInfoOption',
+  /** app获取本地生活分享参数 */
+  SET_LOCAL_LIFE_PARAMS: 'app_invoke_getLocalLifeShareInfo',
+  /** ios写入经纬度信息 */
+  SET_LOCATION: 'setLocation',
 };
 
 export const eventMap = {
@@ -33,7 +46,7 @@ export const eventMap = {
   getToken: () => {
     const token = runAppMethod('getToken');
     if (BROWSER_ENV.ANDROID) {
-      tokenHelper.set(token as unknown as string);
+      tokenHelper.set((token as unknown) as string);
     }
   },
   /**
@@ -94,12 +107,8 @@ export const eventMap = {
   checkPushAndShowDialog: () => runAppMethod('checkPushAndShowDialog'),
   /**
    * 通知app进入某些页面
-   * @param {string} pageType 页面类型
-   * - check 签到页面
-   * - pointCenter 积分中心
    */
-  enterPage: (pageType: 'check' | 'pointCenter') =>
-    runAppMethod('enterPage', pageType),
+  enterPage: (pageType: EnterPageType) => runAppMethod('enterPage', pageType),
   /**
    * 通知app调用返回前提示弹窗
    * @example 签到页用户未签到离开, 则弹出相应提示
@@ -123,9 +132,19 @@ export const eventMap = {
    */
   getAppVersion: (): string => {
     const ver = BROWSER_ENV.IOS
-      ? window.localStorage.getItem('app_version') || ''
+      ? window.localStorage.getItem(STORAGE.APP_VERSION) || ''
       : runAppMethod<string>('getAppVersion');
     return ver;
+  },
+  /**
+   * 获取app经纬度信息
+   * @summary 进入ios的webview后, ios会主动调用window.setLocation方法注入经纬度信息
+   */
+  getLocation: (): string => {
+    const loca = BROWSER_ENV.IOS
+      ? window.localStorage.getItem(STORAGE.APP_LOCATION) || ''
+      : runAppMethod<string>('getLocation');
+    return loca;
   },
 };
 

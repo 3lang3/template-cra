@@ -1,3 +1,4 @@
+import { STORAGE } from './config/constant';
 import { BROWSER_ENV } from './config/ua';
 import { getCurrentUser } from './services/common';
 import app, { APP_INJECT_EVENT_MAP } from './utils/app';
@@ -13,7 +14,10 @@ if (process.env.NODE_ENV === 'development' && process.env.TOKEN) {
 // app调用事件注入
 if (BROWSER_ENV.WEBVIEW) {
   app.inject(APP_INJECT_EVENT_MAP.APP_VERSION, (ver) =>
-    window.localStorage.setItem('app_version', ver),
+    window.localStorage.setItem(STORAGE.APP_VERSION, ver),
+  );
+  app.inject(APP_INJECT_EVENT_MAP.SET_LOCATION, (ver) =>
+    window.localStorage.setItem(STORAGE.APP_LOCATION, ver),
   );
   app.inject(APP_INJECT_EVENT_MAP.SET_TOKEN, tokenHelper.set);
 }

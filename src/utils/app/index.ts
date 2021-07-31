@@ -39,7 +39,7 @@ export const runAppMethod = <T = undefined>(
       message: '当前版本不支持该功能，请更新app后再来哦～',
     });
   }
-  return undefined as unknown as T;
+  return (undefined as unknown) as T;
 };
 
 type AppHelper = {
