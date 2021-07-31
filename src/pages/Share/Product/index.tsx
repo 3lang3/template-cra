@@ -32,7 +32,7 @@ export default ({ location }) => {
     app.call.goodsDetail({
       goods_ids: detail.ids,
       item_id: detail.item_id,
-      page_type: detail.page_type,
+      page_type: detail.user_type,
     });
   };
 
@@ -101,7 +101,7 @@ export default ({ location }) => {
   }, [detail.reserve_price]);
 
   const renderCoupon = useCallback(() => {
-    if (BROWSER_ENV.WECHAT) return null;
+    if (BROWSER_ENV.WECHAT || !+detail.coupon_amount) return null;
     return (
       <Flex direction="column" justify="between" className={styles.coupon}>
         <Flex align="end">
@@ -149,7 +149,7 @@ export default ({ location }) => {
           </Flex>
         )}
         {renderTitle()}
-        {BROWSER_ENV.WECHAT ? (
+        {BROWSER_ENV.WECHAT && +detail.coupon_amount ? (
           <>
             <Flex className="mb20" align="center" justify="between">
               {renderReservePrice()}
