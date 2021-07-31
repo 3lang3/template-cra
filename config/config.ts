@@ -1,4 +1,3 @@
-import path from 'path';
 import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
 import { defineConfig } from 'umi';
