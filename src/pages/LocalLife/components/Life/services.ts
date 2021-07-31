@@ -11,3 +11,7 @@ export function getCpsUrl(params) {
     params,
   });
 }
+
+export function getBind() {
+  return request.post('/distributor/shareBinding');
+}

@@ -23,4 +23,9 @@ export default [
     path: '/local-life',
     component: '@/pages/LocalLife',
   },
+  {
+    title: '本地生活',
+    path: '/group-buy',
+    component: '@/pages/GroupBuy',
+  },
 ] as IRoute[];
