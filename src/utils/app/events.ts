@@ -10,6 +10,14 @@ type OutlinkType = {
 };
 
 /**
+ * 进入页面类型
+ * - check 签到页
+ * - pointerCenter 积分中心
+ * - locallife 本地生活
+ */
+type EnterPageType = 'check' | 'pointCenter' | 'locallife';
+
+/**
  * 需要挂载到全局的事件名称
  * app需要主动调用
  */
@@ -22,6 +30,8 @@ export const APP_INJECT_EVENT_MAP = {
   SET_SHARE_PARAMS: 'app_invoke_getWxShareOption',
   /** app获取回退按钮提醒参数 */
   SET_GOBACK_PARAMS: 'app_invoke_getBackInfoOption',
+  /** app获取本地生活分享参数 */
+  SET_LOCAL_LIFE_PARAMS: 'app_invoke_getLocalLifeShareInfo',
 };
 
 export const eventMap = {
@@ -94,12 +104,8 @@ export const eventMap = {
   checkPushAndShowDialog: () => runAppMethod('checkPushAndShowDialog'),
   /**
    * 通知app进入某些页面
-   * @param {string} pageType 页面类型
-   * - check 签到页面
-   * - pointCenter 积分中心
    */
-  enterPage: (pageType: 'check' | 'pointCenter') =>
-    runAppMethod('enterPage', pageType),
+  enterPage: (pageType: EnterPageType) => runAppMethod('enterPage', pageType),
   /**
    * 通知app调用返回前提示弹窗
    * @example 签到页用户未签到离开, 则弹出相应提示
