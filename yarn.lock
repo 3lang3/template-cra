@@ -9419,10 +9419,10 @@ react-tween-state@^0.1.5:
     raf "^3.1.0"
     tween-functions "^1.0.1"
 
-react-vant@^0.0.31:
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/react-vant/-/react-vant-0.0.31.tgz#555d15cb1b3ea8d9094eea31961f87d21a1154bd"
-  integrity sha512-JtAp3KGNcFU/ZPI8ExPSG9BkEyTgKP+Ps1N5xIh2isdqJEku4OgLpT5ByxmE6prgOnhhDkNTT3XQVEHaa7qt3Q==
+react-vant@^0.0.32:
+  version "0.0.32"
+  resolved "https://registry.yarnpkg.com/react-vant/-/react-vant-0.0.32.tgz#fd45189c0beb2daadca5450da3d278120b5a7a80"
+  integrity sha512-TyFYe50Dk9+I7qpUu2wn4XLbEsZCjtEPD3fboptjkoMmMvPm1EWy4YpgEkUAkwVm7+Up0aJrADEJQxzyIWyHMw==
   dependencies:
     "@vant/icons" "^1.6.0"
     classnames "^2.2.6"

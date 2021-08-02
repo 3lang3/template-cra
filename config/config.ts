@@ -44,7 +44,7 @@ export default defineConfig({
       mediaQuery: false, // (Boolean) Allow px to be converted in media queries.
     }),
   ],
-  favicon: '/logo.png',
+  favicon: NODE_ENV === 'production' ? '/new/logo' : '/logo.png',
   fastRefresh: {},
   dynamicImport: {
     loading: '@/components/Chore/DynamicImportLoader',
