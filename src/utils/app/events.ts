@@ -2,6 +2,7 @@ import { STORAGE } from '@/config/constant';
 import { BROWSER_ENV } from '@/config/ua';
 import app, { runAppMethod } from '.';
 import { tokenHelper } from '../utils';
+import type { APP_PAGE_ENUM } from './pages';
 
 /** outlink结构 */
 type OutlinkType = {
@@ -53,7 +54,7 @@ export const eventMap = {
    * 跳转后台配置页面
    */
   gotoLinkPage: (options: {
-    link_type: number | string;
+    link_type: APP_PAGE_ENUM;
     outlink?: OutlinkType;
   }) => runAppMethod('gotoLinkPage', options),
   /**

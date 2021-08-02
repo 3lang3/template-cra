@@ -15,8 +15,8 @@ export default [
   },
   {
     title: 'APP下载',
-    path: '/share/download',
-    component: '@/pages/Share/Download',
+    path: '/download',
+    component: '@/pages/Download',
   },
   {
     title: '本地生活',
