@@ -1,0 +1,52 @@
+@import '../../../../style/var.less';
+.pop-coupon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  transition: visibility 300ms cubic-bezier(0.36, 0.66, 0.04, 1);
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: opacity 150ms ease-in;
+  }
+  &__container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    width: 620px;
+    height: 557px;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 20px;
+    img {
+      width: 100%;
+    }
+    &__p {
+      width: 484px;
+      margin: 0 auto !important;
+      margin-top: 20px !important;
+      text-align: center !important;
+    }
+    &__button {
+      width: 500px;
+      height: 88px;
+      margin: 30px 0 30px 60px !important;
+      background: linear-gradient(0deg, #ed513b, #ed663b 100%);
+      border-radius: 0;
+    }
+  }
+  .high {
+    color: #ed513b;
+  }
+}

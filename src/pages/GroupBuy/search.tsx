@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRequest } from 'ahooks';
-import { regions, shops, deals } from '@/services/groupBuy';
+import { regions, deals } from '@/services/groupBuy';
 import Search from './components/Search';
 import Menu from './components/Menu';
 import Product from './components/Product';
@@ -43,17 +43,6 @@ export default () => {
     },
   });
 
-  useRequest(shops, {
-    onSuccess: ({ data }) => {
-      regionsList[1] = data.map((item) => ({
-        label: item.name,
-        value: item.id,
-        ...item,
-      }));
-      setRegionsList(regionsList);
-    },
-  });
-
   useRequest(deals, {
     onSuccess: (res) => {
       console.log(res);
@@ -68,8 +57,8 @@ export default () => {
       <div className="buy__body">
         <Menu list={regionsList} />
         <div className="buy__body--list">
-          <Product />
-          <Product />
+          {/* <Product /> */}
+          {/* <Product /> */}
         </div>
       </div>
     </div>
