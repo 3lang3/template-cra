@@ -28,4 +28,9 @@ export default [
     path: '/group-buy',
     component: '@/pages/GroupBuy',
   },
+  {
+    title: '搜索',
+    path: '/group-buy-search',
+    component: '@/pages/GroupBuy/search',
+  },
 ] as IRoute[];

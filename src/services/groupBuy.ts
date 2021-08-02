@@ -16,3 +16,10 @@ export function shops() {
     '/third/meituan/shops?cid0=226&cid=&cid1=2165&plat=2&page=1&page_size=100',
   );
 }
+
+// 团单列表
+export function deals() {
+  return request(
+    '/third/meituan/deals?cid0=226&cid=&cid1=2165&plat=2&page=1&page_size=10',
+  );
+}

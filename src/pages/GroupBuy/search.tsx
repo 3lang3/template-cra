@@ -1,21 +1,13 @@
 import { useState } from 'react';
 import { useRequest } from 'ahooks';
-import { categories, regions, shops, deals } from '@/services/groupBuy';
+import { regions, shops, deals } from '@/services/groupBuy';
 import Search from './components/Search';
-import TabBar from './components/TabBar';
 import Menu from './components/Menu';
 import Product from './components/Product';
-import { history } from 'umi';
-import './index.less';
+import './search.less';
 
 export default () => {
-  const [tabBarList, setTabBarList] = useState([]);
   const [regionsList, setRegionsList] = useState<any>([[], [], []]);
-  useRequest(categories, {
-    onSuccess: ({ data }) => {
-      setTabBarList(data.map((item) => ({ label: item.name, value: item.id })));
-    },
-  });
 
   useRequest(regions, {
     onSuccess: ({ data }) => {
@@ -68,15 +60,10 @@ export default () => {
     },
   });
 
-  function onSearch() {
-    history.push('/group-buy-search');
-  }
-
   return (
     <div className="buy">
       <header className="buy__header">
-        <Search onSearch={onSearch} readonly={true} />
-        <TabBar data={tabBarList} />
+        <Search />
       </header>
       <div className="buy__body">
         <Menu list={regionsList} />
