@@ -39,12 +39,12 @@ export default [
     component: '@/pages/LocalLife',
   },
   {
-    title: '本地生活',
+    title: '美团团购券',
     path: '/group-buy',
     component: '@/pages/GroupBuy',
   },
   {
-    title: '搜索',
+    title: '美团团购券搜索',
     path: '/group-buy-search',
     component: '@/pages/GroupBuy/search',
   },
