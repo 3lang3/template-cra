@@ -29,10 +29,8 @@ const codeMessage = {
  * 异常处理程序
  */
 export const errorHandler = async (error: ResponseError) => {
-  const {
-    response,
-    data,
-  }: { response: Response; data: { msg: string } } = error;
+  const { response, data }: { response: Response; data: { msg: string } } =
+    error;
   if (response && response.status) {
     const errorText =
       data.msg || codeMessage[response.status] || response.statusText;

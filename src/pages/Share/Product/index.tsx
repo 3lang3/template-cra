@@ -60,11 +60,22 @@ export default ({ location }) => {
         ? detail.small_images
         : [detail.img];
     return (
-      <Swipe className={styles.swipe}>
+      <Swipe
+        className={styles.swipe}
+        indicatorRender={({ current, count }) => (
+          <Flex
+            justify="center"
+            align="center"
+            className={styles.swipe__indicator}
+          >
+            {current}/{count}
+          </Flex>
+        )}
+      >
         {imgs.map((el, i) => (
           // eslint-disable-next-line react/no-array-index-key
           <Swipe.Item key={i}>
-            <Image className={styles.swipe__img} src={el} />
+            <Image src={el} />
           </Swipe.Item>
         ))}
       </Swipe>
@@ -102,6 +113,8 @@ export default ({ location }) => {
 
   const renderCoupon = useCallback(() => {
     if (BROWSER_ENV.WECHAT) return null;
+    if (!+detail.coupon_amount)
+      return <div onClick={open} className={styles.coupon__empty} />;
     return (
       <Flex
         onClick={open}
@@ -109,33 +122,21 @@ export default ({ location }) => {
         justify={+detail.coupon_amount ? 'between' : 'center'}
         className={styles.coupon}
       >
-        {+detail.coupon_amount ? (
-          <>
-            <Flex align="end">
-              <Price
-                className="mr10"
-                content={detail.coupon_amount}
-                size="lg"
-                type="primary"
-              />
-              <Typography.Text strong type="primary">
-                {detail.coupon_name}
-              </Typography.Text>
-            </Flex>
-            <Typography.Text size="sm">
-              有效期{detail.coupon_time}
-            </Typography.Text>
-          </>
-        ) : (
-          <Flex align="center">
-            <Typography.Text type="primary" strong size="xl">
-              打开秀省 立享优惠
-            </Typography.Text>
-          </Flex>
-        )}
+        <Flex align="end">
+          <Price
+            className="mr10"
+            content={detail.coupon_amount}
+            size="lg"
+            type="primary"
+          />
+          <Typography.Text strong type="primary">
+            {detail.coupon_name}
+          </Typography.Text>
+        </Flex>
+        <Typography.Text size="sm">有效期{detail.coupon_time}</Typography.Text>
 
         <Flex justify="center" align="center" className={styles.coupon__btn}>
-          {+detail.coupon_amount ? '立即领取' : '去秀省'}
+          立即领取
         </Flex>
       </Flex>
     );

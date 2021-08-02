@@ -13,10 +13,10 @@ if (process.env.NODE_ENV === 'development' && process.env.TOKEN) {
 
 // app调用事件注入
 if (BROWSER_ENV.WEBVIEW) {
-  app.inject(APP_INJECT_EVENT_MAP.APP_VERSION, (str) =>
+  app.inject(APP_INJECT_EVENT_MAP.APP_VERSION, (str: string) =>
     window.localStorage.setItem(STORAGE.APP_VERSION, str),
   );
-  app.inject(APP_INJECT_EVENT_MAP.SET_LOCATION, (str) =>
+  app.inject(APP_INJECT_EVENT_MAP.SET_LOCATION, (str: string) =>
     window.localStorage.setItem(STORAGE.APP_LOCATION, str),
   );
   app.inject(APP_INJECT_EVENT_MAP.SET_TOKEN, tokenHelper.set);
