@@ -75,7 +75,7 @@ export default ({ location }) => {
         {imgs.map((el, i) => (
           // eslint-disable-next-line react/no-array-index-key
           <Swipe.Item key={i}>
-            <Image className={styles.swipe__img} src={el} />
+            <Image src={el} />
           </Swipe.Item>
         ))}
       </Swipe>

@@ -146,6 +146,14 @@ export const eventMap = {
       : (runAppMethod<string>('getLocation') as string);
     return loca;
   },
+  /**
+   * 显示webview右上角刷新
+   * - 1 显示
+   * - 0 不显示
+   */
+  showRightRefreshButton: (show = '1') => {
+    runAppMethod('showRightRefreshButton', show);
+  },
 };
 
 /**
