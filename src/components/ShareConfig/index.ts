@@ -1,5 +1,5 @@
 /**
- * 用于页面分享设置
+ * 用于页面通用分享设置
  */
 import config from '@/config';
 import { BROWSER_ENV } from '@/config/ua';

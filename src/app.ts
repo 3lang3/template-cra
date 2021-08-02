@@ -5,7 +5,11 @@ import app, { APP_INJECT_EVENT_MAP } from './utils/app';
 import { tokenHelper } from './utils/utils';
 
 // 开发环境注入token
-if (process.env.NODE_ENV === 'development' && process.env.TOKEN) {
+if (
+  process.env.NODE_ENV === 'development' &&
+  !BROWSER_ENV.WEBVIEW &&
+  process.env.TOKEN
+) {
   // eslint-disable-next-line no-console
   console.log('.env.local file TOKEN has been injectd!');
   tokenHelper.set(process.env.TOKEN as string);

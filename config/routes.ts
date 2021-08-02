@@ -9,6 +9,21 @@ export default [
   },
   { title: '登录', path: '/login', component: '@/pages/Login' },
   {
+    path: '/a', // app嵌入
+    routes: [
+      {
+        title: '订单认领',
+        path: 'order/claim',
+        component: '@/pages/App/Order/Claim',
+      },
+      {
+        title: '订单认领',
+        path: 'order/claim/result',
+        component: '@/pages/App/Order/Claim/Result',
+      },
+    ],
+  },
+  {
     title: '商品分享',
     path: '/share/product',
     component: '@/pages/Share/Product',

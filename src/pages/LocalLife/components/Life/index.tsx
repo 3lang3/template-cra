@@ -31,14 +31,14 @@ export default ({ id }) => {
     data: { data: detail } = { data: {} as LifeServiceDetailReturn },
   } = useRequest(getshareinfo, {
     defaultParams: [{ cps_id: id || '101' }],
-    onSuccess: (res) => {
-      document.title = detail.title;
-      app.event.modifyTitle(detail.title);
+    onSuccess: ({ data }) => {
+      document.title = data.title;
+      app.event.modifyTitle(data.title);
       app.inject<unknown, LocalLifeShareParams>(
         APP_INJECT_EVENT_MAP.SET_LOCAL_LIFE_PARAMS,
         () => {
           bindReq.run();
-          return res.data;
+          return data;
         },
       );
     },

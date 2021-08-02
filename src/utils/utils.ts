@@ -35,9 +35,9 @@ export const tokenHelper = {
   rm: () => window.localStorage.removeItem(STORAGE.TOKEN),
 };
 
+/**
+ * 字符串换行符替换成<br />
+ */
 export const transferString = (content: string) => {
-  let string = content;
-  string = string.replace(/\r\n/g, '<br>');
-  string = string.replace(/\n/g, '<br>');
-  return string;
+  return content.replace(/(\r\n|\n)/g, '<br>');
 };

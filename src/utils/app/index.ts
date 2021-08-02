@@ -23,25 +23,25 @@ export const runAppMethod = <T = unknown>(
   options?: any,
 ): T | undefined => {
   if (BROWSER_ENV.WEBVIEW) {
-    let opts = options as any;
-    let method;
-    if (window.android && window.android[methodName]) {
-      // 传递给安卓方法的参数须stringify
-      if (options) {
-        opts = typeof options === 'object' ? JSON.stringify(opts) : opts;
-      }
-      method = window.android[methodName];
-    }
-    if (window.webkit && window.webkit.messageHandlers[methodName]) {
-      method = window.webkit.messageHandlers[methodName].postMessage;
-    }
-
+    let opts;
     try {
-      return method(opts);
+      if (window.android && window.android[methodName]) {
+        // 传递给安卓方法的参数须stringify
+        if (options) {
+          opts =
+            typeof options === 'object' ? JSON.stringify(options) : options;
+        }
+        return opts
+          ? window.android[methodName](opts)
+          : window.android[methodName]();
+      }
+      if (window.webkit && window.webkit.messageHandlers[methodName]) {
+        return window.webkit.messageHandlers[methodName].postMessage(options);
+      }
     } catch (error) {
       Dialog.alert({
         title: '提示',
-        message: '当前版本不支持该功能，请更新app后再来哦～',
+        message: `当前版本不支持该功能，请更新app后再来哦～`,
       });
     }
   }
