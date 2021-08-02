@@ -21,8 +21,8 @@ export default ({ id }) => {
   } = useRequest(getLifeServiceDetail, {
     defaultParams: [{ cps_id: id || '101' }],
     onSuccess: (res) => {
-      app.inject(APP_INJECT_EVENT_MAP.SET_LOCAL_LIFE_PARAMS, async () => {
-        await bindReq.run();
+      app.inject(APP_INJECT_EVENT_MAP.SET_LOCAL_LIFE_PARAMS, () => {
+        bindReq.run();
         return res.data;
       });
     },
