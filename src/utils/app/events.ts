@@ -46,7 +46,7 @@ export const eventMap = {
   getToken: () => {
     const token = runAppMethod('getToken');
     if (BROWSER_ENV.ANDROID) {
-      tokenHelper.set((token as unknown) as string);
+      tokenHelper.set(token as unknown as string);
     }
   },
   /**
@@ -67,7 +67,7 @@ export const eventMap = {
    */
   jumpPointDetailList: () => runAppMethod('jumpPointDetailList'),
   /**
-   * 更改标题
+   * 更改app webview标题
    * @param {string} title 标题
    */
   modifyTitle: (title: string) => runAppMethod('modifyTitle', title),
@@ -133,7 +133,7 @@ export const eventMap = {
   getAppVersion: (): string => {
     const ver = BROWSER_ENV.IOS
       ? window.localStorage.getItem(STORAGE.APP_VERSION) || ''
-      : runAppMethod<string>('getAppVersion');
+      : (runAppMethod<string>('getAppVersion') as string);
     return ver;
   },
   /**
@@ -143,7 +143,7 @@ export const eventMap = {
   getLocation: (): string => {
     const loca = BROWSER_ENV.IOS
       ? window.localStorage.getItem(STORAGE.APP_LOCATION) || ''
-      : runAppMethod<string>('getLocation');
+      : (runAppMethod<string>('getLocation') as string);
     return loca;
   },
 };
