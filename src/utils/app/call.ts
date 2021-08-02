@@ -22,7 +22,7 @@ const options: CallappOptions = {
   },
   appstore: 'https://apps.apple.com/cn/app/id1563146799',
   yingyongbao: 'https://a.app.qq.com/o/simple.jsp?pkgname=com.zhp.xiusheng',
-  fallback: `${config.shop}/new/share/download`,
+  fallback: `${config.shop}/new/download`,
 };
 
 const callApp = new CallApp(options);
