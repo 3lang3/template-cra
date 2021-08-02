@@ -2,7 +2,7 @@ import { STORAGE } from '@/config/constant';
 import { BROWSER_ENV } from '@/config/ua';
 import app, { runAppMethod } from '.';
 import { tokenHelper } from '../utils';
-import type { APP_PAGE_ENUM } from './page';
+import type { APP_PAGE_ENUM } from './pages';
 
 /** outlink结构 */
 type OutlinkType = {
