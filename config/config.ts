@@ -1,4 +1,3 @@
-import path from 'path';
 import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
 import { defineConfig } from 'umi';
@@ -36,7 +35,11 @@ export default defineConfig({
       viewportHeight: 1334, // (Number) The height of the viewport.
       unitPrecision: 4, // (Number) The decimal numbers to allow the REM units to grow to.
       viewportUnit: 'vw', // (String) Expected units.
-      selectorBlackList: ['.ignore', '.hairlines'], // (Array) The selectors to ignore and leave as px.
+      selectorBlackList: [
+        '.ignore',
+        '.rv-dropdown-menu__title::after',
+        /hairline/,
+      ], // (Array) The selectors to ignore and leave as px.
       minPixelValue: 1, // (Number) Set the minimum pixel value to replace.
       mediaQuery: false, // (Boolean) Allow px to be converted in media queries.
     }),

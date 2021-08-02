@@ -3,7 +3,7 @@ import styles from './index.less';
 
 type PriceProps = {
   /** 价格 */
-  content: string;
+  content: string | number;
   /** 钱标识符 @default ¥ */
   symbol?: boolean | string;
   /** 尺寸大小 */
@@ -18,8 +18,8 @@ type PriceProps = {
 };
 
 const Price: React.FC<PriceProps> = (props) => {
-  const { content, symbol = '¥', size = 'md', type } = props;
-  const [int, float] = content.split('.');
+  const { content = '0', symbol = '¥', size = 'md', type } = props;
+  const [int, float] = content.toString().split('.');
   const hasDot = +float > 0;
 
   const renderSymbol = () => {

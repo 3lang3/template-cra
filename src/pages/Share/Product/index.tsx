@@ -32,7 +32,7 @@ export default ({ location }) => {
     app.call.goodsDetail({
       goods_ids: detail.ids,
       item_id: detail.item_id,
-      page_type: detail.page_type,
+      page_type: detail.user_type,
     });
   };
 
@@ -103,26 +103,39 @@ export default ({ location }) => {
   const renderCoupon = useCallback(() => {
     if (BROWSER_ENV.WECHAT) return null;
     return (
-      <Flex direction="column" justify="between" className={styles.coupon}>
-        <Flex align="end">
-          <Price
-            className="mr10"
-            content={detail.coupon_amount}
-            size="lg"
-            type="primary"
-          />
-          <Typography.Text strong type="primary">
-            {detail.coupon_name}
-          </Typography.Text>
-        </Flex>
-        <Typography.Text size="sm">有效期{detail.coupon_time}</Typography.Text>
-        <Flex
-          onClick={open}
-          justify="center"
-          align="center"
-          className={styles.coupon__btn}
-        >
-          立即领取
+      <Flex
+        onClick={open}
+        direction="column"
+        justify={+detail.coupon_amount ? 'between' : 'center'}
+        className={styles.coupon}
+      >
+        {+detail.coupon_amount ? (
+          <>
+            <Flex align="end">
+              <Price
+                className="mr10"
+                content={detail.coupon_amount}
+                size="lg"
+                type="primary"
+              />
+              <Typography.Text strong type="primary">
+                {detail.coupon_name}
+              </Typography.Text>
+            </Flex>
+            <Typography.Text size="sm">
+              有效期{detail.coupon_time}
+            </Typography.Text>
+          </>
+        ) : (
+          <Flex align="center">
+            <Typography.Text type="primary" strong size="xl">
+              打开秀省 立享优惠
+            </Typography.Text>
+          </Flex>
+        )}
+
+        <Flex justify="center" align="center" className={styles.coupon__btn}>
+          {+detail.coupon_amount ? '立即领取' : '去秀省'}
         </Flex>
       </Flex>
     );
@@ -153,13 +166,15 @@ export default ({ location }) => {
           <>
             <Flex className="mb20" align="center" justify="between">
               {renderReservePrice()}
-              <Flex
-                className={styles.coupon__tag}
-                align="center"
-                justify="center"
-              >
-                券 ¥{+detail.coupon_amount}
-              </Flex>
+              {+detail.coupon_amount > 0 && (
+                <Flex
+                  className={styles.coupon__tag}
+                  align="center"
+                  justify="center"
+                >
+                  券 ¥{+detail.coupon_amount}
+                </Flex>
+              )}
             </Flex>
             {renderPrice()}
           </>
