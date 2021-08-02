@@ -1,26 +1,65 @@
 @import '../../../../style/var.less';
 .menu {
-  background-color: #fff;
+  position: relative;
   height: 96px;
   padding: 0 24px;
+  background-color: #fff;
   &__span {
     position: relative;
+    display: inline-block;
+    margin-right: 20px;
     padding: 8px 12px;
     font-size: 24px;
     text-align: center;
-    display: inline-block;
     background-color: @gray3;
-    margin-right: 20px;
     &::after {
-      content: '';
-      width: 0;
-      height: 0;
-      border-left: 9px solid transparent;
-      border-right: 9px solid transparent;
-      border-top: 9px solid @gray7;
       position: relative;
       top: 20px;
       left: 4px;
+      width: 0;
+      height: 0;
+      border-top: 9px solid @gray7;
+      border-right: 9px solid transparent;
+      border-left: 9px solid transparent;
+      content: '';
+    }
+  }
+  &__body {
+    position: absolute;
+    top: 94px;
+    left: 0;
+    z-index: 101;
+    width: 100%;
+    max-height: 432px;
+    overflow: auto;
+    background-color: white;
+    p {
+      width: 100%;
+      margin: 0;
+      padding: 24px 16px;
+    }
+    > div {
+      width: 50%;
+      overflow: auto;
+    }
+    > .menu__body--left--no {
+      width: 100%;
+    }
+    &--left {
+      p {
+        background-color: @gray3;
+      }
+      .active {
+        background-color: #fff;
+      }
+    }
+    &--right {
+      p:active {
+        background-color: @gray3;
+      }
+    }
+    .menu__p--active {
+      color: @primary;
     }
   }
 }
