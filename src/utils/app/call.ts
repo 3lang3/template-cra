@@ -56,8 +56,8 @@ export const callAppMap = {
         path: 'app:8888/goodsdetail/GoodsDetailActivity',
         param: {
           mGoodsIds: param.goods_ids,
-          mItemId: param.page_type,
-          mPageType: param.item_id,
+          mItemId: param.item_id,
+          mPageType: param.page_type,
         },
       });
     }
