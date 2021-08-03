@@ -4,13 +4,15 @@ import { defineConfig } from 'umi';
 import routes from './routes';
 import proxy from './proxy';
 
-const myEnv = dotenv.config();
-dotenvExpand(myEnv);
-
 const { REACT_APP_ENV = 'dev', NODE_ENV } = process.env;
 
+const isProd = NODE_ENV === 'production';
+
+const myEnv = dotenv.config({ path: isProd ? '.env' : '.env.local' });
+dotenvExpand(myEnv);
+
 export default defineConfig({
-  hash: NODE_ENV === 'production',
+  hash: isProd,
   base: '/new/',
   publicPath: '/new/',
   routes,

@@ -8,6 +8,7 @@ import blockIconSrc from './block.png';
 import { transferString } from '@/utils/utils';
 import app, { APP_INJECT_EVENT_MAP } from '@/utils/app';
 import styles from './index.less';
+import { useEffect } from 'react';
 
 /** 确保提供给app本地生活分享参数的类型 */
 type LocalLifeShareParams = {
@@ -47,8 +48,12 @@ export default ({ id }) => {
     defaultParams: [{ cps_id: id || '101' }],
   });
 
+  useEffect(() => {
+    app.event.enterPage('locallife');
+  }, []);
+
   const getCoupons = async () => {
-    await bindReq.run();
+    bindReq.run();
     if (urls.click_url) {
       window.open(urls.click_url);
     }
@@ -66,8 +71,11 @@ export default ({ id }) => {
     >
       <Image className={styles.life__bg} src={detail.background_image} />
       <div className={styles.life__button}>
-        <Image className={styles.button__img} src={detail.button_image} />
-        <div className={styles.button} onClick={getCoupons}></div>
+        <Image
+          className={styles.button__img}
+          src={detail.button_image}
+          onClick={getCoupons}
+        />
       </div>
       <div className={styles.life__rules}>
         <Flex justify="center" align="center" className={styles.top}>
