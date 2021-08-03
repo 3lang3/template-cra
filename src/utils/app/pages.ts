@@ -1,5 +1,5 @@
 /** app页面enum */
-export const enum APP_PAGE_ENUM {
+export enum APP_PAGE_ENUM {
   /** 店铺主页 */
   HOME = 1,
   /** 微页面 */

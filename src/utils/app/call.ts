@@ -12,7 +12,7 @@ import type { CallappOptions } from 'callapp-lib/dist/type/types';
 // ios: xiusheng://opencontroller?controller=XSGoodsDetailViewController&goods_ids=123&page_type=123&item_id=123
 
 const options: CallappOptions = {
-  timeout: 2100,
+  timeout: 3000,
   scheme: {
     protocol: 'xiusheng',
   },

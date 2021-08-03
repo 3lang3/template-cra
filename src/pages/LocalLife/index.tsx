@@ -1,8 +1,18 @@
 import { LOCAL_LIFE_MAP } from '@/config/constant';
+import { useEffect } from 'react';
 import Life from './components/Life';
+import { inviteCodeMissDialog } from './components/InviteCodeDialog';
+import { useModel } from 'umi';
 
 export default ({ location }) => {
   const { query } = location;
+  const { user } = useModel('user', (model) => ({ user: model.user }));
+
+  useEffect(() => {
+    if (!user.promo_code) {
+      inviteCodeMissDialog();
+    }
+  }, [user]);
 
   /**
    * 根据`query.id`分发页面
