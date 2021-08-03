@@ -66,7 +66,7 @@ export default ({ id }) => {
       const { data, type, msg } = await urlReq.run({ cps_id: id });
       Toast.clear();
       if (type === 1) throw new Error(msg);
-      window.open(data.click_url);
+      window.location.href = data.click_url;
     } catch (err) {
       Toast.info(err.message);
     }
