@@ -57,7 +57,7 @@ export default ({ id }) => {
 
   const getCoupons = async () => {
     if (urls.click_url) {
-      window.open(urls.click_url);
+      window.location.href = urls.click_url;
       return;
     }
     bindReq.run();
