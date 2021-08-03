@@ -60,14 +60,16 @@ export const CustomClaimDesc = () => (
 
 export const SwiperContentItem = ({ brand, subTitle, img1, img2 }) => (
   <>
-    <div className={styles.title}>
+    <Flex align="center" justify="center" className={styles.title}>
       <img alt="icon" src={titleIconLeftSrc} />
       如何获取{brand}订单编号
       <img alt="icon" src={titleIconRightSrc} />
-    </div>
-    <div className={styles.steps}>
+    </Flex>
+    <Flex justify="between" className={styles.steps}>
       <div className={styles.step}>
-        <div className={styles.stepNum}>1</div>
+        <Flex justify="center" align="center" className={styles.stepNum}>
+          1
+        </Flex>
         <div className={styles.stepText}>
           打开{brand}APP
           <br /> {subTitle}
@@ -75,7 +77,9 @@ export const SwiperContentItem = ({ brand, subTitle, img1, img2 }) => (
         <img src={img1} alt="step1" />
       </div>
       <div className={styles.step}>
-        <div className={styles.stepNum}>2</div>
+        <Flex justify="center" align="center" className={styles.stepNum}>
+          2
+        </Flex>
         <div className={styles.stepText}>
           复制订单编号
           <br /> 复制订单号,粘贴在搜索栏
@@ -83,6 +87,6 @@ export const SwiperContentItem = ({ brand, subTitle, img1, img2 }) => (
 
         <img src={img2} alt="step1" />
       </div>
-    </div>
+    </Flex>
   </>
 );

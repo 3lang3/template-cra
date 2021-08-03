@@ -5,7 +5,7 @@ import { useRequest } from 'ahooks';
 import * as React from 'react';
 import { CustomSearch, CustomClaimDesc } from './components';
 import styles from './index.less';
-import { Toast, Empty, Image } from 'react-vant';
+import { Toast, Empty, Image, Flex } from 'react-vant';
 
 export default ({ location }) => {
   const { keyword } = parse(location.search.substr(1));
@@ -67,29 +67,35 @@ export default ({ location }) => {
         <>
           <div className={styles.products}>
             {data.map((el) => (
-              <div className={styles.product} key={el.ids}>
+              <Flex className={styles.product} key={el.ids}>
                 <div className={styles.imgWrapper}>
                   <div className={styles.platform}>{el.platform_name}</div>
                   <Image className={styles.img} src={el.goods_img} />
                 </div>
-                <div className={styles.right}>
+                <Flex
+                  direction="column"
+                  justify="between"
+                  className={styles.right}
+                >
                   <div className={styles.info}>
                     <div className={styles.productName}>{el.goods_name}</div>
                     <div className={styles.sn}>订单号：{el.order_sn}</div>
                   </div>
                   <div className={styles.price}>¥{el.goods_price}</div>
-                </div>
-              </div>
+                </Flex>
+              </Flex>
             ))}
           </div>
-          <div
+          <Flex
+            align="center"
+            justify="center"
             className={`${styles.confirmBtn} ${
               disabled ? styles.disabled : ''
             }`}
             onClick={onConfirm}
           >
             确认领取
-          </div>
+          </Flex>
         </>
       ) : (
         <>
