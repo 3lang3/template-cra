@@ -59,29 +59,29 @@ export default ({ id }) => {
     };
   }, []);
 
-  const jumpLink = () => {
+  const jumpLink = (data) => {
     if (+detail.platform_type === 1) {
       app.event.gotoLinkPage({
         link_type: APP_PAGE_ENUM.OPEN_LINK,
-        outlink: { link: urls.click_url },
+        outlink: { link: data.click_url },
       });
     } else {
-      window.location.href = urls.click_url;
+      window.location.href = data.click_url;
     }
   };
 
   const getCoupons = async () => {
     if (urls.click_url) {
-      jumpLink();
+      jumpLink(urls);
       return;
     }
     bindReq.run();
     try {
       Toast.loading({ message: '请稍后...', forbidClick: true, duration: 0 });
-      const { type, msg } = await urlReq.run({ cps_id: id });
+      const { data, type, msg } = await urlReq.run({ cps_id: id });
       Toast.clear();
       if (type === 1) throw new Error(msg);
-      jumpLink();
+      jumpLink(data);
     } catch (err) {
       Toast.info(err.message);
     }
