@@ -44,18 +44,25 @@ export default ({ id }) => {
       );
     },
   });
-  const urlReq = useRequest(getCpsUrl, {
-    manual: true,
-  });
+  const { data: { data: urls } = { data: {} }, ...urlReq } = useRequest(
+    getCpsUrl,
+    {
+      manual: true,
+    },
+  );
 
   useEffect(() => {
     app.event.enterPage('locallife');
   }, []);
 
   const getCoupons = async () => {
+    if (urls.click_url) {
+      window.open(urls.click_url);
+      return;
+    }
     bindReq.run();
     try {
-      Toast.loading({ message: '请稍后', forbidClick: true, duration: 0 });
+      Toast.loading({ message: '请稍后...', forbidClick: true, duration: 0 });
       const { data, type, msg } = await urlReq.run({ cps_id: id });
       Toast.clear();
       if (type === 1) throw new Error(msg);

@@ -1,0 +1,37 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 580px;
+  height: 518px;
+  background: url('./bg.png') center center no-repeat;
+  background-size: 100% 100%;
+
+  .content {
+    padding: 256px 64px 0;
+
+    &__desc {
+      color: #93441d;
+    }
+  }
+
+  .footer {
+    padding: 30px 36px;
+    &__btn {
+      width: 240px;
+      height: 78px;
+      font-weight: 500;
+      border-radius: 39px;
+
+      &_outline {
+        color: #93441d;
+        border: 1px solid #93441d;
+      }
+
+      &_primary {
+        color: #fff;
+        background: linear-gradient(0deg, #ea4932, #ff733f 90%);
+      }
+    }
+  }
+}
