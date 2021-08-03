@@ -9,7 +9,7 @@ export default ({ data, onReceive }) => {
     <Flex className="product">
       <img className="product__img" src={data.dealInfo.defaultPic} />
       <div className="product__body">
-        <p className="product__title">{data.dealInfo.dealTitle}</p>
+        <p className="product__title ellipsis">{data.dealInfo.dealTitle}</p>
         <Flex align="center" justify="between">
           <Flex align="center">
             <img className="product__logo" src={ShopPng} />

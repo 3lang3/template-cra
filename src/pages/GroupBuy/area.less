@@ -1,0 +1,29 @@
+@import '../../style/var.less';
+.area {
+  .rv-index-anchor {
+    background-color: @gray3;
+  }
+  &__head {
+    margin: 0;
+    padding: 19px 24px;
+    font-weight: 500;
+    span {
+      margin-left: 30px;
+      color: @gray7;
+      font-weight: normal;
+    }
+  }
+  &__span {
+    display: inline-block;
+    width: 252px;
+    height: 80px;
+    margin-top: -1px;
+    margin-left: -1px;
+    line-height: 80px;
+    text-align: center;
+    border: 1px solid #e6e6e6;
+    &:active {
+      background-color: @gray4;
+    }
+  }
+}

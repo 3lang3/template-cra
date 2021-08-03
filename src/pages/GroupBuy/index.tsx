@@ -74,10 +74,6 @@ export default () => {
     },
   });
 
-  function onSearch() {
-    history.push('/group-buy-search');
-  }
-
   // 领券
   function onReceive(node) {
     console.log(node);
@@ -86,7 +82,11 @@ export default () => {
   return (
     <div className="buy">
       <header className="buy__header">
-        <Search onSearch={onSearch} readonly={true} />
+        <Search
+          onCity={() => history.push('/area')}
+          onSearch={() => history.push('/group-buy-search')}
+          readonly={true}
+        />
         <TabBar data={tabBarList} />
       </header>
       <div className="buy__body">
