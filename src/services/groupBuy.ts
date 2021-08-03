@@ -19,3 +19,8 @@ export function deals() {
     '/third/meituan/deals?cid0=226&cid=&cid1=2165&plat=2&page=1&page_size=10',
   );
 }
+
+// 城市列表
+export function meituanCities() {
+  return request('/third/meituan/cities?plat=2');
+}

@@ -48,4 +48,9 @@ export default [
     path: '/group-buy-search',
     component: '@/pages/GroupBuy/search',
   },
+  {
+    title: '选择城市',
+    path: '/area',
+    component: '@/pages/GroupBuy/area',
+  },
 ] as IRoute[];
