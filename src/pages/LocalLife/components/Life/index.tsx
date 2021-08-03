@@ -9,6 +9,7 @@ import { transferString } from '@/utils/utils';
 import app, { APP_INJECT_EVENT_MAP } from '@/utils/app';
 import styles from './index.less';
 import { useEffect } from 'react';
+import { APP_PAGE_ENUM } from '@/utils/app/pages';
 
 /** 确保提供给app本地生活分享参数的类型 */
 type LocalLifeShareParams = {
@@ -55,18 +56,29 @@ export default ({ id }) => {
     app.event.enterPage('locallife');
   }, []);
 
+  const jumpLink = () => {
+    if (detail.is_tb_platform) {
+      app.event.gotoLinkPage({
+        link_type: APP_PAGE_ENUM.OPEN_LINK,
+        outlink: { link: urls.click_url },
+      });
+    } else {
+      window.location.href = urls.click_url;
+    }
+  };
+
   const getCoupons = async () => {
     if (urls.click_url) {
-      window.location.href = urls.click_url;
+      jumpLink();
       return;
     }
     bindReq.run();
     try {
       Toast.loading({ message: '请稍后...', forbidClick: true, duration: 0 });
-      const { data, type, msg } = await urlReq.run({ cps_id: id });
+      const { type, msg } = await urlReq.run({ cps_id: id });
       Toast.clear();
       if (type === 1) throw new Error(msg);
-      window.location.href = data.click_url;
+      jumpLink();
     } catch (err) {
       Toast.info(err.message);
     }

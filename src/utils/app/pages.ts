@@ -34,6 +34,8 @@ export enum APP_PAGE_ENUM {
   WECHAT_CODE = 16,
   /** 邀请好友页 */
   INVITE_PAGE = 17,
+  /** 直接打开链接 */
+  OPEN_LINK = 18,
   /** 拼多多专区 */
   PDD_ZOOM = 19,
   /** 积分兑换记录 */
