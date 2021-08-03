@@ -3,7 +3,7 @@ import { getshareinfo, getCpsUrl, getBind } from './services';
 import { useRequest } from 'ahooks';
 import { FullPageError, FullPageLoader } from '@/components/Chore';
 import Image from '@/components/Image';
-import { Flex } from 'react-vant';
+import { Flex, Toast } from 'react-vant';
 import blockIconSrc from './block.png';
 import { transferString } from '@/utils/utils';
 import app, { APP_INJECT_EVENT_MAP } from '@/utils/app';
@@ -44,8 +44,8 @@ export default ({ id }) => {
       );
     },
   });
-  const { data: { data: urls } = { data: {} } } = useRequest(getCpsUrl, {
-    defaultParams: [{ cps_id: id || '101' }],
+  const urlReq = useRequest(getCpsUrl, {
+    manual: true,
   });
 
   useEffect(() => {
@@ -54,8 +54,14 @@ export default ({ id }) => {
 
   const getCoupons = async () => {
     bindReq.run();
-    if (urls.click_url) {
-      window.open(urls.click_url);
+    try {
+      Toast.loading({ message: '请稍后', forbidClick: true, duration: 0 });
+      const { data, type, msg } = await urlReq.run({ cps_id: id });
+      Toast.clear();
+      if (type === 1) throw new Error(msg);
+      window.open(data.click_url);
+    } catch (err) {
+      Toast.info(err.message);
     }
   };
 
