@@ -2,7 +2,7 @@ import { meituanCities } from '@/services/groupBuy';
 import { useRequest } from 'ahooks';
 import { Fragment, useState } from 'react';
 import { IndexBar, Cell } from 'react-vant';
-import SearchArea from './components/SearchArea';
+import SearchArea from './components/SearchBtn';
 import './area.less';
 
 export type Node = {

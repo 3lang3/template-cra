@@ -1,6 +1,7 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useRequest } from 'ahooks';
 import { categories, regions, deals } from '@/services/groupBuy';
+import MoreList from './components/MoreList';
 import Search from './components/Search';
 import TabBar from './components/TabBar';
 import Menu from './components/Menu';
@@ -11,7 +12,6 @@ import './index.less';
 export default () => {
   const [tabBarList, setTabBarList] = useState([]);
   const [regionsList, setRegionsList] = useState<any>([[], [], []]);
-  const [list, setList] = useState([]);
 
   const { run } = useRequest(categories, {
     manual: true,
@@ -68,10 +68,8 @@ export default () => {
     },
   });
 
-  useRequest(deals, {
-    onSuccess: ({ data }) => {
-      setList(data);
-    },
+  const { run: dealsRun } = useRequest(deals, {
+    manual: true,
   });
 
   // 领券
@@ -92,11 +90,14 @@ export default () => {
       <div className="buy__body">
         <Menu list={regionsList} />
         <div className="buy__body--list">
-          {list.map((item, i) => (
-            <Fragment key={'item-' + i}>
-              <Product data={item} onReceive={onReceive} />
-            </Fragment>
-          ))}
+          <MoreList
+            request={dealsRun}
+            row={(item, i) => (
+              <Fragment key={'item-' + i}>
+                <Product data={item} onReceive={onReceive} />
+              </Fragment>
+            )}
+          />
         </div>
       </div>
     </div>
