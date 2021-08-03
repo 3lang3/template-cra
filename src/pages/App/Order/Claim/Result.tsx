@@ -2,11 +2,10 @@
 import { parse } from 'querystring';
 import { getClaimOrder, memberClaimOrder } from './services';
 import { useRequest } from 'ahooks';
-import { Toast } from 'antd-mobile';
 import * as React from 'react';
 import { CustomSearch, CustomClaimDesc } from './components';
 import styles from './index.less';
-import { Empty, Image } from 'react-vant';
+import { Toast, Empty, Image } from 'react-vant';
 
 export default ({ location }) => {
   const { keyword } = parse(location.search.substr(1));
@@ -28,11 +27,11 @@ export default ({ location }) => {
 
   const search = async (payload) => {
     try {
-      Toast.loading('查询中...');
+      Toast.loading({ message: '查询中...', duration: 0, forbidClick: true });
       const { type, msg } = await searchReq.run({
         parent_order_sn: payload.keyword,
       });
-      Toast.hide();
+      Toast.clear();
       if (type === 1) throw new Error(msg);
     } catch (error) {
       Toast.info(error.message);
@@ -54,7 +53,7 @@ export default ({ location }) => {
       const { type, msg } = await confrimReq.run({
         orderGoodsIds: data.map((el) => el.ids),
       });
-      Toast.hide();
+      Toast.clear();
       if (type === 1) throw new Error(msg);
       setDisabled(true);
       Toast.info(msg);

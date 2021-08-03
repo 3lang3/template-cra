@@ -13,7 +13,7 @@ export type LifeServiceDetailReturn = {
   text_color: string;
   text_background_color: string;
   title: string;
-  is_tb_platform?: boolean;
+  platform_type: number;
 };
 export function getshareinfo(
   params,

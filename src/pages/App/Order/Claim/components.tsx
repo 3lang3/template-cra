@@ -1,6 +1,7 @@
 import titleIconLeftSrc from './static/index_title_left.png';
 import titleIconRightSrc from './static/index_title_right.png';
 import styles from './index.less';
+import { Flex } from 'react-vant';
 
 type CustomSearchProps = {
   value?: any;
@@ -27,17 +28,22 @@ export const CustomSearch = ({
     if (onChange) onChange({ ...value, keyword: e.target.value });
   };
   return (
-    <div className={styles.search}>
+    <Flex align="center" justify="between" className={styles.search}>
       <input
         value={keyword}
         placeholder="请输入淘宝或拼多多订单号"
         onChange={onIptChange}
         onKeyPress={onKeyPress}
       />
-      <div className={styles.searchBtn} onClick={onSearch}>
+      <Flex
+        align="center"
+        justify="center"
+        className={styles.searchBtn}
+        onClick={onSearch}
+      >
         搜索
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 

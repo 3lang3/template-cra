@@ -60,7 +60,7 @@ export default ({ id }) => {
   }, []);
 
   const jumpLink = () => {
-    if (detail.is_tb_platform) {
+    if (+detail.platform_type === 1) {
       app.event.gotoLinkPage({
         link_type: APP_PAGE_ENUM.OPEN_LINK,
         outlink: { link: urls.click_url },

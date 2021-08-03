@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { history } from 'umi';
-import { Swipe, Toast } from 'react-vant';
+import { Flex, Swipe, Toast } from 'react-vant';
 import stepTbOneSrc from './static/demo_1.jpg';
 import stepTbTwoSrc from './static/demo_2.jpg';
 import stepPddOneSrc from './static/demo_pdd_1.jpg';
@@ -21,7 +21,7 @@ export default () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
+      <Flex align="center" justify="center" className={styles.header}>
         <CustomSearch
           value={payload}
           onChange={(v) => {
@@ -29,7 +29,7 @@ export default () => {
           }}
           onSearch={onSearch}
         />
-      </div>
+      </Flex>
 
       <div className={styles.padd}>
         <div className={styles.lightBox}>
