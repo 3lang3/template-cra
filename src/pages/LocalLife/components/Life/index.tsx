@@ -54,6 +54,9 @@ export default ({ id }) => {
 
   useEffect(() => {
     app.event.enterPage('locallife');
+    return () => {
+      app.event.togglePageShare(0);
+    };
   }, []);
 
   const jumpLink = () => {
