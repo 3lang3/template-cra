@@ -23,7 +23,7 @@ type LocalLifeShareParams = {
   text_background_color: string;
 };
 
-export default ({ id, promoCode }) => {
+export default ({ id, isNeedBind }) => {
   const bindReq = useRequest(getBind, {
     manual: true,
   });
@@ -55,7 +55,7 @@ export default ({ id, promoCode }) => {
 
   useEffect(() => {
     app.event.showRightRefreshButton('1');
-    if (promoCode) app.event.enterPage('locallife');
+    if (isNeedBind) app.event.enterPage('locallife');
     return () => {
       app.event.togglePageShare('0');
     };
@@ -75,7 +75,7 @@ export default ({ id, promoCode }) => {
   };
 
   const getCoupons = async () => {
-    if (!promoCode) {
+    if (isNeedBind) {
       inviteCodeMissDialog();
       return;
     }
