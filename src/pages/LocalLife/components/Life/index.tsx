@@ -10,6 +10,7 @@ import app, { APP_INJECT_EVENT_MAP } from '@/utils/app';
 import styles from './index.less';
 import { useEffect } from 'react';
 import { APP_PAGE_ENUM } from '@/utils/app/pages';
+import { inviteCodeMissDialog } from '../InviteCodeDialog';
 
 /** 确保提供给app本地生活分享参数的类型 */
 type LocalLifeShareParams = {
@@ -22,7 +23,7 @@ type LocalLifeShareParams = {
   text_background_color: string;
 };
 
-export default ({ id }) => {
+export default ({ id, promoCode }) => {
   const bindReq = useRequest(getBind, {
     manual: true,
   });
@@ -71,6 +72,10 @@ export default ({ id }) => {
   };
 
   const getCoupons = async () => {
+    if (!promoCode) {
+      inviteCodeMissDialog();
+      return;
+    }
     if (urls.click_url) {
       jumpLink(urls);
       return;

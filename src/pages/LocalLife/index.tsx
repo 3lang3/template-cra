@@ -9,7 +9,7 @@ export default ({ location }) => {
   const { user } = useModel('user', (model) => ({ user: model.user }));
 
   useEffect(() => {
-    if (user.promo_code) {
+    if (!user.promo_code) {
       inviteCodeMissDialog();
     }
   }, [user]);
@@ -26,7 +26,7 @@ export default ({ location }) => {
     case LOCAL_LIFE_MAP.MEITUAN_MARKET:
     case LOCAL_LIFE_MAP.MEITUAN_TUANGOU:
     case LOCAL_LIFE_MAP.KOUBEI:
-      return <Life id={query.id} />;
+      return <Life id={query.id} promoCode={user.promo_code} />;
     case LOCAL_LIFE_MAP.KFC:
       return <div>肯德基</div>;
     default:
