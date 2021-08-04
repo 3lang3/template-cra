@@ -112,18 +112,20 @@ export default ({ id, isNeedBind }) => {
           onClick={getCoupons}
         />
       </div>
-      <div className={styles.life__rules}>
-        <Flex justify="center" align="center" className={styles.top}>
-          <img src={blockIconSrc} className={styles.icon} />
-          <span className={styles.title}>活动说明</span>
-          <img src={blockIconSrc} className={styles.icon} />
-        </Flex>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: transferString(detail.active_text),
-          }}
-        />
-      </div>
+      {detail.active_text && (
+        <div className={styles.life__rules}>
+          <Flex justify="center" align="center" className={styles.top}>
+            <img src={blockIconSrc} className={styles.icon} />
+            <span className={styles.title}>活动说明</span>
+            <img src={blockIconSrc} className={styles.icon} />
+          </Flex>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: transferString(detail.active_text),
+            }}
+          />
+        </div>
+      )}
     </Flex>
   );
 };
