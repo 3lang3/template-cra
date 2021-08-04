@@ -8,7 +8,7 @@ const { REACT_APP_ENV = 'dev', NODE_ENV } = process.env;
 
 const isProd = NODE_ENV === 'production';
 
-const myEnv = dotenv.config({ path: isProd ? '.env' : '.env.local' });
+const myEnv = dotenv.config();
 dotenvExpand(myEnv);
 
 export default defineConfig({
