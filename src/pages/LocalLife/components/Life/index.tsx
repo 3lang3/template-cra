@@ -54,6 +54,7 @@ export default ({ id, promoCode }) => {
   );
 
   useEffect(() => {
+    app.event.showRightRefreshButton('1');
     if (promoCode) app.event.enterPage('locallife');
     return () => {
       app.event.togglePageShare('0');
