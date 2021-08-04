@@ -59,6 +59,7 @@ export default ({ id, promoCode }) => {
   }, []);
 
   const jumpLink = (data) => {
+    bindReq.run();
     if (+detail.platform_type === 1) {
       app.event.gotoLinkPage({
         link_type: APP_PAGE_ENUM.OPEN_LINK,
@@ -66,8 +67,8 @@ export default ({ id, promoCode }) => {
       });
     } else {
       window.location.href = data.click_url;
-      app.event.togglePageShare('0');
     }
+    app.event.togglePageShare('0');
   };
 
   const getCoupons = async () => {
@@ -79,7 +80,6 @@ export default ({ id, promoCode }) => {
       jumpLink(urls);
       return;
     }
-    bindReq.run();
     try {
       Toast.loading({ message: '请稍后...', forbidClick: true, duration: 0 });
       const { data, type, msg } = await urlReq.run({ cps_id: id });
