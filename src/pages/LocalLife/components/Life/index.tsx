@@ -55,6 +55,9 @@ export default ({ id, promoCode }) => {
 
   useEffect(() => {
     if (promoCode) app.event.enterPage('locallife');
+    return () => {
+      app.event.togglePageShare('0');
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -66,9 +69,9 @@ export default ({ id, promoCode }) => {
         outlink: { link: data.click_url },
       });
     } else {
+      app.event.togglePageShare('0');
       window.location.href = data.click_url;
     }
-    app.event.togglePageShare('0');
   };
 
   const getCoupons = async () => {
