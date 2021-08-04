@@ -54,10 +54,11 @@ export default ({ id, promoCode }) => {
   );
 
   useEffect(() => {
-    app.event.enterPage('locallife');
+    if (promoCode) app.event.enterPage('locallife');
     return () => {
       app.event.togglePageShare(0);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const jumpLink = (data) => {
