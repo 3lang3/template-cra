@@ -63,7 +63,6 @@ export default ({ id, promoCode }) => {
   }, []);
 
   const jumpLink = (data) => {
-    bindReq.run();
     if (+detail.platform_type === 1) {
       app.event.gotoLinkPage({
         link_type: APP_PAGE_ENUM.OPEN_LINK,
