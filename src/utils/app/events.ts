@@ -88,7 +88,8 @@ export const eventMap = {
    * - 0 不显示
    * - 1 显示
    */
-  togglePageShare: (type: 0 | 1) => runAppMethod('SJXHelpIsHiddenShare', type),
+  togglePageShare: (type: '0' | '1') =>
+    runAppMethod('SJXHelpIsHiddenShare', type),
   /**
    * 分享文案到微信
    */

@@ -56,7 +56,7 @@ export default ({ id, promoCode }) => {
   useEffect(() => {
     if (promoCode) app.event.enterPage('locallife');
     return () => {
-      app.event.togglePageShare(0);
+      app.event.togglePageShare('0');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
