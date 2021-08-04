@@ -33,7 +33,11 @@ export default () => {
 
       <div className={styles.padd}>
         <div className={styles.lightBox}>
-          <Swipe className={styles.swiper} autoplay="5000">
+          <Swipe
+            className={styles.swiper}
+            indicatorWrapperClass={styles.swiper__indicator}
+            autoplay="5000"
+          >
             <Swipe.Item>
               <SwiperContentItem
                 brand="淘宝"
