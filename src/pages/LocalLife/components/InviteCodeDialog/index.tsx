@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Flex, Popup, Typography } from 'react-vant';
+import { Button, Flex, Popup, Typography } from 'react-vant';
 import cls from 'classnames';
 import styles from './index.less';
 import app from '@/utils/app';
@@ -32,22 +32,22 @@ const InviteCodeMissDialog = () => {
         </Typography.Text>
       </div>
       <Flex className={styles.footer} align="center" justify="between">
-        <Flex
-          align="center"
-          justify="center"
+        <Button
+          plain
+          round
           className={cls(styles.footer__btn, styles.footer__btn_outline)}
           onClick={close}
         >
           放弃福利
-        </Flex>
-        <Flex
-          align="center"
-          justify="center"
+        </Button>
+        <Button
+          type="primary"
+          round
           className={cls(styles.footer__btn, styles.footer__btn_primary)}
           onClick={go}
         >
           去填写邀请码
-        </Flex>
+        </Button>
       </Flex>
     </Popup>
   );

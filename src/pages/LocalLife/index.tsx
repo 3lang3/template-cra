@@ -9,7 +9,7 @@ export default ({ location }) => {
   const { user } = useModel('user', (model) => ({ user: model.user }));
 
   useEffect(() => {
-    if (!user.promo_code) {
+    if (user.promo_code) {
       inviteCodeMissDialog();
     }
   }, [user]);
