@@ -12,7 +12,7 @@ import type { CallappOptions } from 'callapp-lib/dist/type/types';
 // ios: xiusheng://opencontroller?controller=XSGoodsDetailViewController&goods_ids=123&page_type=123&item_id=123
 
 const options: CallappOptions = {
-  timeout: 2100,
+  timeout: 3000,
   scheme: {
     protocol: 'xiusheng',
   },
@@ -22,7 +22,7 @@ const options: CallappOptions = {
   },
   appstore: 'https://apps.apple.com/cn/app/id1563146799',
   yingyongbao: 'https://a.app.qq.com/o/simple.jsp?pkgname=com.zhp.xiusheng',
-  fallback: `${config.shop}/new/share/download`,
+  fallback: `${config.shop}/new/download`,
 };
 
 const callApp = new CallApp(options);
@@ -56,8 +56,8 @@ export const callAppMap = {
         path: 'app:8888/goodsdetail/GoodsDetailActivity',
         param: {
           mGoodsIds: param.goods_ids,
-          mItemId: param.page_type,
-          mPageType: param.item_id,
+          mItemId: param.item_id,
+          mPageType: param.page_type,
         },
       });
     }

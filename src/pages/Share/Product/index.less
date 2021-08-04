@@ -33,10 +33,15 @@
   width: 750px;
   height: 750px;
 
-  &__img {
-    display: block;
-    width: 100%;
-    height: 100%;
+  &__indicator {
+    position: absolute;
+    right: 24px;
+    bottom: 30px;
+    width: 94px;
+    height: 44px;
+    color: #fff;
+    background: rgba(50, 50, 50, 0.5);
+    border-radius: 22px;
   }
 }
 
@@ -57,13 +62,20 @@
   background-size: contain;
   border-radius: 10px;
 
+  &__empty {
+    height: 140px;
+    background: url('./static/open_app_btn.png') center no-repeat;
+    background-color: #ed513b;
+    background-size: contain;
+    border-radius: 70px;
+  }
+
   &__tag {
     min-width: 144px;
     height: 40px;
     padding: 0 10px;
     color: #fff;
     background: url('./static/coupon_small.png') center no-repeat;
-    background-color: #ed513b;
     background-size: 100% 100%;
   }
 

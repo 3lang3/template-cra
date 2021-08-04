@@ -12,9 +12,7 @@ export default () => {
   useEffect(() => {
     const getUrl = async () => {
       try {
-        const { data, type, msg } = await getAppDownloadUrl({
-          app_version: BROWSER_ENV.IOS ? 1 : 2,
-        });
+        const { data, type, msg } = await getAppDownloadUrl();
         if (type === 1) throw new Error(msg);
         downloadRef.current = data.url;
       } catch (error) {

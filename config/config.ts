@@ -1,17 +1,18 @@
-import path from 'path';
 import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
 import { defineConfig } from 'umi';
 import routes from './routes';
 import proxy from './proxy';
 
+const { REACT_APP_ENV = 'dev', NODE_ENV } = process.env;
+
+const isProd = NODE_ENV === 'production';
+
 const myEnv = dotenv.config();
 dotenvExpand(myEnv);
 
-const { REACT_APP_ENV = 'dev', NODE_ENV } = process.env;
-
 export default defineConfig({
-  hash: NODE_ENV === 'production',
+  hash: isProd,
   base: '/new/',
   publicPath: '/new/',
   routes,
@@ -36,12 +37,16 @@ export default defineConfig({
       viewportHeight: 1334, // (Number) The height of the viewport.
       unitPrecision: 4, // (Number) The decimal numbers to allow the REM units to grow to.
       viewportUnit: 'vw', // (String) Expected units.
-      selectorBlackList: ['.ignore', '.hairlines'], // (Array) The selectors to ignore and leave as px.
+      selectorBlackList: [
+        '.ignore',
+        '.rv-dropdown-menu__title::after',
+        /hairline/,
+      ], // (Array) The selectors to ignore and leave as px.
       minPixelValue: 1, // (Number) Set the minimum pixel value to replace.
       mediaQuery: false, // (Boolean) Allow px to be converted in media queries.
     }),
   ],
-  favicon: '/logo.png',
+  favicon: NODE_ENV === 'production' ? '/new/logo' : '/logo.png',
   fastRefresh: {},
   dynamicImport: {
     loading: '@/components/Chore/DynamicImportLoader',

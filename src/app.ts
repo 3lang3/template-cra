@@ -1,10 +1,15 @@
+import { STORAGE } from './config/constant';
 import { BROWSER_ENV } from './config/ua';
 import { getCurrentUser } from './services/common';
 import app, { APP_INJECT_EVENT_MAP } from './utils/app';
 import { tokenHelper } from './utils/utils';
 
 // 开发环境注入token
-if (process.env.NODE_ENV === 'development' && process.env.TOKEN) {
+if (
+  process.env.NODE_ENV === 'development' &&
+  !BROWSER_ENV.WEBVIEW &&
+  process.env.TOKEN
+) {
   // eslint-disable-next-line no-console
   console.log('.env.local file TOKEN has been injectd!');
   tokenHelper.set(process.env.TOKEN as string);
@@ -12,8 +17,11 @@ if (process.env.NODE_ENV === 'development' && process.env.TOKEN) {
 
 // app调用事件注入
 if (BROWSER_ENV.WEBVIEW) {
-  app.inject(APP_INJECT_EVENT_MAP.APP_VERSION, (ver) =>
-    window.localStorage.setItem('app_version', ver),
+  app.inject(APP_INJECT_EVENT_MAP.APP_VERSION, (str: string) =>
+    window.localStorage.setItem(STORAGE.APP_VERSION, str),
+  );
+  app.inject(APP_INJECT_EVENT_MAP.SET_LOCATION, (str: string) =>
+    window.localStorage.setItem(STORAGE.APP_LOCATION, str),
   );
   app.inject(APP_INJECT_EVENT_MAP.SET_TOKEN, tokenHelper.set);
 }

@@ -32,7 +32,7 @@ export default ({ location }) => {
     app.call.goodsDetail({
       goods_ids: detail.ids,
       item_id: detail.item_id,
-      page_type: detail.page_type,
+      page_type: detail.user_type,
     });
   };
 
@@ -60,11 +60,22 @@ export default ({ location }) => {
         ? detail.small_images
         : [detail.img];
     return (
-      <Swipe className={styles.swipe}>
+      <Swipe
+        className={styles.swipe}
+        indicatorRender={({ current, count }) => (
+          <Flex
+            justify="center"
+            align="center"
+            className={styles.swipe__indicator}
+          >
+            {current}/{count}
+          </Flex>
+        )}
+      >
         {imgs.map((el, i) => (
           // eslint-disable-next-line react/no-array-index-key
           <Swipe.Item key={i}>
-            <Image className={styles.swipe__img} src={el} />
+            <Image src={el} />
           </Swipe.Item>
         ))}
       </Swipe>
@@ -102,8 +113,15 @@ export default ({ location }) => {
 
   const renderCoupon = useCallback(() => {
     if (BROWSER_ENV.WECHAT) return null;
+    if (!+detail.coupon_amount)
+      return <div onClick={open} className={styles.coupon__empty} />;
     return (
-      <Flex direction="column" justify="between" className={styles.coupon}>
+      <Flex
+        onClick={open}
+        direction="column"
+        justify={+detail.coupon_amount ? 'between' : 'center'}
+        className={styles.coupon}
+      >
         <Flex align="end">
           <Price
             className="mr10"
@@ -116,12 +134,8 @@ export default ({ location }) => {
           </Typography.Text>
         </Flex>
         <Typography.Text size="sm">有效期{detail.coupon_time}</Typography.Text>
-        <Flex
-          onClick={open}
-          justify="center"
-          align="center"
-          className={styles.coupon__btn}
-        >
+
+        <Flex justify="center" align="center" className={styles.coupon__btn}>
           立即领取
         </Flex>
       </Flex>
@@ -153,13 +167,15 @@ export default ({ location }) => {
           <>
             <Flex className="mb20" align="center" justify="between">
               {renderReservePrice()}
-              <Flex
-                className={styles.coupon__tag}
-                align="center"
-                justify="center"
-              >
-                券 ¥{+detail.coupon_amount}
-              </Flex>
+              {+detail.coupon_amount > 0 && (
+                <Flex
+                  className={styles.coupon__tag}
+                  align="center"
+                  justify="center"
+                >
+                  券 ¥{+detail.coupon_amount}
+                </Flex>
+              )}
             </Flex>
             {renderPrice()}
           </>

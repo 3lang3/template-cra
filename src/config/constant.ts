@@ -14,9 +14,14 @@ export const ENVVAR = {
   WECHAT_AUTH_PATH: process.env.WECHAT_AUTH_PATH,
 } as Record<string, string>;
 
+/** 写入localStorage的key map */
 export const STORAGE = {
   /** 存储token的key */
   TOKEN: 'authorization',
+  /** ios app 版本信息 */
+  APP_VERSION: 'app_version',
+  /** ios app 经纬度信息 */
+  APP_LOCATION: 'app_location',
 };
 
 /** 分页数据 */
@@ -42,4 +47,22 @@ export const USER_TYPE_MAP = {
   TMALL: 1,
   /** 拼多多 */
   PDD: 2,
+};
+
+/** 本地生活类型 */
+export const LOCAL_LIFE_MAP = {
+  /** 饿了么外卖 */
+  ELEME_WAIMAI: 101,
+  /** 口碑 */
+  KOUBEI: 102,
+  /** 饿了么果蔬商超 */
+  ELEME_MARKET: 103,
+  /** 美团外卖 */
+  MEITUAN_WAIMAI: 502,
+  /** 美团果蔬商超 */
+  MEITUAN_MARKET: 506,
+  /** 美团团购 */
+  MEITUAN_TUANGOU: 507,
+  /** 肯德基 */
+  KFC: 801,
 };

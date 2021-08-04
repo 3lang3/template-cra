@@ -1,0 +1,46 @@
+@import '../../../../style/var.less';
+.search {
+  width: 702px;
+  margin: 0 auto;
+  border-radius: 30px;
+  background-color: #fff;
+  height: 60px;
+  &__span--triangle {
+    width: 174px;
+    font-size: 30px;
+    color: @gray8;
+    margin-left: 24px;
+    &::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 14px solid @gray6;
+      position: relative;
+      top: 26px;
+      left: 8px;
+    }
+  }
+  &__content {
+    &::before {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 1px solid @gray6;
+      height: 24px;
+      position: relative;
+      top: 1px;
+    }
+    img {
+      height: 40px;
+      width: 40px;
+      margin: 0 10px 0 30px;
+    }
+    input {
+      border: 0;
+      width: 400px;
+      font-size: 28px;
+    }
+  }
+}
